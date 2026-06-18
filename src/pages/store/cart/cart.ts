@@ -1,8 +1,9 @@
-import { PRODUCTS } from "../../../data/data";
+import { getPedidos, getProductos } from "../../../utils/fetch";
 import type { CartItem, Product } from "../../../types/product";
 import { agregarLogout, guardRoutes } from "../../../utils/auth";
 import { addProductCart, deleteProductCart, getProductCart, removeAllProductsCart, removeProductCart } from "../../../utils/localStorage";
 import { navigate } from "../../../utils/navigate";
+
 
 const contadorCarrito: HTMLAnchorElement | null = document.querySelector<HTMLAnchorElement>("#a-carrito");
 
@@ -47,7 +48,7 @@ const crearItemCarrito = (item: CartItem): HTMLDivElement => {
   let divImagen: HTMLDivElement = document.createElement("div");
 
   const imagen: HTMLImageElement = document.createElement("img");
-  imagen.src = `../../../assets/img/${item.producto.imagen}`;
+  imagen.src = `${item.producto.imagen}`;
   imagen.alt = item.producto.nombre;
   divImagen.appendChild(imagen);
 
@@ -58,11 +59,11 @@ const crearItemCarrito = (item: CartItem): HTMLDivElement => {
 
   const descripcion: HTMLParagraphElement = document.createElement("p");
   descripcion.classList.add("descripcion-carrito");
-  descripcion.textContent = item.producto.categorias[0].nombre;
+  descripcion.textContent = item.producto.categoria?.nombre ?? "";
 
   const precio: HTMLSpanElement = document.createElement("span");
   precio.classList.add("precio-carrito");
-  precio.textContent = 'Subtotal: $' + item.producto.precio;
+  precio.textContent = 'Subtotal: $' + item.producto.precio * item.cantidad;
 
   divDatosCompra.appendChild(titulo);
   divDatosCompra.appendChild(descripcion);
@@ -164,7 +165,7 @@ const inicializar = (carritoCompras: CartItem[]): void => {
 }
 
 export const agregarAlCarrito = (idProducto: number): void => {
-    const producto = PRODUCTS.find((p: Product) => p.id === idProducto);
+    const producto = getProductos.find((p: Product) => p.id === idProducto);
     if (!producto) return;
 
     addProductCart(producto);
@@ -172,7 +173,7 @@ export const agregarAlCarrito = (idProducto: number): void => {
 };
 
 export const eliminarDelCarrito = (idProducto: number): void => {
-    const producto = PRODUCTS.find((p: Product) => p.id === idProducto);
+    const producto = getProductos.find((p: Product) => p.id === idProducto);
     if (!producto) return;
 
     removeProductCart(producto);
@@ -180,7 +181,7 @@ export const eliminarDelCarrito = (idProducto: number): void => {
 };
 
 export const eliminarProductoDelCarrito = (idProducto: number): void => {
-  const producto = PRODUCTS.find((p: Product) => p.id === idProducto);
+  const producto = getProductos.find((p: Product) => p.id === idProducto);
     if (!producto) return;
 
     removeAllProductsCart(producto);
@@ -253,7 +254,6 @@ export const actualizarImporteTotalCarrito = (): number => {
     return 0;
   }
 };
-
 
 
 //inicializar
