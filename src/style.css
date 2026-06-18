@@ -4,7 +4,9 @@
     --color-texto: #333;
     --color-blanco: #fff;
     --color-blanco-focus: #f8f8f8;
+    --color-gris-claro: #f1e9d7;
     --color-gris: #c4bebe;
+    --color-gris-oscuro: #8d8888;
     --color-borde: #ddd;
     --color-focus: #ff4500;
     --color-borrar: #33724f;
@@ -43,6 +45,12 @@ header {
     min-width: 400px;
 }
 
+#header_img {
+    width: 80px;
+    height: 80px;
+    margin-left: 1rem;
+    margin-top: 1rem;
+}
 header nav ul {
     display: flex;
     align-items: center;
@@ -157,6 +165,12 @@ h2 {
     margin-bottom: 1rem;
 }
 
+#datos-prueba {
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    color: var(--color-gris-oscuro);
+}
+
 label {
     color: var(--color-texto);
     font-weight: bold;
@@ -256,6 +270,11 @@ article button {
 #contenedor-productos {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
+    align-items: stretch;
+}
+
+#contenedor-producto {
     gap: 1rem;
     align-items: stretch;
 }
@@ -368,6 +387,16 @@ article button {
 
 .btn-agregar {
     background-color: var(--color-primario);
+    width: 80%;
+}
+.btn-volver {
+    background-color: var(--color-gris-oscuro);
+    width: 80%;
+}
+
+.btn-volver:hover {
+    background-color: var(--color-gris);
+
 }
 
 .btn-borrar {
@@ -473,6 +502,39 @@ article button {
     background-color: var(--color-blanco);
     transform: scale(1.05);
     transition: all 0.3s ease-in-out;
+}
+
+.producto-articulo-no-disponible {
+    filter: grayscale(10%) brightness(0.8);
+    opacity: 0.6;
+}
+
+.producto-articulo-no-disponible:hover {
+  filter: grayscale(100%) brightness(0.8);
+  opacity: 0.7;
+  transition: filter 0.4s ease, opacity 0.4s ease;
+  transform: scale(1.05);
+  transition: all 0.3s ease-in-out;
+}
+
+.disponible {
+    margin-top: 1rem;
+    color: var(--color-agregado);
+    font-weight: bold;
+}
+
+.no-disponible {
+    margin-top: 1rem;
+    color: var(--color-primario);
+    font-weight: bold;
+}
+
+article img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 0.25rem;
+    margin-bottom: 1rem;
 }
 .admin-content {
     display: flex;
