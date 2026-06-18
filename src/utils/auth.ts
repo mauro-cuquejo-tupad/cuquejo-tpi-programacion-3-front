@@ -41,7 +41,7 @@ export const guardRoutes = () => {
         return;
     }
 
-    if (usuarioParseado.role === "client" && (pagina === HOME_ADMIN ||
+    if (usuarioParseado.role === "USUARIO" && (pagina === HOME_ADMIN ||
         pagina === LOGIN_PAGE ||
         pagina === REGISTRO_PAGE ||
         pagina === ROOT_PAGE)) {
@@ -51,7 +51,7 @@ export const guardRoutes = () => {
         return;
     }
 
-    if (usuarioParseado.role === "admin" && (pagina === HOME_STORE ||
+    if (usuarioParseado.role === "ADMIN" && (pagina === HOME_STORE ||
         pagina === LOGIN_PAGE ||
         pagina === REGISTRO_PAGE ||
         pagina === HOME_CLIENT ||
