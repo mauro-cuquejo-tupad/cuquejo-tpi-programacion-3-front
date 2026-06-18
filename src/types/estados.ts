@@ -1,0 +1,1 @@
+export type Estados = "PENDIENTE" | "CONFIRMADO" | "TERMINADO" | "CANCELADO" | "ENTREGADO" | "EN_PREPARACION";

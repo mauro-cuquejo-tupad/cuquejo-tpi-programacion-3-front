@@ -1,0 +1,1 @@
+export type FormaDePago = "TARJETA" | "TRANSFERENCIA" | "EFECTIVO"

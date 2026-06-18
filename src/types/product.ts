@@ -10,7 +10,7 @@ export interface Product {
     stock: number;
     imagen: string;
     disponible: boolean;
-    categorias: [ICategoria]
+    categoria: ICategoria | undefined
 };
 
 export interface CartItem {
