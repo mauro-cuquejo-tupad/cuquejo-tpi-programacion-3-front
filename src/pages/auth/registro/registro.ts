@@ -2,7 +2,7 @@ import type { IUser } from "../../../types/IUser";
 import { navigate } from "../../../utils/navigate";
 import { saveUsers, getUsersByEmail } from "../../../utils/localStorage";
 import { guardRoutes } from "../../../utils/auth";
-
+import { getUsuarios } from "../../../utils/fetch";
 const form = document.getElementById("form") as HTMLFormElement;
 
 const inputEmail = document.getElementById("email") as HTMLInputElement;
@@ -23,7 +23,7 @@ form.addEventListener("submit", (e: SubmitEvent) => {
         email: valueEmail,
         password: valuePassword,
         loggedIn: false,
-        role: "client",
+        role: "USUARIO",
     };
 
     if (getUsersByEmail(user.email)) {
@@ -34,5 +34,18 @@ form.addEventListener("submit", (e: SubmitEvent) => {
         navigate("/src/pages/auth/login/login.html");
     }
 });
+
+export const inicializarUsuarios = () => {
+    getUsuarios.forEach((usuario) => {
+        const iusuario: IUser = {email: usuario.mail,
+        password: usuario.password,
+        loggedIn: false,
+        role: usuario.rol,
+    }
+        if(getUsersByEmail(usuario.mail) == null) {
+            saveUsers(iusuario);
+        }
+    })
+};
 
 guardRoutes();
