@@ -1,10 +1,12 @@
-import { categorias, PRODUCTS } from "../../../data/data";
+import { getCategorias, getProductos } from "../../../utils/fetch";
 import type { ICategoria } from "../../../types/categoria";
 import type { FiltrosBusqueda } from "../../../types/filtros";
 import type { Product } from "../../../types/product";
 import { agregarLogout, guardRoutes } from "../../../utils/auth";
 import { getStoreFilters, saveStoreFilters } from "../../../utils/localStorage";
 import { actualizarContadorCarrito, agregarAlCarrito } from "../cart/cart";
+import { navigate } from "../../../utils/navigate";
+import { PRODUCT_DETAIL } from "../../../utils/routes";
 
 const listaCategorias : HTMLUListElement | null = document.querySelector<HTMLUListElement>("#lista-categorias");
 const contenedorProductos : HTMLElement | null = document.querySelector<HTMLElement>("#contenedor-productos");
@@ -48,14 +50,15 @@ const crearCategoria = (nombre: string): HTMLLIElement => {
 
 const crearArticuloProducto = (producto: Product) :HTMLElement => {
     const articulo: HTMLElement = document.createElement("article");
-    articulo.className = "producto-articulo";
+
+    articulo.className = producto.disponible ? "producto-articulo" : "producto-articulo-no-disponible";
     articulo.id = `articulo-${producto.id}`;
 
     const titulo:HTMLHeadElement = document.createElement("h3");
     titulo.textContent = producto.nombre;
 
     const imagen: HTMLImageElement = document.createElement("img");
-    imagen.src = `../../../assets/img/${producto.imagen}`;
+    imagen.src = `${producto.imagen}`;
     imagen.alt = producto.nombre;
 
     const descripcion: HTMLParagraphElement = document.createElement("p");
@@ -65,22 +68,20 @@ const crearArticuloProducto = (producto: Product) :HTMLElement => {
     precio.classList.add("precio");
     precio.textContent = '$' + producto.precio;
 
-    const botonAgregar: HTMLButtonElement = document.createElement("button");
-    botonAgregar.id = "btn-agregar-" + producto.id;
-    botonAgregar.type = "button";
-    botonAgregar.className = "btn-agregar";
-    botonAgregar.textContent = "Agregar al carrito";
-    botonAgregar.addEventListener("click", () => {
-      agregarAlCarrito(producto.id);
-      actualizarContadorCarrito();
-      renderizarBotonProductoAgregado(botonAgregar);
-    });
+    const disponible: HTMLParagraphElement = document.createElement("p");
+    disponible.classList.add(producto.disponible ? "disponible" : "no-disponible");
+    disponible.textContent = producto.disponible ? "Disponible" : "No Disponible";
 
     articulo.appendChild(titulo);
     articulo.appendChild(imagen);
     articulo.appendChild(descripcion);
     articulo.appendChild(precio);
-    articulo.appendChild(botonAgregar);
+    articulo.appendChild(disponible);
+    if(producto.disponible) {
+      articulo.addEventListener("click", () => {
+        navigate(PRODUCT_DETAIL + "?id=" + producto.id)
+      });
+    }
     return articulo;
 };
 
@@ -93,7 +94,7 @@ const cargarCategorias = () : void => {
   const todos: HTMLLIElement = crearCategoria("Todos los productos");
   listaCategorias.appendChild(todos);
 
-  categorias.forEach((c: ICategoria) => {
+  getCategorias.forEach((c: ICategoria) => {
     if (!c.eliminado) listaCategorias.appendChild(crearCategoria(c.nombre));
   });
 
@@ -116,7 +117,7 @@ const cargarCategorias = () : void => {
   }
 };
 
-const cargarProductos = (lista: Product[] = PRODUCTS) : void => {
+const cargarProductos = (lista: Product[] = getProductos) : void => {
   if (!contenedorProductos) return;
 
   contenedorProductos.innerHTML = "";
@@ -133,27 +134,16 @@ const cargarProductos = (lista: Product[] = PRODUCTS) : void => {
   });
 };
 
-const renderizarBotonProductoAgregado = (boton: HTMLButtonElement) : void => {
-  boton.textContent = "✓ Agregado";
-  boton.disabled = true;
-  boton.classList.add("agregado");
-  setTimeout(() => {
-    boton.textContent = "Agregar al carrito";
-    boton.disabled = false;
-    boton.classList.remove("agregado");
-  }, 1000);
-};
-
 //filtrado
 const filtrarYRenderizar = (): void => {
   const texto = (inputBuscarProductos?.value || "").trim().toLocaleLowerCase();
   const cat = (categoriaSeleccionada || "Todos los productos").toLocaleLowerCase();
 
-  const resultados = PRODUCTS.filter((p: Product) => {
+  const resultados = getProductos.filter((p: Product) => {
     if (p.eliminado) return false;
 
     const coincideCategoria = cat === "todos los productos" ||
-    p.categorias.some((c: ICategoria) => c.nombre.toLocaleLowerCase().includes(cat));
+    p.categoria?.nombre.toLocaleLowerCase().includes(cat);
 
     const coincideNombre = texto === "" || p.nombre.toLocaleLowerCase().includes(texto);
 
