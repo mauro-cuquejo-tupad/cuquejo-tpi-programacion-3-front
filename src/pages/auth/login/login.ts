@@ -1,4 +1,3 @@
-import { generarUsuarioAdmin } from "../../../data/data";
 import type { IUser } from "../../../types/IUser";
 import { guardRoutes } from "../../../utils/auth";
 import { getUsersByEmail, saveUser } from "../../../utils/localStorage";
@@ -30,7 +29,7 @@ form.addEventListener("submit", (e: SubmitEvent) => {
     usuarioBuscado.loggedIn = true;
     saveUser(usuarioBuscado);
 
-    if (usuarioBuscado.role === "admin") {
+    if (usuarioBuscado.role === "ADMIN") {
       navigate("/src/pages/admin/admin.html");
     } else {
       navigate("/src/pages/store/home/home.html");
@@ -39,5 +38,4 @@ form.addEventListener("submit", (e: SubmitEvent) => {
 });
 
 
-generarUsuarioAdmin();
 guardRoutes();
