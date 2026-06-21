@@ -27,8 +27,11 @@ const cargarProductos = () : void => {
 
 const crearArticuloProducto = (producto: Product) :HTMLElement => {
     const articulo: HTMLElement = document.createElement("article");
-    articulo.className = "producto-articulo";
+    articulo.className = "producto-articulo-detalle";
     articulo.id = `articulo-${producto.id}`;
+
+    const imagenDiv: HTMLDivElement = document.createElement("div");
+    imagenDiv.id = "producto-div-imagen";
 
     const titulo:HTMLHeadElement = document.createElement("h3");
     titulo.textContent = producto.nombre;
@@ -37,6 +40,13 @@ const crearArticuloProducto = (producto: Product) :HTMLElement => {
     imagen.src = `${producto.imagen}`;
     imagen.alt = producto.nombre;
 
+    imagenDiv.appendChild(imagen);
+
+    const descripcionDiv: HTMLDivElement = document.createElement("div");
+    descripcionDiv.id = "producto-div-descripcion";
+
+    const stock: HTMLParagraphElement = document.createElement("p");
+    stock.textContent = "Stock:";
     const descripcion: HTMLParagraphElement = document.createElement("p");
     descripcion.textContent = producto.descripcion;
 
@@ -59,17 +69,21 @@ const crearArticuloProducto = (producto: Product) :HTMLElement => {
     botonVolver.id = "btn-volver";
     botonVolver.type = "button";
     botonVolver.className = "btn-volver";
-    botonVolver.textContent = "Volver";
+    botonVolver.textContent = "⬅ Volver";
     botonVolver.addEventListener("click", () => {
     navigate(HOME_STORE);
     });
 
-    articulo.appendChild(titulo);
-    articulo.appendChild(imagen);
-    articulo.appendChild(descripcion);
-    articulo.appendChild(precio);
-    articulo.appendChild(botonAgregar);
-    articulo.appendChild(botonVolver);
+    descripcionDiv.appendChild(titulo);
+
+    descripcionDiv.appendChild(stock);
+    descripcionDiv.appendChild(descripcion);
+    descripcionDiv.appendChild(precio);
+    descripcionDiv.appendChild(botonAgregar);
+    descripcionDiv.appendChild(botonVolver);
+
+    articulo.appendChild(imagenDiv);
+    articulo.appendChild(descripcionDiv);
     return articulo;
 };
 
@@ -83,6 +97,10 @@ const renderizarBotonProductoAgregado = (boton: HTMLButtonElement) : void => {
     boton.classList.remove("agregado");
   }, 1000);
 };
+
+const getStockDisponible = () : number => {
+    return 0;
+}
 
 agregarLogout();
 guardRoutes();

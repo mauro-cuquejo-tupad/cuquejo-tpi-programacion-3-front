@@ -497,6 +497,8 @@ article button {
     background-color: var(--color-blanco-focus);
 }
 
+
+
 .producto-articulo:hover {
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
     background-color: var(--color-blanco);
@@ -545,6 +547,37 @@ article img {
     padding: 1rem;
     margin: 1rem;
     text-transform: uppercase;
+}
+
+.producto-articulo-detalle {
+    display: flex;
+    background-color: var(--color-blanco-focus);
+    flex-direction: row;
+}
+
+.producto-articulo-detalle:hover {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+    background-color: var(--color-blanco);
+    transform: scale(1.01);
+    transition: all 0.3s ease-in-out;
+}
+
+#producto-div-imagen {
+    display: flex;
+    flex: 1;
+}
+
+#producto-div-imagen img {
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+}
+
+#producto-div-descripcion {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
 }
 
 .admin-table {
@@ -609,6 +642,12 @@ article img {
     .producto-articulo {
         width: 100%;
     }
+
+    .producto-articulo-detalle {
+    display: flex;
+    background-color: var(--color-blanco-focus);
+    flex-direction: column;
+}
 
     .carrito {
         flex-direction: column-reverse;
