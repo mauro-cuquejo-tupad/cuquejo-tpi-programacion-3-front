@@ -370,6 +370,8 @@ article button {
 
 .cantidad-carrito {
     padding: 0.5rem;
+    text-align: center;
+    width: 40px;
 }
 
 .carrito-articulo img {
@@ -418,6 +420,15 @@ article button {
 
 .btn-eliminar-producto:hover {
     background-color: var(--color-borrar-focus);
+}
+
+.boton-deshabilitado {
+    background-color: var(--color-gris);
+}
+
+.boton-deshabilitado:hover {
+    background-color: var(--color-gris-oscuro);
+
 }
 
 .total-carrito {

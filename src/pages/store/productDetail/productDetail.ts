@@ -55,20 +55,6 @@ const crearArticuloProducto = (producto: Product) :HTMLElement => {
     precio.classList.add("precio");
     precio.textContent = '$' + producto.precio;
 
-    const botonAgregar: HTMLButtonElement = document.createElement("button");
-    botonAgregar.id = "btn-agregar-" + producto.id;
-    botonAgregar.type = "button";
-    botonAgregar.className = "btn-agregar";
-    botonAgregar.textContent = "Agregar al carrito";
-    botonAgregar.addEventListener("click", () => {
-        if(producto.stock - getCantidadEnCarrito(producto) > 0) {
-            agregarAlCarrito(producto.id);
-            actualizarContadorCarrito();
-            renderizarBotonProductoAgregado(botonAgregar);
-            cargarProductos();
-        }
-    });
-
     let divModificarCantidad: HTMLDivElement = document.createElement("div");
       divModificarCantidad.classList.add("modificar-cantidad");
       let divAgregarOQuitarProductos: HTMLDivElement = document.createElement("div");
@@ -77,28 +63,31 @@ const crearArticuloProducto = (producto: Product) :HTMLElement => {
         if(getCantidadEnCarrito(producto) > 0) {
             eliminarDelCarrito(producto.id);
             actualizarContadorCarrito();
-            renderizarBotonProductoAgregado(botonAgregar);
             cargarProductos();
+        } else {
+            actualizarEstadoBoton(botonEliminar);
         }
       });
 
-      const cantidad: HTMLSpanElement = document.createElement("span");
+      const cantidad: HTMLInputElement = document.createElement("input");
+      cantidad.type = "text";
       cantidad.classList.add("cantidad-carrito");
-      cantidad.textContent = getCantidadEnCarrito(producto).toString();
+      cantidad.placeholder  = getCantidadEnCarrito(producto).toString();
 
-      const botonAgregar2: HTMLButtonElement = crearBoton("btn-agregar-" + producto.id, "btn-accion", `+`);
-        botonAgregar2.addEventListener("click", () => {
+      const botonAgregar: HTMLButtonElement = crearBoton("btn-agregar-" + producto.id, "btn-accion", `+`);
+        botonAgregar.addEventListener("click", () => {
           if(producto.stock - getCantidadEnCarrito(producto) > 0) {
             agregarAlCarrito(producto.id);
             actualizarContadorCarrito();
-            renderizarBotonProductoAgregado(botonAgregar);
             cargarProductos();
+        } else {
+            actualizarEstadoBoton(botonAgregar);
         }
         });
 
         divAgregarOQuitarProductos.appendChild(botonEliminar);
         divAgregarOQuitarProductos.appendChild(cantidad);
-        divAgregarOQuitarProductos.appendChild(botonAgregar2);
+        divAgregarOQuitarProductos.appendChild(botonAgregar);
 
         divModificarCantidad.appendChild(divAgregarOQuitarProductos);
 
@@ -125,15 +114,12 @@ const crearArticuloProducto = (producto: Product) :HTMLElement => {
     return articulo;
 };
 
-const renderizarBotonProductoAgregado = (boton: HTMLButtonElement) : void => {
-  boton.textContent = "✓ Agregado";
-  boton.disabled = true;
-  boton.classList.add("agregado");
-  setTimeout(() => {
-    boton.textContent = "Agregar al carrito";
-    boton.disabled = false;
-    boton.classList.remove("agregado");
-  }, 1000);
+const actualizarEstadoBoton = (boton: HTMLButtonElement) : void => {
+  boton.disabled = !boton.disabled;
+  boton.disabled ?
+  boton.classList.add("boton-deshabilitado") :
+  boton.classList.remove("boton-deshabilitado");
+
 };
 
 agregarLogout();
