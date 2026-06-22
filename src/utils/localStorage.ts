@@ -99,18 +99,18 @@ export const deleteProductCart = (): void => {
   localStorage.removeItem(getCartKey());
 };
 
-export const addProductCart = (product: Product): void => {
+export const addProductCart = (product: Product, cantidad: number = 1): void => {
   try {
     const carritoGuardado: string | null = getProductCart();
-    let cartItems : CartItem[] = carritoGuardado ? JSON.parse(carritoGuardado) : [];
+    let cartItems: CartItem[] = carritoGuardado ? JSON.parse(carritoGuardado) : [];
 
     let item: CartItem | undefined = cartItems.find((c: CartItem) => c.id === product.id);
     if (item) {
-      item.cantidad += 1;
+      item.cantidad += cantidad;
     } else {
       let cartItem: CartItem = {
         id: product.id,
-        cantidad: 1,
+        cantidad: cantidad,
         producto: product
       };
       cartItems.push(cartItem);
@@ -119,17 +119,17 @@ export const addProductCart = (product: Product): void => {
     localStorage.setItem(getCartKey(), JSON.stringify(cartItems));
   } catch {
     localStorage.setItem(getCartKey(), JSON.stringify([{
-        id: product.id,
-        cantidad: 1,
-        producto: product
-      }]));
+      id: product.id,
+      cantidad: 1,
+      producto: product
+    }]));
   }
 };
 
-export const removeProductCart = (product : Product): void => {
+export const removeProductCart = (product: Product): void => {
   try {
     const carritoGuardado: string | null = getProductCart();
-    let cartItems : CartItem[] = carritoGuardado ? JSON.parse(carritoGuardado) : [];
+    let cartItems: CartItem[] = carritoGuardado ? JSON.parse(carritoGuardado) : [];
 
     const item: CartItem | undefined = cartItems.find((c: CartItem) => c.id === product.id);
     if (!item) return;
@@ -140,7 +140,7 @@ export const removeProductCart = (product : Product): void => {
       cartItems = cartItems.filter((c: CartItem) => c.id !== product.id);
     }
 
-    if(cartItems.length > 0) {
+    if (cartItems.length > 0) {
       localStorage.setItem(getCartKey(), JSON.stringify(cartItems));
     } else {
       localStorage.removeItem(getCartKey());
@@ -152,17 +152,17 @@ export const removeProductCart = (product : Product): void => {
   }
 };
 
-export const removeAllProductsCart = (product : Product): void => {
+export const removeAllProductsCart = (product: Product): void => {
   try {
     const carritoGuardado: string | null = getProductCart();
-    let cartItems : CartItem[] = carritoGuardado ? JSON.parse(carritoGuardado) : [];
+    let cartItems: CartItem[] = carritoGuardado ? JSON.parse(carritoGuardado) : [];
 
     const item: CartItem | undefined = cartItems.find((c: CartItem) => c.id === product.id);
     if (!item) return;
 
     cartItems = cartItems.filter((c: CartItem) => c.id !== product.id);
 
-    if(cartItems.length > 0) {
+    if (cartItems.length > 0) {
       localStorage.setItem(getCartKey(), JSON.stringify(cartItems));
     } else {
       localStorage.removeItem(getCartKey());
