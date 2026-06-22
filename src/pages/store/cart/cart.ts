@@ -142,19 +142,25 @@ const crearDatosTotalCarrito = (): HTMLDivElement => {
   tituloTotal.classList.add("titulo-carrito");
   tituloTotal.textContent = "Resumen";
 
+  let totalCarrito = actualizarImporteTotalCarrito();
+  const subtotal: HTMLSpanElement = document.createElement("span");
+  subtotal.classList.add("advertencia-compra");
+  subtotal.textContent = `Subtotal: $${totalCarrito.toLocaleString('es-ES')}`;
+
+  const envio: number = 500;
+  const costoEnvio: HTMLSpanElement = document.createElement("span");
+  costoEnvio.classList.add("advertencia-compra");
+  costoEnvio.textContent = `Costo Envío: $${envio.toLocaleString('es-ES')}`;
+
+  const linea: HTMLHRElement = document.createElement("hr");
+
   const precioTotal: HTMLHeadingElement = document.createElement("h1");
   precioTotal.classList.add("precio-total");
-  precioTotal.textContent = 'Total: $' + actualizarImporteTotalCarrito().toLocaleString('es-ES');
+  precioTotal.textContent = 'Total: $' + (totalCarrito + envio).toLocaleString('es-ES');
 
-  const botonFinalizarCompra: HTMLButtonElement = crearBoton("btn-finalizar-compra", null, `Finalizar Compra`)
-  botonFinalizarCompra.addEventListener("click", () => {
-    //finalizar compra
-    actualizarContadorCarrito();
-  });
-  botonFinalizarCompra.disabled = true;
-
-  const advertenciaActualizacion: HTMLDivElement = document.createElement("div");
-  advertenciaActualizacion.textContent = `⚠️ el checkout no está disponible en esta versión`;
+  const advertenciaCompra: HTMLSpanElement = document.createElement("span");
+  advertenciaCompra.classList.add("advertencia-compra");
+  advertenciaCompra.textContent = `Los pedidos se realizan directamente en el local`;
 
   const botonVaciarCarrito: HTMLButtonElement = crearBoton("btn-vaciar-carrito", "btn-borrar", `Vaciar Carrito`);
   botonVaciarCarrito.addEventListener("click", () => {
@@ -163,9 +169,11 @@ const crearDatosTotalCarrito = (): HTMLDivElement => {
   });
 
   datosTotalCarrito.appendChild(tituloTotal);
+  datosTotalCarrito.appendChild(subtotal);
+  datosTotalCarrito.appendChild(costoEnvio);
+  datosTotalCarrito.appendChild(linea);
   datosTotalCarrito.appendChild(precioTotal)
-  datosTotalCarrito.appendChild(botonFinalizarCompra);
-  datosTotalCarrito.appendChild(advertenciaActualizacion);
+  datosTotalCarrito.appendChild(advertenciaCompra);
   datosTotalCarrito.appendChild(botonVaciarCarrito);
   return datosTotalCarrito;
 };

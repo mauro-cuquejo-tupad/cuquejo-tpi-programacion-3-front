@@ -51,6 +51,7 @@ header {
     margin-left: 1rem;
     margin-top: 1rem;
 }
+
 header nav ul {
     display: flex;
     align-items: center;
@@ -346,6 +347,7 @@ article button {
     flex-direction: column;
     align-items: center;
 }
+
 .precio-carrito {
     font-variant: small-caps;
     color: var(--color-primario);
@@ -388,6 +390,7 @@ article button {
     background-color: var(--color-primario);
     width: 80%;
 }
+
 .btn-volver {
     background-color: var(--color-gris-oscuro);
     width: 80%;
@@ -441,17 +444,23 @@ article button {
     flex-shrink: 0;
 }
 
+.advertencia-compra {
+    text-align: center;
+    color: gray;
+    font-size: medium;
+}
+
 #contenedor-productos .no-resultados {
-  grid-column: 1 / -1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 220px;
-  width: 100%;
-  text-align: center;
-  font-size: 2rem;
-  text-transform: uppercase;
-  color: var(--color-seccion);
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 220px;
+    width: 100%;
+    text-align: center;
+    font-size: 2rem;
+    text-transform: uppercase;
+    color: var(--color-seccion);
 }
 
 .agregado {
@@ -518,11 +527,11 @@ article button {
 }
 
 .producto-articulo-no-disponible:hover {
-  filter: grayscale(100%) brightness(0.8);
-  opacity: 0.7;
-  transition: filter 0.4s ease, opacity 0.4s ease;
-  transform: scale(1.05);
-  transition: all 0.3s ease-in-out;
+    filter: grayscale(100%) brightness(0.8);
+    opacity: 0.7;
+    transition: filter 0.4s ease, opacity 0.4s ease;
+    transform: scale(1.05);
+    transition: all 0.3s ease-in-out;
 }
 
 .disponible {
@@ -544,6 +553,7 @@ article img {
     border-radius: 0.25rem;
     margin-bottom: 1rem;
 }
+
 .admin-content {
     display: flex;
     flex-direction: column;
@@ -589,7 +599,8 @@ article img {
     width: 100%;
 }
 
-.admin-table th, .admin-table td {
+.admin-table th,
+.admin-table td {
     border: 1px solid var(--color-borde);
     padding: 0.75rem;
     text-align: left;
@@ -626,7 +637,7 @@ article img {
     }
 
     header {
-        box-shadow:none;
+        box-shadow: none;
         border-bottom: 1px solid var(--color-borde);
     }
 
@@ -645,10 +656,10 @@ article img {
     }
 
     .producto-articulo-detalle {
-    display: flex;
-    background-color: var(--color-blanco-focus);
-    flex-direction: column;
-}
+        display: flex;
+        background-color: var(--color-blanco-focus);
+        flex-direction: column;
+    }
 
     .carrito {
         flex-direction: column-reverse;
@@ -658,11 +669,11 @@ article img {
     .total-carrito {
         flex: 1;
         position: sticky;
-        top:13rem;
+        top: 13rem;
         border-radius: 0;
         min-width: 350px;
         width: 100%;
-        margin:0;
+        margin: 0;
     }
 
     .carrito-articulo {
@@ -674,7 +685,7 @@ article img {
         max-width: fit-content;
     }
 
-     .carrito-articulo img {
+    .carrito-articulo img {
         width: 100%;
         height: auto;
     }
