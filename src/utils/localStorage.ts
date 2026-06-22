@@ -105,7 +105,6 @@ export const addProductCart = (product: Product): void => {
     let cartItems : CartItem[] = carritoGuardado ? JSON.parse(carritoGuardado) : [];
 
     let item: CartItem | undefined = cartItems.find((c: CartItem) => c.id === product.id);
-    console.log(product);
     if (item) {
       item.cantidad += 1;
     } else {
