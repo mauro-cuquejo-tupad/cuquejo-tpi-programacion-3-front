@@ -2,21 +2,22 @@ import { getCategorias, getProductos } from "../../../utils/fetch";
 import type { ICategoria } from "../../../types/categoria";
 import type { FiltrosBusqueda } from "../../../types/filtros";
 import type { Product } from "../../../types/product";
-import { agregarLogout, guardRoutes } from "../../../utils/auth";
+import { guardRoutes } from "../../../utils/auth";
 import { getStoreFilters, saveStoreFilters } from "../../../utils/localStorage";
 import { actualizarContadorCarrito, agregarAlCarrito } from "../cart/cart";
 import { navigate } from "../../../utils/navigate";
 import { PRODUCT_DETAIL } from "../../../utils/routes";
+import { agregarLogout } from "../../../utils/helpersDom";
 
-const listaCategorias : HTMLUListElement | null = document.querySelector<HTMLUListElement>("#lista-categorias");
-const contenedorProductos : HTMLElement | null = document.querySelector<HTMLElement>("#contenedor-productos");
-const inputBuscarProductos : HTMLInputElement | null = document.querySelector<HTMLInputElement>("#txt_buscar_productos");
+const listaCategorias: HTMLUListElement | null = document.querySelector<HTMLUListElement>("#lista-categorias");
+const contenedorProductos: HTMLElement | null = document.querySelector<HTMLElement>("#contenedor-productos");
+const inputBuscarProductos: HTMLInputElement | null = document.querySelector<HTMLInputElement>("#txt_buscar_productos");
 
 let categoriaSeleccionada: string = "";
 
 
 //persistencia de filtros
-const guardarFiltros = () : void => {
+const guardarFiltros = (): void => {
   const datosFiltros: FiltrosBusqueda = {
     categoria: categoriaSeleccionada || "Todos los productos",
     busqueda: inputBuscarProductos?.value || "",
@@ -42,52 +43,51 @@ const cargarFiltros = () => {
 //helpers DOM para crear elementos
 const crearCategoria = (nombre: string): HTMLLIElement => {
   const li: HTMLLIElement = document.createElement("li");
-      li.className = "categoria";
-      li.dataset.categoria = nombre;
-      li.innerText = nombre;
-      return li;
+  li.className = "categoria";
+  li.dataset.categoria = nombre;
+  li.innerText = nombre;
+  return li;
 }
 
-const crearArticuloProducto = (producto: Product) :HTMLElement => {
-    const articulo: HTMLElement = document.createElement("article");
+const crearArticuloProducto = (producto: Product): HTMLElement => {
+  const articulo: HTMLElement = document.createElement("article");
 
-    articulo.className = producto.disponible ? "producto-articulo" : "producto-articulo-no-disponible";
-    articulo.id = `articulo-${producto.id}`;
+  articulo.className = producto.disponible ? "producto-articulo" : "producto-articulo-no-disponible";
+  articulo.id = `articulo-${producto.id}`;
 
-    const titulo:HTMLHeadElement = document.createElement("h3");
-    titulo.textContent = producto.nombre;
+  const titulo: HTMLHeadElement = document.createElement("h3");
+  titulo.textContent = producto.nombre;
 
-    const imagen: HTMLImageElement = document.createElement("img");
-    imagen.src = `${producto.imagen}`;
-    imagen.alt = producto.nombre;
+  const imagen: HTMLImageElement = document.createElement("img");
+  imagen.src = `${producto.imagen}`;
+  imagen.alt = producto.nombre;
 
-    const descripcion: HTMLParagraphElement = document.createElement("p");
-    descripcion.textContent = producto.descripcion;
+  const descripcion: HTMLParagraphElement = document.createElement("p");
+  descripcion.textContent = producto.descripcion;
 
-    const precio: HTMLSpanElement = document.createElement("span");
-    precio.classList.add("precio");
-    precio.textContent = '$' + producto.precio;
+  const precio: HTMLSpanElement = document.createElement("span");
+  precio.classList.add("precio");
+  precio.textContent = '$' + producto.precio;
 
-    const disponible: HTMLParagraphElement = document.createElement("p");
-    disponible.classList.add(producto.disponible ? "disponible" : "no-disponible");
-    disponible.textContent = producto.disponible ? "Disponible" : "No Disponible";
+  const disponible: HTMLParagraphElement = document.createElement("p");
+  disponible.classList.add(producto.disponible ? "disponible" : "no-disponible");
+  disponible.textContent = producto.disponible ? "Disponible" : "No Disponible";
 
-    articulo.appendChild(titulo);
-    articulo.appendChild(imagen);
-    articulo.appendChild(descripcion);
-    articulo.appendChild(precio);
-    articulo.appendChild(disponible);
-    if(producto.disponible) {
-      articulo.addEventListener("click", () => {
-        navigate(PRODUCT_DETAIL + "?id=" + producto.id)
-      });
-    }
-    return articulo;
+  articulo.appendChild(titulo);
+  articulo.appendChild(imagen);
+  articulo.appendChild(descripcion);
+  articulo.appendChild(precio);
+  articulo.appendChild(disponible);
+
+  articulo.addEventListener("click", () => {
+    navigate(PRODUCT_DETAIL + "?id=" + producto.id + "&origen=home")
+  });
+  return articulo;
 };
 
 
 //renderers
-const cargarCategorias = () : void => {
+const cargarCategorias = (): void => {
   if (!listaCategorias) return;
   listaCategorias.innerHTML = "";
 
@@ -101,15 +101,15 @@ const cargarCategorias = () : void => {
   // marcar seleccionada según estado guardado
   if (categoriaSeleccionada) {
     const seleccionado: Element | undefined = Array.from(listaCategorias.children)
-    .find((n: Element) => (n.textContent || "") === categoriaSeleccionada);
+      .find((n: Element) => (n.textContent || "") === categoriaSeleccionada);
 
-      if (seleccionado) {
-        seleccionado.classList.add("seleccionado");
-      } else {
-        //si no existe la categoría guardada, marcar "todos los productos"
-        (listaCategorias.children[0]).classList.add("seleccionado");
-        categoriaSeleccionada = "Todos los productos";
-      }
+    if (seleccionado) {
+      seleccionado.classList.add("seleccionado");
+    } else {
+      //si no existe la categoría guardada, marcar "todos los productos"
+      (listaCategorias.children[0]).classList.add("seleccionado");
+      categoriaSeleccionada = "Todos los productos";
+    }
 
   } else {
     (listaCategorias.children[0]).classList.add("seleccionado");
@@ -117,11 +117,11 @@ const cargarCategorias = () : void => {
   }
 };
 
-const cargarProductos = (lista: Product[] = getProductos) : void => {
+const cargarProductos = (lista: Product[] = getProductos): void => {
   if (!contenedorProductos) return;
 
   contenedorProductos.innerHTML = "";
-  if(lista.length === 0) {
+  if (lista.length === 0) {
     const mensaje: HTMLHeadingElement = document.createElement("h2");
     mensaje.classList.add("no-resultados");
     mensaje.textContent = "No se encontraron productos que coincidan con los filtros aplicados.";
@@ -130,7 +130,7 @@ const cargarProductos = (lista: Product[] = getProductos) : void => {
   }
 
   lista.forEach((p: Product) => {
-    if(!p.eliminado) contenedorProductos.appendChild(crearArticuloProducto(p));
+    if (!p.eliminado) contenedorProductos.appendChild(crearArticuloProducto(p));
   });
 };
 
@@ -143,7 +143,7 @@ const filtrarYRenderizar = (): void => {
     if (p.eliminado) return false;
 
     const coincideCategoria = cat === "todos los productos" ||
-    p.categoria?.nombre.toLocaleLowerCase().includes(cat);
+      p.categoria?.nombre.toLocaleLowerCase().includes(cat);
 
     const coincideNombre = texto === "" || p.nombre.toLocaleLowerCase().includes(texto);
 
@@ -168,7 +168,7 @@ const inicializarDelegacionCategorias = () => {
     target.classList.add("seleccionado");
 
     //actualizar estado y UI
-    categoriaSeleccionada = target.textContent ||  "Todos los productos";
+    categoriaSeleccionada = target.textContent || "Todos los productos";
     if (inputBuscarProductos) inputBuscarProductos.value = "";
     filtrarYRenderizar();
   });
