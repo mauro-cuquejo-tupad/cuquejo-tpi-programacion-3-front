@@ -349,6 +349,11 @@ article button {
 
 }
 
+.contenedor-datos-producto {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 .precio-carrito {
     font-variant: small-caps;
     color: var(--color-primario);
@@ -555,12 +560,7 @@ article img {
     flex-direction: row;
 }
 
-.producto-articulo-detalle:hover {
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
-    background-color: var(--color-blanco);
-    transform: scale(1.01);
-    transition: all 0.3s ease-in-out;
-}
+
 
 #producto-div-imagen {
     display: flex;
