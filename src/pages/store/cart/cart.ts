@@ -229,7 +229,7 @@ export const actualizarContadorCarrito = (): void => {
       return;
     }
     const items: CartItem[] = JSON.parse(datosCarritoRaw);
-    const total = items.reduce((acumulador: number, it: CartItem) => acumulador + (it.cantidad || 0), 0);
+    const total: number = items.reduce((acumulador: number, it: CartItem) => acumulador + (it.cantidad || 0), 0);
     badge.textContent = `${total}`;
   } catch (error) {
       const badge = contadorCarrito.querySelector<HTMLSpanElement>(".carrito-badge");
@@ -238,6 +238,22 @@ export const actualizarContadorCarrito = (): void => {
         badge.textContent = `0`;
       }
   }
+};
+
+export const actualizarStockDisponible = (producto: Product): number => {
+  const datosCarritoRaw = getProductCart();
+  console.log(datosCarritoRaw);
+  if (!datosCarritoRaw) {
+    return producto.stock;
+  }
+  const items: CartItem[] = JSON.parse(datosCarritoRaw);
+  const item: CartItem | undefined = items.find((it: CartItem) => it.producto?.id === producto.id);
+
+  console.log("producto: " + producto.id + ", item: " + item);
+  if (!item) {
+    return producto.stock;
+  }
+  return producto.stock - item.cantidad;
 };
 
 export const actualizarImporteTotalCarrito = (): number => {

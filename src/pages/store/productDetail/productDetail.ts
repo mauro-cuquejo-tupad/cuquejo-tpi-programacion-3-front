@@ -3,7 +3,7 @@ import { agregarLogout, guardRoutes } from "../../../utils/auth";
 import { getProductos } from "../../../utils/fetch";
 import { navigate } from "../../../utils/navigate";
 import { HOME_STORE } from "../../../utils/routes";
-import { actualizarContadorCarrito, agregarAlCarrito } from "../cart/cart";
+import { actualizarContadorCarrito, actualizarStockDisponible as getStockNoReservadoEnCarrito, agregarAlCarrito } from "../cart/cart";
 
 const contenedorProductos : HTMLElement | null = document.querySelector<HTMLElement>("#contenedor-producto");
 
@@ -46,7 +46,7 @@ const crearArticuloProducto = (producto: Product) :HTMLElement => {
     descripcionDiv.id = "producto-div-descripcion";
 
     const stock: HTMLParagraphElement = document.createElement("p");
-    stock.textContent = "Stock:";
+    stock.textContent = "Stock: " + getStockNoReservadoEnCarrito(producto);
     const descripcion: HTMLParagraphElement = document.createElement("p");
     descripcion.textContent = producto.descripcion;
 
@@ -60,9 +60,12 @@ const crearArticuloProducto = (producto: Product) :HTMLElement => {
     botonAgregar.className = "btn-agregar";
     botonAgregar.textContent = "Agregar al carrito";
     botonAgregar.addEventListener("click", () => {
-      agregarAlCarrito(producto.id);
-      actualizarContadorCarrito();
-      renderizarBotonProductoAgregado(botonAgregar);
+        if(getStockNoReservadoEnCarrito(producto) > 0) {
+            agregarAlCarrito(producto.id);
+            actualizarContadorCarrito();
+            renderizarBotonProductoAgregado(botonAgregar);
+            cargarProductos();
+        }
     });
 
     const botonVolver: HTMLButtonElement = document.createElement("button");
@@ -97,10 +100,6 @@ const renderizarBotonProductoAgregado = (boton: HTMLButtonElement) : void => {
     boton.classList.remove("agregado");
   }, 1000);
 };
-
-const getStockDisponible = () : number => {
-    return 0;
-}
 
 agregarLogout();
 guardRoutes();
