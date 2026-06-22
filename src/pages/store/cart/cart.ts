@@ -1,20 +1,21 @@
 import { getProductos } from "../../../utils/fetch";
 import type { CartItem, Product } from "../../../types/product";
-import { agregarLogout, guardRoutes } from "../../../utils/auth";
+import { guardRoutes } from "../../../utils/auth";
 import { addProductCart, deleteProductCart, getProductCart, removeAllProductsCart, removeProductCart } from "../../../utils/localStorage";
 import { navigate } from "../../../utils/navigate";
-import { crearBoton } from "../../../utils/helpersDom";
+import { agregarLogout, crearBoton } from "../../../utils/helpersDom";
+import { PRODUCT_DETAIL } from "../../../utils/routes";
 
 
 const contadorCarrito: HTMLAnchorElement | null = document.querySelector<HTMLAnchorElement>("#a-carrito");
 
-let carrito : HTMLElement | null = document.querySelector<HTMLElement>("#carrito");
+let carrito: HTMLElement | null = document.querySelector<HTMLElement>("#carrito");
 
 
 
 const crearItemCarritoVacio = (): HTMLDivElement => {
   let itemCarrito: HTMLDivElement = document.createElement("div");
-    itemCarrito.classList.add("carrito-vacio");
+  itemCarrito.classList.add("carrito-vacio");
 
   let iconoCarrito = document.createElement("h2");
   iconoCarrito.classList.add("emoji-carrito");
@@ -43,11 +44,17 @@ const crearItemCarrito = (item: CartItem): HTMLDivElement => {
   const imagen: HTMLImageElement = document.createElement("img");
   imagen.src = `${item.producto.imagen}`;
   imagen.alt = item.producto.nombre;
+
+  imagen.addEventListener("click", () => {
+    navigate(PRODUCT_DETAIL + "?id=" + item.producto.id + "&origen=cart");
+  });
+
   divImagen.appendChild(imagen);
+
 
   let divDatosCompra: HTMLDivElement = document.createElement("div");
   divDatosCompra.classList.add("contenedor-datos-producto");
-  const titulo:HTMLHeadingElement = document.createElement("h2");
+  const titulo: HTMLHeadingElement = document.createElement("h2");
   titulo.classList.add("titulo-carrito");
   titulo.textContent = item.producto.nombre;
 
@@ -56,7 +63,7 @@ const crearItemCarrito = (item: CartItem): HTMLDivElement => {
   descripcion.textContent = item.producto.categoria?.nombre ?? "";
 
   const precio: HTMLSpanElement = document.createElement("span");
-  precio.textContent = 'Precio: $' + item.producto.precio;
+  precio.textContent = 'Precio: $' + item.producto.precio + ' c/u';
 
   const subtotal: HTMLSpanElement = document.createElement("span");
   subtotal.classList.add("precio-carrito");
@@ -81,28 +88,43 @@ const crearItemCarrito = (item: CartItem): HTMLDivElement => {
   cantidad.textContent = item.cantidad.toString();
 
   const botonAgregar: HTMLButtonElement = crearBoton("btn-agregar-" + item.producto.id, "btn-accion", `+`);
-    botonAgregar.addEventListener("click", () => {
-      agregarAlCarrito(item.producto.id);
-      actualizarContadorCarrito();
-    });
 
-    divAgregarOQuitarProductos.appendChild(botonEliminar);
-    divAgregarOQuitarProductos.appendChild(cantidad);
-    divAgregarOQuitarProductos.appendChild(botonAgregar);
+  const actualizarBotones = (): void => {
+    botonAgregar.disabled = item.cantidad >= item.producto.stock || item.producto.disponible === false;
+    console.log(item.cantidad >= item.producto.stock);
 
-    const botonEliminarProducto: HTMLButtonElement = crearBoton("btn-eliminar-producto" + item.producto.id, "btn-eliminar-producto", `Eliminar Producto`);
-    botonEliminarProducto.addEventListener("click", () => {
-      eliminarProductoDelCarrito(item.producto.id);
-      actualizarContadorCarrito();
-    });
+    botonAgregar.classList.toggle(
+      "boton-deshabilitado",
+      botonAgregar.disabled
+    );
+  };
 
-    divModificarCantidad.appendChild(divAgregarOQuitarProductos);
-    divModificarCantidad.appendChild(botonEliminarProducto);
+  botonAgregar.addEventListener("click", () => {
+    agregarAlCarrito(item.producto.id);
+    actualizarContadorCarrito();
+    actualizarBotones();
+  });
+
+  actualizarBotones();
+
+  divAgregarOQuitarProductos.appendChild(botonEliminar);
+  divAgregarOQuitarProductos.appendChild(cantidad);
+  divAgregarOQuitarProductos.appendChild(botonAgregar);
+
+  const botonEliminarProducto: HTMLButtonElement = crearBoton("btn-eliminar-producto" + item.producto.id, "btn-eliminar-producto", `Eliminar Producto`);
+  botonEliminarProducto.addEventListener("click", () => {
+    eliminarProductoDelCarrito(item.producto.id);
+    actualizarContadorCarrito();
+  });
+
+  divModificarCantidad.appendChild(divAgregarOQuitarProductos);
+  divModificarCantidad.appendChild(botonEliminarProducto);
 
 
   itemCarrito.appendChild(divImagen);
   itemCarrito.appendChild(divDatosCompra);
   itemCarrito.appendChild(divModificarCantidad);
+
   return itemCarrito;
 };
 
@@ -116,7 +138,7 @@ const crearDatosTotalCarrito = (): HTMLDivElement => {
   let datosTotalCarrito: HTMLDivElement = document.createElement("div");
   datosTotalCarrito.classList.add("total-carrito");
 
-  const tituloTotal:HTMLHeadingElement = document.createElement("h2");
+  const tituloTotal: HTMLHeadingElement = document.createElement("h2");
   tituloTotal.classList.add("titulo-carrito");
   tituloTotal.textContent = "Resumen";
 
@@ -162,28 +184,28 @@ const inicializar = (carritoCompras: CartItem[]): void => {
 
 }
 
-export const agregarAlCarrito = (idProducto: number): void => {
-    const producto = getProductos.find((p: Product) => p.id === idProducto);
-    if (!producto) return;
+export const agregarAlCarrito = (idProducto: number, cantidad: number = 1): void => {
+  const producto = getProductos.find((p: Product) => p.id === idProducto);
+  if (!producto) return;
 
-    addProductCart(producto);
-    renderizarCarrito();
+  addProductCart(producto, cantidad);
+  renderizarCarrito();
 };
 
 export const eliminarDelCarrito = (idProducto: number): void => {
-    const producto = getProductos.find((p: Product) => p.id === idProducto);
-    if (!producto) return;
+  const producto = getProductos.find((p: Product) => p.id === idProducto);
+  if (!producto) return;
 
-    removeProductCart(producto);
-    renderizarCarrito();
+  removeProductCart(producto);
+  renderizarCarrito();
 };
 
 export const eliminarProductoDelCarrito = (idProducto: number): void => {
   const producto = getProductos.find((p: Product) => p.id === idProducto);
-    if (!producto) return;
+  if (!producto) return;
 
-    removeAllProductsCart(producto);
-    renderizarCarrito();
+  removeAllProductsCart(producto);
+  renderizarCarrito();
 };
 
 export const vaciarCarrito = (): void => {
@@ -193,19 +215,19 @@ export const vaciarCarrito = (): void => {
 
 export const obtenerCarrito = (): CartItem[] => {
   let carrito: string | null = getProductCart();
-  if(!carrito) return [];
+  if (!carrito) return [];
   try {
     return JSON.parse(carrito);
   } catch (error) {
     console.error("error al buscar carrito")
-      return [];
+    return [];
   }
 };
 
 const renderizarCarrito = (): void => {
   if (carrito) carrito.innerHTML = "";
   let carritoCompras: CartItem[] = obtenerCarrito();
-  if(carritoCompras.length === 0) {
+  if (carritoCompras.length === 0) {
     if (carrito) inicializarVacia(carrito);
     return;
   }
@@ -230,11 +252,11 @@ export const actualizarContadorCarrito = (): void => {
     const total: number = items.reduce((acumulador: number, it: CartItem) => acumulador + (it.cantidad || 0), 0);
     badge.textContent = `${total}`;
   } catch (error) {
-      const badge = contadorCarrito.querySelector<HTMLSpanElement>(".carrito-badge");
+    const badge = contadorCarrito.querySelector<HTMLSpanElement>(".carrito-badge");
 
-      if (badge) {
-        badge.textContent = `0`;
-      }
+    if (badge) {
+      badge.textContent = `0`;
+    }
   }
 };
 
