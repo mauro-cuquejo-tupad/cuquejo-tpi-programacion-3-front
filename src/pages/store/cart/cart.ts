@@ -1,23 +1,16 @@
-import { getPedidos, getProductos } from "../../../utils/fetch";
+import { getProductos } from "../../../utils/fetch";
 import type { CartItem, Product } from "../../../types/product";
 import { agregarLogout, guardRoutes } from "../../../utils/auth";
 import { addProductCart, deleteProductCart, getProductCart, removeAllProductsCart, removeProductCart } from "../../../utils/localStorage";
 import { navigate } from "../../../utils/navigate";
+import { crearBoton } from "../../../utils/helpersDom";
 
 
 const contadorCarrito: HTMLAnchorElement | null = document.querySelector<HTMLAnchorElement>("#a-carrito");
 
 let carrito : HTMLElement | null = document.querySelector<HTMLElement>("#carrito");
 
-//helpers DOM para crear elementos
-const crearBoton = (id: string, classNames: string | null, textContent: string): HTMLButtonElement => {
-  const boton: HTMLButtonElement = document.createElement("button");
-  boton.id = id;
-  boton.type = "button";
-  if(classNames) boton.className = classNames;
-  boton.textContent = textContent;
-  return boton;
-};
+
 
 const crearItemCarritoVacio = (): HTMLDivElement => {
   let itemCarrito: HTMLDivElement = document.createElement("div");
@@ -53,6 +46,7 @@ const crearItemCarrito = (item: CartItem): HTMLDivElement => {
   divImagen.appendChild(imagen);
 
   let divDatosCompra: HTMLDivElement = document.createElement("div");
+  divDatosCompra.classList.add("contenedor-datos-producto");
   const titulo:HTMLHeadingElement = document.createElement("h2");
   titulo.classList.add("titulo-carrito");
   titulo.textContent = item.producto.nombre;
@@ -62,12 +56,16 @@ const crearItemCarrito = (item: CartItem): HTMLDivElement => {
   descripcion.textContent = item.producto.categoria?.nombre ?? "";
 
   const precio: HTMLSpanElement = document.createElement("span");
-  precio.classList.add("precio-carrito");
-  precio.textContent = 'Subtotal: $' + item.producto.precio * item.cantidad;
+  precio.textContent = 'Precio: $' + item.producto.precio;
+
+  const subtotal: HTMLSpanElement = document.createElement("span");
+  subtotal.classList.add("precio-carrito");
+  subtotal.textContent = 'Subtotal: $' + item.producto.precio * item.cantidad;
 
   divDatosCompra.appendChild(titulo);
   divDatosCompra.appendChild(descripcion);
   divDatosCompra.appendChild(precio);
+  divDatosCompra.appendChild(subtotal);
 
   let divModificarCantidad: HTMLDivElement = document.createElement("div");
   divModificarCantidad.classList.add("modificar-cantidad");
@@ -240,20 +238,18 @@ export const actualizarContadorCarrito = (): void => {
   }
 };
 
-export const actualizarStockDisponible = (producto: Product): number => {
+export const getCantidadEnCarrito = (producto: Product): number => {
   const datosCarritoRaw = getProductCart();
-  console.log(datosCarritoRaw);
   if (!datosCarritoRaw) {
-    return producto.stock;
+    return 0;
   }
   const items: CartItem[] = JSON.parse(datosCarritoRaw);
   const item: CartItem | undefined = items.find((it: CartItem) => it.producto?.id === producto.id);
 
-  console.log("producto: " + producto.id + ", item: " + item);
   if (!item) {
-    return producto.stock;
+    return 0;
   }
-  return producto.stock - item.cantidad;
+  return item.cantidad;
 };
 
 export const actualizarImporteTotalCarrito = (): number => {
