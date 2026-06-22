@@ -326,14 +326,6 @@ article button {
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
 }
 
-.carrito-articulo:hover {
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
-    background-color: var(--color-blanco);
-    transform: scale(1.05);
-    transition: all 0.3s ease-in-out;
-}
-
-
 
 .titulo-carrito {
     font-variant: small-caps;
@@ -427,7 +419,7 @@ article button {
 }
 
 .boton-deshabilitado:hover {
-    background-color: var(--color-gris-oscuro);
+    background-color: var(--color-gris);
 
 }
 
@@ -512,8 +504,6 @@ article button {
 .producto-articulo {
     background-color: var(--color-blanco-focus);
 }
-
-
 
 .producto-articulo:hover {
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
