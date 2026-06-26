@@ -12,6 +12,7 @@ import { agregarLogout } from "../../../utils/helpersDom";
 const listaCategorias: HTMLUListElement | null = document.querySelector<HTMLUListElement>("#lista-categorias");
 const contenedorProductos: HTMLElement | null = document.querySelector<HTMLElement>("#contenedor-productos");
 const inputBuscarProductos: HTMLInputElement | null = document.querySelector<HTMLInputElement>("#txt_buscar_productos");
+const selectOrdenar: HTMLSelectElement | null = document.querySelector<HTMLSelectElement>("#select-ordenar");
 
 let categoriaSeleccionada: string = "";
 
@@ -150,6 +151,15 @@ const filtrarYRenderizar = (): void => {
     return coincideCategoria && coincideNombre;
   });
 
+  const criterioOrden = selectOrdenar?.value || "defecto";
+  if (criterioOrden === "precio-asc") {
+    resultados.sort((a, b) => a.precio - b.precio);
+  } else if (criterioOrden === "precio-desc") {
+    resultados.sort((a, b) => b.precio - a.precio);
+  } else if (criterioOrden === "alfa-asc") {
+    resultados.sort((a, b) => a.nombre.localeCompare(b.nombre));
+  }
+
   cargarProductos(resultados);
   guardarFiltros();
 };
@@ -188,5 +198,9 @@ actualizarContadorCarrito();
 inputBuscarProductos?.addEventListener("input", () => {
   filtrarYRenderizar();
 });
+
+selectOrdenar?.addEventListener("change", () => {
+  filtrarYRenderizar();
+})
 
 guardRoutes();
