@@ -690,3 +690,188 @@ article img {
         height: auto;
     }
 }
+
+/* ==========================================================================
+   ESTILOS PARA LA PANTALLA DE MIS PEDIDOS (orders.html)
+   ========================================================================== */
+
+/* Contenedor principal de la sección */
+.mis-pedidos {
+    max-width: 1200px;
+    width: 100%;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+}
+
+/* Encabezado de la sección y Filtro */
+.mis-pedidos>div:first-child {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid var(--color-gris-claro);
+    padding-bottom: 1rem;
+}
+
+.mis-pedidos h2 {
+    margin-bottom: 0;
+    /* Reseteamos el margen que viene por defecto */
+    text-transform: uppercase;
+    letter-spacing: 0.1rem;
+    color: var(--color-seccion);
+}
+
+/* Estilizado del Select de Filtros */
+#estados-pedidos {
+    padding: 0.6rem 1.5rem 0.6rem 1rem;
+    border: 2px solid var(--color-borde);
+    border-radius: 0.5rem;
+    background-color: var(--color-blanco);
+    color: var(--color-texto);
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+#estados-pedidos:focus {
+    border-color: var(--color-focus);
+}
+
+/* Grilla de Pedidos (Copiando la estructura de contenedor-productos) */
+#contenedor-pedidos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 1.5rem;
+    align-items: stretch;
+}
+
+/* Tarjeta individual de Pedido (Hereda comportamiento de .producto-articulo) */
+#contenedor-pedidos .producto-articulo {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: stretch;
+    /* Cambiamos a stretch para manejar filas internas */
+    text-align: left;
+    /* Cambiamos el text-align de productos para leer mejor la lista */
+    padding: 1.5rem;
+    letter-spacing: normal;
+    /* Reseteamos el espaciado exagerado de los artículos comunes */
+    text-transform: none;
+    /* Quitamos las mayúsculas forzadas para los detalles */
+    min-height: auto;
+}
+
+/* Fila superior: Fecha y Estado */
+#contenedor-pedidos .producto-articulo>span:first-of-type {
+    font-weight: bold;
+    color: var(--color-texto);
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Lista de Productos dentro del pedido */
+#contenedor-pedidos ul {
+    list-style: none;
+    margin: 1rem 0;
+    padding: 0;
+    border-top: 1px dashed var(--color-borde);
+    border-bottom: 1px dashed var(--color-borde);
+    padding: 0.75rem 0;
+    flex-grow: 1;
+    /* Hace que la lista ocupe el espacio disponible */
+}
+
+#contenedor-pedidos ul li {
+    color: var(--color-texto);
+    font-size: 0.95rem;
+    padding: 0.25rem 0;
+    position: relative;
+    padding-left: 1.2rem;
+}
+
+#contenedor-pedidos ul li::before {
+    content: "•";
+    color: var(--color-primario);
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+    top: 0.2rem;
+    font-size: 1.2rem;
+}
+
+/* Cantidad de productos e Importe Total */
+#contenedor-pedidos .producto-articulo>span:nth-of-type(2) {
+    font-size: 0.85rem;
+    color: var(--color-gris-oscuro);
+    margin-bottom: 0.25rem;
+}
+
+#contenedor-pedidos .producto-articulo>span:last-of-type {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: var(--color-seccion);
+    margin-top: 0.5rem;
+    border-top: 1px solid var(--color-gris-claro);
+    padding-top: 0.5rem;
+    display: block;
+}
+
+/* Badges de Estados Dinámicos */
+.estado-badge {
+    align-self: flex-start;
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    letter-spacing: 0.05rem;
+}
+
+/* Colores basados en el estado del JSON */
+.estado-badge.entregado {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.estado-badge.en_preparacion {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeeba;
+}
+
+.estado-badge.pendiente {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* Mensaje cuando no hay resultados */
+.no-pedidos {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 3rem;
+    background-color: var(--color-blanco);
+    border-radius: 0.5rem;
+    color: var(--color-gris-oscuro);
+    font-size: 1.2rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .mis-pedidos>div:first-child {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    #estados-pedidos {
+        width: 100%;
+    }
+}
