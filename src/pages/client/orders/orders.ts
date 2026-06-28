@@ -7,25 +7,29 @@ import type { Pedido } from "../../../types/pedido";
 let contenedorPedidos: HTMLElement | null = document.querySelector<HTMLElement>("#contenedor-pedidos");
 let selectPedidos: HTMLElement | null = document.querySelector<HTMLElement>("#estados-pedidos");
 
+const estadosUnicos = ["TODOS", ...new Set(getPedidos.map(p => p.estado))];
+
+const formatearEstados = (estado: string): string => {
+    return estado.replaceAll("_", " ").toLowerCase().replace(/^[a-z]/, (letra) => letra.toUpperCase());
+}
+
 const cargarOpcionesPedidos = (): void => {
     if (!selectPedidos) return;
-
-    const estadosUnicos = ["Todos", ...new Set(getPedidos.map(p => p.estado.replaceAll("_", " ").toLowerCase().replace(/^[a-z]/, (letra) => letra.toUpperCase())))];
 
     selectPedidos.innerHTML = "";
     estadosUnicos.forEach(estado => {
         const option = document.createElement("option");
         option.value = estado;
-        option.textContent = estado;
+        option.textContent = formatearEstados(estado);
         selectPedidos.appendChild(option);
     })
 };
 
-const renderizarPedidos = (estadoFiltro: string = "Todos"): void => {
+const renderizarPedidos = (estadoFiltro: string = "TODOS"): void => {
     if (!contenedorPedidos) return;
 
 
-    const pedidosFiltrados = estadoFiltro === "Todos"
+    const pedidosFiltrados = estadoFiltro === "TODOS"
         ? getPedidos
         : getPedidos.filter(p => p.estado.toUpperCase() === estadoFiltro);
 
