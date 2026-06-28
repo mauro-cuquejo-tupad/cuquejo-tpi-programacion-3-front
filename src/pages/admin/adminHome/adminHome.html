@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Admin</title>
+    <title>Admin - Dashboard</title>
     <link rel="stylesheet" href="../../../style.css">
 </head>
 
@@ -14,10 +14,10 @@
         <div class="header-bar">
             <nav>
                 <ul>
-                    <li><a href="#" class="btn-nav-admin seleccionado" data-tab="tab-dashboard">Dashboard</a></li>
-                    <li><a href="../products/products.html" class="btn-nav-admin">Productos</a></li>
-                    <li><a href="../categories/categories.html" class="btn-nav-admin">Categorías</a></li>
-                    <li><a href="../orders/orders.html" class="btn-nav-admin">Pedidos</a></li>
+                    <li><a href="#" class="nav-link seleccionado" data-tab="tab-dashboard">Dashboard</a></li>
+                    <li><a href="../products/products.html" class="nav-link">Productos</a></li>
+                    <li><a href="../categories/categories.html" class="nav-link">Categorías</a></li>
+                    <li><a href="../orders/orders.html" class="nav-link">Pedidos</a></li>
                 </ul>
             </nav>
             <button id="logoutButton">Logout</button>
@@ -29,7 +29,7 @@
     <main class="admin-main">
         <div id="tab-dashboard" class="admin-tab-content">
             <div class="admin-dashboard-header">
-                <h1>Dashboard</h1>
+
                 <button class="btn-accion" onclick="window.location.href = '../products/products.html'">Gestionar
                     Productos</button>
             </div>
