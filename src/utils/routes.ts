@@ -1,5 +1,8 @@
 export const HOME_STORE = "/src/pages/store/home/home.html";
-export const HOME_ADMIN = "/src/pages/admin/admin.html";
+export const HOME_ADMIN = "/src/pages/admin/adminHome/adminHome.html";
+export const ADMIN_ORDERS = "/src/pages/admin/orders/orders.html";
+export const ADMIN_CATEGORIES = "/src/pages/admin/categories/categories.html";
+export const ADMIN_PRODUCTS = "/src/pages/admin/products/products.html";
 export const HOME_CLIENT = "/src/pages/client/client.html";
 export const LOGIN_PAGE = "/src/pages/auth/login/login.html";
 export const REGISTRO_PAGE = "/src/pages/auth/registro/registro.html";
@@ -22,5 +25,8 @@ export const VALID_USER_PAGES = new Set<string>([
 ]);
 
 export const VALID_ADMIN_PAGES = new Set<string>([
-    HOME_ADMIN
+    HOME_ADMIN,
+    ADMIN_CATEGORIES,
+    ADMIN_ORDERS,
+    ADMIN_PRODUCTS
 ]);
