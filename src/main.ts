@@ -1,3 +1,1 @@
-import { inicializarUsuarios } from "./pages/auth/registro/registro";
-
-inicializarUsuarios();
+// main vacio por consigna TPI
