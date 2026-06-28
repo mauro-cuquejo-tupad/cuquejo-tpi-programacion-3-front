@@ -86,70 +86,6 @@ header nav a:hover {
     min-height: 100vh;
 }
 
-.store-layout {
-    display: flex;
-    flex-direction: row;
-    margin: 1.5rem;
-    padding: 1rem;
-    align-items: flex-start;
-    flex: 1;
-}
-
-.store-layout aside {
-    flex: 0 0 260px;
-    background: var(--color-blanco);
-    border: 1px solid var(--color-borde);
-    border-radius: 0.5rem;
-    padding: 1rem;
-    align-self: stretch;
-}
-
-.categoria {
-    list-style: none;
-    color: var(--color-primario);
-    text-decoration: none;
-    font-weight: bold;
-    padding: 0.5rem;
-    margin: 0.5rem;
-}
-
-.categoria:hover {
-    color: var(--color-focus);
-}
-
-.store-layout main {
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-    flex: 1;
-    width: 100%;
-}
-
-
-
-form {
-    display: flex;
-    flex-direction: column;
-    background-color: var(--color-blanco);
-    padding: 3rem;
-    border-radius: 0.5rem;
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
-}
-
-.buscar-productos {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-    background-color: var(--color-blanco);
-    padding: 3rem;
-    margin: 1rem;
-    border-radius: 0.5rem;
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
-    width: 100%;
-    min-width: 300px;
-}
-
 h1 {
     color: var(--color-primario);
     text-align: center;
@@ -164,12 +100,6 @@ h2 {
     font-size: 1.5rem;
     text-align: center;
     margin-bottom: 1rem;
-}
-
-#datos-prueba {
-    margin-top: 1rem;
-    margin-bottom: 0.5rem;
-    color: var(--color-gris-oscuro);
 }
 
 label {
@@ -215,6 +145,82 @@ footer {
     color: var(--color-texto);
     font-size: 0.875rem;
     margin-top: auto;
+}
+
+.store-layout {
+    display: flex;
+    flex-direction: row;
+    margin: 1.5rem;
+    padding: 1rem;
+    align-items: flex-start;
+    flex: 1;
+}
+
+.store-layout aside {
+    flex: 0 0 260px;
+    background: var(--color-blanco);
+    border: 1px solid var(--color-borde);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    align-self: stretch;
+}
+
+.categoria {
+    list-style: none;
+    color: var(--color-primario);
+    text-decoration: none;
+    font-weight: bold;
+    padding: 0.5rem;
+    margin: 0.5rem;
+}
+
+.categoria:hover {
+    color: var(--color-focus);
+}
+
+.store-layout main {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    flex: 1;
+    width: 100%;
+}
+
+.buscar-productos {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    background-color: var(--color-blanco);
+    padding: 3rem;
+    margin: 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+    width: 100%;
+    min-width: 300px;
+}
+
+.ordenar-productos {
+    padding: 0.75rem;
+    border: 2px solid var(--color-borde);
+    border-radius: 0.25rem;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-blanco);
+    padding: 3rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+#datos-prueba {
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    color: var(--color-gris-oscuro);
 }
 
 #productos-destacados h1 {
@@ -691,11 +697,6 @@ article img {
     }
 }
 
-/* ==========================================================================
-   ESTILOS PARA LA PANTALLA DE MIS PEDIDOS (orders.html)
-   ========================================================================== */
-
-/* Contenedor principal de la sección */
 .mis-pedidos {
     max-width: 1200px;
     width: 100%;
@@ -703,8 +704,7 @@ article img {
     padding: 0 1.5rem;
 }
 
-/* Encabezado de la sección y Filtro */
-.mis-pedidos>div:first-child {
+#encabezado-pedidos {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -715,15 +715,13 @@ article img {
     padding-bottom: 1rem;
 }
 
-.mis-pedidos h2 {
+#encabezado-pedidos h2 {
     margin-bottom: 0;
-    /* Reseteamos el margen que viene por defecto */
     text-transform: uppercase;
     letter-spacing: 0.1rem;
     color: var(--color-seccion);
 }
 
-/* Estilizado del Select de Filtros */
 #estados-pedidos {
     padding: 0.6rem 1.5rem 0.6rem 1rem;
     border: 2px solid var(--color-borde);
@@ -741,7 +739,6 @@ article img {
     border-color: var(--color-focus);
 }
 
-/* Grilla de Pedidos (Copiando la estructura de contenedor-productos) */
 #contenedor-pedidos {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
@@ -749,33 +746,36 @@ article img {
     align-items: stretch;
 }
 
-/* Tarjeta individual de Pedido (Hereda comportamiento de .producto-articulo) */
-#contenedor-pedidos .producto-articulo {
+.pedido-articulo {
+    background-color: var(--color-blanco-focus);
+    border-radius: 0.5rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+    border: 2px solid var(--color-borde);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: stretch;
-    /* Cambiamos a stretch para manejar filas internas */
     text-align: left;
-    /* Cambiamos el text-align de productos para leer mejor la lista */
     padding: 1.5rem;
     letter-spacing: normal;
-    /* Reseteamos el espaciado exagerado de los artículos comunes */
     text-transform: none;
-    /* Quitamos las mayúsculas forzadas para los detalles */
     min-height: auto;
 }
 
-/* Fila superior: Fecha y Estado */
-#contenedor-pedidos .producto-articulo>span:first-of-type {
+.pedido-articulo:hover {
+    background-color: var(--color-blanco-focus);
+    transform: scale(1.05);
+    transition: all 0.3s ease-in-out;
+}
+
+.pedido-articulo .fecha-pedido {
     font-weight: bold;
     color: var(--color-texto);
     font-size: 0.95rem;
     margin-bottom: 0.5rem;
 }
 
-/* Lista de Productos dentro del pedido */
-#contenedor-pedidos ul {
+.pedido-articulo ul {
     list-style: none;
     margin: 1rem 0;
     padding: 0;
@@ -783,10 +783,9 @@ article img {
     border-bottom: 1px dashed var(--color-borde);
     padding: 0.75rem 0;
     flex-grow: 1;
-    /* Hace que la lista ocupe el espacio disponible */
 }
 
-#contenedor-pedidos ul li {
+.pedido-articulo ul li {
     color: var(--color-texto);
     font-size: 0.95rem;
     padding: 0.25rem 0;
@@ -794,24 +793,13 @@ article img {
     padding-left: 1.2rem;
 }
 
-#contenedor-pedidos ul li::before {
-    content: "•";
-    color: var(--color-primario);
-    font-weight: bold;
-    position: absolute;
-    left: 0;
-    top: 0.2rem;
-    font-size: 1.2rem;
-}
-
-/* Cantidad de productos e Importe Total */
-#contenedor-pedidos .producto-articulo>span:nth-of-type(2) {
+.pedido-articulo .span-cantidad-productos {
     font-size: 0.85rem;
     color: var(--color-gris-oscuro);
     margin-bottom: 0.25rem;
 }
 
-#contenedor-pedidos .producto-articulo>span:last-of-type {
+.pedido-articulo .importe-total {
     font-size: 1.3rem;
     font-weight: bold;
     color: var(--color-seccion);
@@ -821,8 +809,7 @@ article img {
     display: block;
 }
 
-/* Badges de Estados Dinámicos */
-.estado-badge {
+.pedido-articulo .estado-badge {
     align-self: flex-start;
     padding: 0.25rem 0.75rem;
     border-radius: 1rem;
@@ -833,26 +820,24 @@ article img {
     letter-spacing: 0.05rem;
 }
 
-/* Colores basados en el estado del JSON */
-.estado-badge.entregado {
+.pedido-articulo .estado-badge.entregado {
     background-color: #d4edda;
     color: #155724;
     border: 1px solid #c3e6cb;
 }
 
-.estado-badge.en_preparacion {
+.pedido-articulo .estado-badge.en_preparacion {
     background-color: #fff3cd;
     color: #856404;
     border: 1px solid #ffeeba;
 }
 
-.estado-badge.pendiente {
+.pedido-articulo .estado-badge.pendiente {
     background-color: #f8d7da;
     color: #721c24;
     border: 1px solid #f5c6cb;
 }
 
-/* Mensaje cuando no hay resultados */
 .no-pedidos {
     grid-column: 1 / -1;
     text-align: center;
@@ -864,14 +849,13 @@ article img {
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
 }
 
-/* Responsive */
 @media (max-width: 600px) {
-    .mis-pedidos>div:first-child {
+    .mis-pedidos #encabezado-pedidos {
         flex-direction: column;
         align-items: stretch;
     }
 
-    #estados-pedidos {
+    .mis-pedidos #estados-pedidos {
         width: 100%;
     }
 }

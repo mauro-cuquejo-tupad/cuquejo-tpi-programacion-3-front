@@ -10,7 +10,7 @@ let selectPedidos: HTMLElement | null = document.querySelector<HTMLElement>("#es
 const cargarOpcionesPedidos = (): void => {
     if (!selectPedidos) return;
 
-    const estadosUnicos = ["TODOS", ...new Set(getPedidos.map(p => p.estado.toUpperCase()))];
+    const estadosUnicos = ["Todos", ...new Set(getPedidos.map(p => p.estado.replaceAll("_", " ").toLowerCase().replace(/^[a-z]/, (letra) => letra.toUpperCase())))];
 
     selectPedidos.innerHTML = "";
     estadosUnicos.forEach(estado => {
@@ -21,11 +21,11 @@ const cargarOpcionesPedidos = (): void => {
     })
 };
 
-const renderizarPedidos = (estadoFiltro: string = "TODOS"): void => {
+const renderizarPedidos = (estadoFiltro: string = "Todos"): void => {
     if (!contenedorPedidos) return;
 
 
-    const pedidosFiltrados = estadoFiltro === "TODOS"
+    const pedidosFiltrados = estadoFiltro === "Todos"
         ? getPedidos
         : getPedidos.filter(p => p.estado.toUpperCase() === estadoFiltro);
 
@@ -45,9 +45,10 @@ const renderizarPedidos = (estadoFiltro: string = "TODOS"): void => {
 const crearItemPedido = (pedido: Pedido): HTMLDivElement => {
     const itemPedido: HTMLDivElement = document.createElement("div");
     itemPedido.id = pedido.id.toString();
-    itemPedido.classList.add("producto-articulo");
+    itemPedido.classList.add("pedido-articulo");
 
     const fechaPedido: HTMLSpanElement = document.createElement("span");
+    fechaPedido.classList.add("fecha-pedido");
     fechaPedido.textContent = "📅 - " + convertirFecha(pedido.fecha);
 
     const nombresProductos = pedido.detalles.map(d => d.producto.nombre);
@@ -60,12 +61,15 @@ const crearItemPedido = (pedido: Pedido): HTMLDivElement => {
     })
 
     const spanCantidadDetalles: HTMLSpanElement = document.createElement("span");
+    spanCantidadDetalles.classList.add("span-cantidad-productos");
     spanCantidadDetalles.textContent = (nombresProductos != null ? nombresProductos.length.toString() : "0") + " producto(s)";
 
     const importeTotal: HTMLSpanElement = document.createElement("span");
+    importeTotal.classList.add("importe-total");
     importeTotal.textContent = ` Total: $${pedido.total.toFixed(2)}`;
 
     const estadoPedido: HTMLSpanElement = document.createElement("span");
+    estadoPedido.classList.add("estado-pedido");
     estadoPedido.textContent = pedido.estado.toUpperCase();
 
     estadoPedido.classList.add("estado-badge", pedido.estado.toLocaleLowerCase());
