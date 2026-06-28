@@ -4,7 +4,7 @@ import type { FiltrosBusqueda } from "../../../types/filtros";
 import type { Product } from "../../../types/product";
 import { guardRoutes } from "../../../utils/auth";
 import { getStoreFilters, saveStoreFilters } from "../../../utils/localStorage";
-import { actualizarContadorCarrito, agregarAlCarrito } from "../cart/cart";
+import { actualizarContadorCarrito } from "../cart/cart";
 import { navigate } from "../../../utils/navigate";
 import { PRODUCT_DETAIL } from "../../../utils/routes";
 import { agregarLogout } from "../../../utils/helpersDom";
