@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Admin</title>
+    <link rel="stylesheet" href="../../../style.css">
+</head>
+
+<body>
+    <header>
+        <h1>Food Store</h1>
+        <div class="header-bar">
+            <nav class="admin">
+                <ul>
+                    <li><a href="#" class="nav-link seleccionado">Dashboard</a></li>
+                    <li><a href="../products/products.html" class="nav-link">Productos</a></li>
+                    <li><a href="../categories/categories.html" class="nav-link">Categorías</a></li>
+                    <li><a href="../orders/orders.html" class="nav-link">Pedidos</a></li>
+                </ul>
+            </nav>
+            <button id="logoutButton">Logout</button>
+        </div>
+    </header>
+    <section class="admin-layout">
+        <aside class="aside-admin">
+            <div class="aside-admin-header">
+                <h1>Administracion</h1>
+                <h2>Panel de control</h2>
+            </div>
+            <div class="aside-admin-nav">
+                <ul>
+                    <li><a href="../adminHome/adminHome.html" class="nav-link">📊 Dashboard</a></li>
+                    <li><a href="#" class="nav-link seleccionado">📁 Categorías</a></li>
+                    <li><a href="../products/products.html" class="nav-link">🍔 Productos</a></li>
+                    <li><a href="../orders/orders.html" class="nav-link">📦 Pedidos</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <main class="main-admin">
+            <h1>Gestion de Categorias</h1>
+            <div class="metricas-container">
+                <table class="table-categorias">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Descripcion</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-crud-categorias"></tbody>
+                </table>
+            </div>
+        </main>
+    </section>
+    <footer>
+        <p>&copy; 2026 Food Store - Todos los derechos reservados</p>
+        <p>Contacto: <a href="mailto:info@foodstore.com">info@foodstore.com</a></p>
+    </footer>
+    <script type="module" src="./categories.ts"></script>
+</body>
+
+</html>
