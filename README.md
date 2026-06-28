@@ -28,14 +28,37 @@
 - [src/pages/store/home/home.html](src/pages/store/home/home.html) — Catálogo de productos
 - [src/pages/store/home/home.ts](src/pages/store/home/home.ts) — Lógica: renderizado, búsqueda, filtros
 
+### 3. Módulo de Administración (Panel Admin)
+
+- ✅ **Sidebar de Navegación**: Panel lateral izquierdo para alternar fácilmente entre secciones del administrador (Dashboard, Categorías, Productos, Pedidos).
+- ✅ **Dashboard con Estadísticas**: Tarjetas resumen que muestran la cantidad total de Categorías, Productos, Pedidos y Productos Activos, con accesos directos de gestión.
+- ✅ **Resumen Rápido de Métricas**: Indicadores de control detallados:
+  - Ingresos Totales (calculado en tiempo real a partir del total facturado).
+  - Cantidad de Pedidos Pendientes.
+  - Cantidad de Pedidos En Preparación.
+  - Cantidad de Pedidos Completados.
+- ✅ **Gestión de Categorías**: Tabla con listado completo de categorías activas (ID, Nombre y Descripción).
+- ✅ **Gestión de Productos**: Tabla detallada que muestra Imagen, Nombre, Descripción, Categoría, Precio, Stock y disponibilidad del catálogo.
+- ✅ **Gestión de Pedidos**: Sección centralizada con filtros por estado de pedido y visualización detallada del cliente, artículos e importes.
+
+**Archivos:**
+- [src/pages/admin/adminHome/adminHome.html](src/pages/admin/adminHome/adminHome.html) & [adminHome.ts](src/pages/admin/adminHome/adminHome.ts) — Dashboard administrativo
+- [src/pages/admin/categories/categories.html](src/pages/admin/categories/categories.html) & [categories.ts](src/pages/admin/categories/categories.ts) — Vista de categorías
+- [src/pages/admin/products/products.html](src/pages/admin/products/products.html) & [products.ts](src/pages/admin/products/products.ts) — Vista de productos
+- [src/pages/admin/orders/orders.html](src/pages/admin/orders/orders.html) & [orders.ts](src/pages/admin/orders/orders.ts) — Vista de pedidos
+
+---
+
 ## Consideraciones Técnicas
 
-- **Tecnologías:** HTML5, CSS3, JavaScript, TypeScript
-- **Build tool:** Vite
-- **Package manager:** pnpm
-- **Sin frameworks:** La aplicación usa vanilla JavaScript/TypeScript
-- **Persistencia:** localStorage para carrito, filtros y datos de usuario
-- **Gestión de rutas:** Guardia centralizada por roles (admin/client)
+- **Tecnologías:** HTML5, CSS3, JavaScript, TypeScript.
+- **Build tool:** Vite (configuración multipágina en `vite.config.ts` para compilar y empaquetar todas las vistas del panel de administración).
+- **Package manager:** pnpm.
+- **Sin frameworks:** La aplicación usa vanilla JavaScript/TypeScript puro.
+- **Persistencia:** localStorage para guardar datos de sesión de usuarios, estado del carrito y filtros de búsqueda.
+- **Gestión de rutas:** Guardia centralizada por roles (`ADMIN`/`USUARIO`) en `src/utils/auth.ts`. Se implementó un control de concurrencia (`guardDeRutasEnEjecucion`) para evitar alertas y redirecciones redundantes durante el ciclo de vida de la página.
+
+---
 
 ## Estructura del Proyecto
 
@@ -46,64 +69,84 @@ src/
 │   │   ├── home/
 │   │   │   ├── home.html          ← Catálogo de productos
 │   │   │   └── home.ts            ← Lógica: render, búsqueda, filtros
-│   │   └── cart/
-│   │       ├── cart.html          ← Vista del carrito
-│   │       └── cart.ts            ← Lógica: render, cantidades, total
+│   │   ├── cart/
+│   │   │   ├── cart.html          ← Vista del carrito
+│   │   │   └── cart.ts            ← Lógica: render, cantidades, total
+│   │   └── productDetail/
+│   │       ├── productDetail.html ← Detalle de producto
+│   │       └── productDetail.ts   ← Lógica: visualización y controles
 │   ├── auth/
-│   │   ├── login/
-│   │   │   ├── login.html
-│   │   │   └── login.ts
-│   │   └── registro/
-│   │       ├── registro.html
-│   │       └── registro.ts
+│   │   └── login/
+│   │       ├── login.html
+│   │       └── login.ts
+│   ├── client/
+│   │   └── orders/
+│   │       ├── orders.html        ← Mis Pedidos (Historial cliente)
+│   │       └── orders.ts          ← Lógica: render y filtros cliente
 │   └── admin/
-│       └── home/
-│           ├── home.html
-│           └── home.ts
+│       ├── adminHome/
+│       │   ├── adminHome.html     ← Dashboard Admin
+│       │   └── adminHome.ts       ← Métricas e ingresos admin
+│       ├── categories/
+│       │   ├── categories.html    ← Gestión de Categorías
+│       │   └── categories.ts      ← Lógica: listado de categorías
+│       ├── products/
+│       │   ├── products.html      ← Gestión de Productos
+│       │   └── products.ts        ← Lógica: listado de productos
+│       └── orders/
+│           ├── orders.html        ← Gestión de Pedidos
+│           └── orders.ts          ← Lógica: listado y filtros admin
 ├── types/
 │   ├── product.ts                 ← Interfaces Product y CartItem
 │   ├── categoria.ts               ← Interface ICategoria
 │   ├── IUser.ts
-│   └── Rol.ts
+│   ├── Rol.ts
+│   ├── estados.ts
+│   ├── formaPago.ts
+│   ├── pedido.ts
+│   └── usuario.ts
 ├── data/
-│   └── data.ts                    ← PRODUCTS y categorias
+│   ├── usuarios.json              ← Datos de usuarios por defecto
+│   ├── categorias.json
+│   ├── productos.json
+│   └── pedidos.json
 ├── utils/
-│   ├── localStorage.ts            ← Gestión de persistencia
+│   ├── localStorage.ts            ← Persistencia
 │   ├── navigate.ts                ← Helper de navegación
-│   └── auth.ts
-├── main.ts                        ← Guard global de rutas
-├── style.css
-└── vite-env.d.ts
+│   ├── routes.ts                  ← Rutas y páginas válidas
+│   └── auth.ts                    ← Lógica de login, logout y guards
+├── main.ts                        ← Punto de entrada de la aplicación
+└── style.css                      ← Estilos generales del proyecto
 ```
+
+---
 
 ## Comportamiento de la Aplicación
 
-### Catálogo de Productos
-- Renderizado dinámico del listado de productos
-- Campo de búsqueda en tiempo real
-- Filtrado por categoría desde menú lateral
-- Botón para agregar productos al carrito
-- Indicador visual al agregar un producto
+### Catálogo de Productos (Cliente)
+- Renderizado dinámico del listado de productos.
+- Campo de búsqueda y ordenamiento de catálogo en tiempo real.
+- Filtrado por categoría desde menú lateral.
+- Botón para agregar productos al carrito y ver detalle.
 
 ### Carrito de Compras
-- Visualización de todos los productos agregados
-- Cantidad modifiable con botones +/-
-- Eliminación individual de productos
-- Cálculo automático del total
-- Botón para vaciar el carrito
-- Cantidad total de items del carrito visible en el header
+- Visualización de todos los productos agregados.
+- Cantidades modificables con botones `+/-`.
+- Eliminación de productos individuales.
+- Cálculo automático del total de compra.
+- Botón para vaciar el carrito y persistencia entre sesiones.
 
+### Panel de Administración (Admin)
+- Dashboard con estadísticas automáticas y resumen detallado de ingresos y estados de pedidos.
+- Navegación lateral consistente.
+- Tablas autogeneradas para consultar Productos, Categorías y Pedidos existentes.
 
-## Comportamiento de la Aplicación relacionado con ampliación del TP 4.
 ### Autenticación y Autorización
-- Login y registro de usuarios
-- Creación de usuario admin default.
-- Protección de rutas por rol (admin/client)
-- Guardias centralizadas en [src/main.ts](src/main.ts)
-- Corregido error en guardia centralizada al acceder a rutas no existentes.
-- Sesión persistida en localStorage de usuarios registrados y usuario logueado actualmente.
-- Logout que limpia sesión y filtros de búsqueda.
-- Descentralización de lógica por preparación para futuro agregado de backend.
+- Inicio de sesión validado contra datos locales persistentes.
+- Redirección automática de páginas según el rol del usuario actual.
+- Cierre de sesión que limpia el estado de filtros y limpia el almacenamiento del usuario actual.
+
+---
 
 ## Instalación y Ejecución
 
@@ -113,22 +156,22 @@ src/
 
 ### Pasos
 
-1. Instalar pnpm:
+1. Instalar pnpm (si no está instalado):
 
 ```bash
 npm install -g pnpm
 ```
 
-2. Clonar o descargar el proyecto ([Link al Repositorio](https://github.com/mauro-cuquejo-tupad/Cuquejo_Mauro_TP_TypeScript)) e instalar dependencias:
+2. Instalar dependencias:
 
 ```bash
 pnpm install
 ```
 
-3. Iniciar servidor de desarrollo:
+3. Iniciar el servidor de desarrollo:
 
 ```bash
 pnpm dev
 ```
 
-4. Abrir la URL (`http://localhost:5173`)
+4. Abrir la URL en el navegador (`http://localhost:5173`)
