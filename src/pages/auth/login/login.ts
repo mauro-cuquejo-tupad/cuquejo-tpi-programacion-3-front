@@ -2,6 +2,7 @@ import type { IUser } from "../../../types/IUser";
 import { guardRoutes } from "../../../utils/auth";
 import { getUsersByEmail, saveUser } from "../../../utils/localStorage";
 import { navigate } from "../../../utils/navigate";
+import { HOME_ADMIN, HOME_STORE } from "../../../utils/routes";
 
 const form = document.getElementById("form") as HTMLFormElement;
 const inputEmail = document.getElementById("email") as HTMLInputElement;
@@ -13,9 +14,9 @@ form.addEventListener("submit", (e: SubmitEvent) => {
   const valuePassword = inputPassword.value;
 
   if (!valueEmail || !valuePassword) {
-        alert("Por favor, complete todos los campos.");
-        return;
-    }
+    alert("Por favor, complete todos los campos.");
+    return;
+  }
 
   const usuarioBuscado: IUser | null = getUsersByEmail(valueEmail);
   if (!usuarioBuscado) {
@@ -30,9 +31,9 @@ form.addEventListener("submit", (e: SubmitEvent) => {
     saveUser(usuarioBuscado);
 
     if (usuarioBuscado.role === "ADMIN") {
-      navigate("/src/pages/admin/admin.html");
+      navigate(HOME_ADMIN);
     } else {
-      navigate("/src/pages/store/home/home.html");
+      navigate(HOME_STORE);
     }
   }
 });
