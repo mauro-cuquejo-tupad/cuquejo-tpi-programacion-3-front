@@ -4,7 +4,7 @@ import { guardRoutes } from "../../../utils/auth";
 import { addProductCart, deleteProductCart, getProductCart, removeAllProductsCart, removeProductCart } from "../../../utils/localStorage";
 import { navigate } from "../../../utils/navigate";
 import { agregarLogout, crearBoton } from "../../../utils/helpersDom";
-import { PRODUCT_DETAIL } from "../../../utils/routes";
+import { HOME_STORE, PRODUCT_DETAIL } from "../../../utils/routes";
 
 
 const contadorCarrito: HTMLAnchorElement | null = document.querySelector<HTMLAnchorElement>("#a-carrito");
@@ -26,7 +26,7 @@ const crearItemCarritoVacio = (): HTMLDivElement => {
   descripcionCarrito.textContent = "El carrito está vacío";
 
   const botonCarrito: HTMLButtonElement = crearBoton("btn-catalogo", null, "Ver catálogo");
-  botonCarrito.addEventListener("click", () => navigate("/src/pages/store/home/home.html"));
+  botonCarrito.addEventListener("click", () => navigate(HOME_STORE));
 
   itemCarrito.appendChild(iconoCarrito);
   itemCarrito.appendChild(descripcionCarrito);
