@@ -12,9 +12,9 @@
     <header>
         <h1>Food Store</h1>
         <div class="header-bar">
-            <nav>
+            <nav class="admin">
                 <ul>
-                    <li><a href="#" class="nav-link seleccionado" data-tab="tab-dashboard">Dashboard</a></li>
+                    <li><a href="#" class="nav-link seleccionado">Dashboard</a></li>
                     <li><a href="../products/products.html" class="nav-link">Productos</a></li>
                     <li><a href="../categories/categories.html" class="nav-link">Categorías</a></li>
                     <li><a href="../orders/orders.html" class="nav-link">Pedidos</a></li>
@@ -23,44 +23,77 @@
             <button id="logoutButton">Logout</button>
         </div>
     </header>
-
-    <hr>
-    <h1>Dashboard</h1>
-    <main class="admin-main">
-        <div id="tab-dashboard" class="admin-tab-content">
-            <div class="admin-dashboard-header">
-
-                <button class="btn-accion" onclick="window.location.href = '../products/products.html'">Gestionar
-                    Productos</button>
+    <section class="admin-layout">
+        <aside class="aside-admin">
+            <div class="aside-admin-header">
+                <h1>Administracion</h1>
+                <h2>Panel de control</h2>
             </div>
-            <section class="dashboard-cards">
-                <div class="card">
-                    <h3>Total Categorias</h3>
-                    <p id="total-categorias">0</p>
-                    <input id="gestionar-Categorias" type="button" class="btn-accion" value="Gestionar">
-                </div>
-                <div class="card">
-                    <h3>Total Productos</h3>
-                    <p id="total-productos">0</p>
-                    <input id="gestionar-productos" type="button" class="btn-accion" value="Gestionar">
-                </div>
-                <div class="card">
-                    <h3>Total Pedidos</h3>
-                    <p id="total-pedidos">0</p>
-                    <input id="gestionar-pedidos" type="button" class="btn-accion" value="Gestionar">
-                </div>
-                <div class="card">
-                    <h3>Productos Activos</h3>
-                    <p id="productos-activos">0</p>
-                </div>
-            </section>
+            <div class="aside-admin-nav">
+                <ul>
+                    <li><a href="#" class="nav-link seleccionado">📊 Dashboard</a></li>
+                    <li><a href="../categories/categories.html" class="nav-link">📁 Categorías</a></li>
+                    <li><a href="../products/products.html" class="nav-link">🍔 Productos</a></li>
+                    <li><a href="../orders/orders.html" class="nav-link">📦 Pedidos</a></li>
+                </ul>
+            </div>
+        </aside>
 
+        <main class="main-admin">
+            <h1>Dashboard</h1>
+            <div class="metricas-container">
+                <section class="contenedor-metricas">
+                    <div class="metrica-articulo">
+                        <h3>Total Categorias</h3>
+                        <p id="total-categorias" class="totalizador">0</p>
+                        <button id="gestionar-categorias" class="btn-catalogo">Gestionar</button>
+                    </div>
+                    <div class="metrica-articulo">
+                        <h3>Total Productos</h3>
+                        <p id="total-productos" class="totalizador">0</p>
+                        <button id="gestionar-productos" class="btn-catalogo">Gestionar</button>
+                    </div>
+                    <div class="metrica-articulo">
+                        <h3>Total Pedidos</h3>
+                        <p id="total-pedidos" class="totalizador">0</p>
+                        <button id="gestionar-pedidos" class="btn-catalogo">Gestionar</button>
+                    </div>
+                    <div class="metrica-articulo">
+                        <h3>Productos Activos</h3>
+                        <p id="productos-activos" class="totalizador">0</p>
+                    </div>
+                </section>
 
+                <section class="contenedor-resumen">
+                    <h2>Resumen Rapido</h2>
+                    <div class="metricas-resumen">
+                        <div class="metrica-articulo">
+                            <h3>Ingresos Totales</h3>
+                            <p id="ingresos-totales" class="totalizador">0</p>
+                        </div>
+                        <div class="metrica-articulo">
+                            <h3>Pedidos Pendientes</h3>
+                            <p id="total-pedidos-pendientes" class="totalizador">0</p>
+                        </div>
+                        <div class="metrica-articulo">
+                            <h3>En Preparacion</h3>
+                            <p id="total-en-preparacion" class="totalizador">0</p>
+                        </div>
+                        <div class="metrica-articulo">
+                            <h3>Completados</h3>
+                            <p id="total-completados" class="totalizador">0</p>
+                        </div>
+                    </div>
 
-            <footer>
-                <p>&copy; 2026 Food Store - Todos los derechos reservados</p>
-            </footer>
-            <script type="module" src="./adminHome.ts"></script>
+                </section>
+            </div>
+        </main>
+    </section>
+    <footer>
+        <p>&copy; 2026 Food Store - Todos los derechos reservados</p>
+        <p>Contacto: <a href="mailto:info@foodstore.com">info@foodstore.com</a></p>
+    </footer>
+    <script type="module" src="./adminHome.ts"></script>
 </body>
 
 </html>
