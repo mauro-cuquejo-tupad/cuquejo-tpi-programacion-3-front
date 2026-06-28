@@ -1,13 +1,14 @@
 
 import type { IUser } from "../types/IUser";
-import { getUSer, removeStoreFilters, removeUser } from "./localStorage";
+import { getUsuarios } from "./fetch";
+import { getUSer, getUsersByEmail, removeStoreFilters, removeUser, saveUsers } from "./localStorage";
 import { navigate } from "./navigate";
-import { VALID_PAGES, VALID_ADMIN_PAGES, VALID_USER_PAGES, HOME_STORE, LOGIN_PAGE, REGISTRO_PAGE, HOME_ADMIN } from "./routes"
+import { VALID_ADMIN_PAGES, VALID_USER_PAGES, HOME_STORE, LOGIN_PAGE, HOME_ADMIN, VALID_PAGES } from "./routes"
 
 export const logout = () => {
     removeStoreFilters();
     removeUser();
-    navigate("/src/pages/auth/login/login.html");
+    navigate(LOGIN_PAGE);
 };
 
 export const guardRoutes = () => {
@@ -16,7 +17,6 @@ export const guardRoutes = () => {
 
     if (!usuario) {
         if (!VALID_PAGES.has(pagina)) {
-            alert("No hay un usuario logueado. Será redirigido a la página de login");
             navigate(LOGIN_PAGE);
         }
         return;
@@ -26,7 +26,6 @@ export const guardRoutes = () => {
         let usuarioParseado: IUser = JSON.parse(usuario);
 
         if (!usuarioParseado.loggedIn) {
-            alert("No hay un usuario logueado. Será redirigido a la página de login");
             navigate(LOGIN_PAGE);
             return;
         }
@@ -54,9 +53,24 @@ export const guardRoutes = () => {
 }
 
 const alertaRedireccion = (pagina: string): void => {
-    pagina === LOGIN_PAGE || pagina === REGISTRO_PAGE ?
+    pagina === LOGIN_PAGE ?
         alert("Usuario ya se encuentra logueado") :
         alert("Ingreso no autorizado. Será redirigido al home");
 }
 
+export const inicializarUsuarios = () => {
+    getUsuarios.forEach((usuario) => {
+        const iusuario: IUser = {
+            email: usuario.mail,
+            password: usuario.password,
+            loggedIn: false,
+            role: usuario.rol,
+        }
+        if (getUsersByEmail(usuario.mail) == null) {
+            saveUsers(iusuario);
+        }
+    })
+};
+
 guardRoutes();
+inicializarUsuarios();
