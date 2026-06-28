@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Admin</title>
+    <link rel="stylesheet" href="../../../style.css">
+</head>
+
+<body>
+    <header>
+        <h1>Food Store</h1>
+        <div class="header-bar">
+            <nav class="admin">
+                <ul>
+                    <li><a href="../adminHome/adminHome.html" class="nav-link">Dashboard</a></li>
+                    <li><a href="../products/products.html" class="nav-link">Productos</a></li>
+                    <li><a href="../categories/categories.html" class="nav-link">Categorías</a></li>
+                    <li><a href="#" class="nav-link seleccionado">Pedidos</a></li>
+                </ul>
+            </nav>
+            <button id="logoutButton">Logout</button>
+        </div>
+    </header>
+    <section class="admin-layout">
+        <aside class="aside-admin">
+            <div class="aside-admin-header">
+                <h1>Administracion</h1>
+                <h2>Panel de control</h2>
+            </div>
+            <div class="aside-admin-nav">
+                <ul>
+                    <li><a href="../adminHome/adminHome.html" class="nav-link">📊 Dashboard</a></li>
+                    <li><a href="../categories/categories.html" class="nav-link">📁 Categorías</a></li>
+                    <li><a href="../products/products.html" class="nav-link">🍔 Productos</a></li>
+                    <li><a href="#" class="nav-link seleccionado">📦 Pedidos</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <main class="main-admin">
+            <h1>Gestion de Pedidos</h1>
+            <section id="gestion-pedidos" class="gestion-pedidos-admin">
+                <div id="encabezado-pedidos">
+                    <h2>Gestion de Pedidos</h2>
+                    <select name="estados-pedidos" id="estados-pedidos">
+
+                    </select>
+
+                </div>
+                <section id="contenedor-pedidos-admin">
+
+                </section>
+
+            </section>
+        </main>
+    </section>
+    <footer>
+        <p>&copy; 2026 Food Store - Todos los derechos reservados</p>
+        <p>Contacto: <a href="mailto:info@foodstore.com">info@foodstore.com</a></p>
+    </footer>
+    <script type="module" src="./orders.ts"></script>
+</body>
+
+</html>
