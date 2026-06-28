@@ -481,7 +481,7 @@ article button {
     color: var(--color-blanco);
 }
 
-.btn-carrito {
+.nav-link {
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -595,106 +595,6 @@ article img {
     flex: 1;
     flex-direction: column;
     align-items: center;
-}
-
-.admin-table {
-    margin: 3rem;
-    font-size: 1.3rem;
-    border-collapse: collapse;
-
-    width: 100%;
-}
-
-.admin-table th,
-.admin-table td {
-    border: 1px solid var(--color-borde);
-    padding: 0.75rem;
-    text-align: left;
-}
-
-.admin-table td {
-    text-transform: lowercase;
-}
-
-
-@media (max-width: 900px) {
-    .store-layout {
-        flex-direction: column;
-        padding: 0;
-    }
-
-    .buscar-productos {
-        margin: 2rem 0 0 0;
-    }
-
-
-    #productos-destacados {
-        margin: 0 1rem 0 -1rem;
-    }
-
-    .store-layout aside {
-        flex: 1;
-        margin: -2rem -2rem 0 -2rem;
-        position: sticky;
-        top: 13rem;
-        min-width: 350px;
-        z-index: 1000;
-        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
-    }
-
-    header {
-        box-shadow: none;
-        border-bottom: 1px solid var(--color-borde);
-    }
-
-    .header-bar {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-between;
-        gap: 1rem;
-        z-index: 1000;
-    }
-
-    .producto-articulo {
-        width: 100%;
-    }
-
-    .producto-articulo-detalle {
-        display: flex;
-        background-color: var(--color-blanco-focus);
-        flex-direction: column;
-    }
-
-    .carrito {
-        flex-direction: column-reverse;
-        padding: 0;
-    }
-
-    .total-carrito {
-        flex: 1;
-        position: sticky;
-        top: 13rem;
-        border-radius: 0;
-        min-width: 350px;
-        width: 100%;
-        margin: 0;
-    }
-
-    .carrito-articulo {
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        margin: 2rem;
-        padding: 2rem;
-        max-width: fit-content;
-    }
-
-    .carrito-articulo img {
-        width: 100%;
-        height: auto;
-    }
 }
 
 .mis-pedidos {
@@ -849,9 +749,109 @@ article img {
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
 }
 
-@media (max-width: 600px) {
-    .mis-pedidos #encabezado-pedidos {
+.admin-table {
+    margin: 3rem;
+    font-size: 1.3rem;
+    border-collapse: collapse;
+
+    width: 100%;
+}
+
+.admin-table th,
+.admin-table td {
+    border: 1px solid var(--color-borde);
+    padding: 0.75rem;
+    text-align: left;
+}
+
+.admin-table td {
+    text-transform: lowercase;
+}
+
+
+@media (max-width: 900px) {
+    .store-layout {
         flex-direction: column;
+        padding: 0;
+    }
+
+    .buscar-productos {
+        margin: 2rem 0 0 0;
+    }
+
+
+    #productos-destacados {
+        margin: 0 1rem 0 -1rem;
+    }
+
+    .store-layout aside {
+        flex: 1;
+        margin: -2rem -2rem 0 -2rem;
+        position: sticky;
+        top: 13rem;
+        min-width: 350px;
+        z-index: 1000;
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+    }
+
+    header {
+        box-shadow: none;
+        border-bottom: 1px solid var(--color-borde);
+    }
+
+    .header-bar {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        z-index: 1000;
+    }
+
+    .producto-articulo {
+        width: 100%;
+    }
+
+    .producto-articulo-detalle {
+        display: flex;
+        background-color: var(--color-blanco-focus);
+        flex-direction: column;
+    }
+
+    .carrito {
+        flex-direction: column-reverse;
+        padding: 0;
+    }
+
+    .total-carrito {
+        flex: 1;
+        position: sticky;
+        top: 13rem;
+        border-radius: 0;
+        min-width: 350px;
+        width: 100%;
+        margin: 0;
+    }
+
+    .carrito-articulo {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin: 2rem;
+        padding: 2rem;
+        max-width: fit-content;
+    }
+
+    .carrito-articulo img {
+        width: 100%;
+        height: auto;
+    }
+
+    .mis-pedidos #encabezado-pedidos {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1rem;
         align-items: stretch;
     }
 
