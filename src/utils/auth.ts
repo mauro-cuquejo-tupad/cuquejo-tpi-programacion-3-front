@@ -3,7 +3,7 @@ import type { IUser } from "../types/IUser";
 import { getUsuarios } from "./fetch";
 import { getUSer, getUsersByEmail, removeStoreFilters, removeUser, saveUsers } from "./localStorage";
 import { navigate } from "./navigate";
-import { VALID_ADMIN_PAGES, VALID_USER_PAGES, HOME_STORE, LOGIN_PAGE, HOME_ADMIN, VALID_PAGES } from "./routes"
+import { VALID_ADMIN_PAGES, VALID_USER_PAGES, HOME_STORE, LOGIN_PAGE, HOME_ADMIN, VALID_PAGES, ROOT_PAGE } from "./routes"
 
 export const logout = () => {
     removeStoreFilters();
@@ -30,17 +30,20 @@ export const guardRoutes = () => {
             return;
         }
 
-        if (usuarioParseado.role === "USUARIO" && !VALID_USER_PAGES.has(pagina)) {
-            alertaRedireccion(pagina);
-
-            navigate(HOME_STORE);
-            return;
+        if (usuarioParseado.role === "USUARIO") {
+            if (!VALID_USER_PAGES.has(pagina)) {
+                alertaRedireccion(pagina);
+                navigate(HOME_STORE);
+                return;
+            }
         }
 
-        if (usuarioParseado.role === "ADMIN" && !VALID_ADMIN_PAGES.has(pagina)) {
-            alertaRedireccion(pagina);
-            navigate(HOME_ADMIN);
-            return;
+        if (usuarioParseado.role === "ADMIN") {
+            if (!VALID_ADMIN_PAGES.has(pagina)) {
+                alertaRedireccion(pagina);
+                navigate(HOME_ADMIN);
+                return;
+            }
         }
     } catch (error) {
         if (error instanceof Error) {

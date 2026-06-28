@@ -10,7 +10,7 @@ export const PRODUCT_DETAIL = "/src/pages/store/productDetail/productDetail.html
 export const ROOT_PAGE = "/";
 export const INDEX_PAGE = "/index.html";
 
-export const VALID_PAGES = new Set<String>([
+export const VALID_PAGES = new Set<string>([
     LOGIN_PAGE
 ]);
 export const VALID_USER_PAGES = new Set<string>([
