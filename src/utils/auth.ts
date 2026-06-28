@@ -11,7 +11,13 @@ export const logout = () => {
     navigate(LOGIN_PAGE);
 };
 
+// para evitar que se ejecute multiple veces por asincronía
+let guardDeRutasEnEjecucion = false;
+
 export const guardRoutes = () => {
+    if (guardDeRutasEnEjecucion) return;
+    guardDeRutasEnEjecucion = true;
+
     const usuario: string | null = getUSer();
     const pagina: string = window.location.pathname;
 
