@@ -318,6 +318,30 @@ article button {
     padding: 1.5rem;
 }
 
+.carrito-articulos-lista {
+    flex: 1;
+}
+
+.carrito-articulo {
+    width: 100%;
+}
+
+.carrito-articulo>div:first-child {
+    width: 150px;
+    flex-shrink: 0;
+}
+
+.contenedor-datos-producto {
+    flex: 1;
+    align-items: flex-start;
+    padding-left: 2rem;
+}
+
+.modificar-cantidad {
+    width: 200px;
+    flex-shrink: 0;
+}
+
 
 .carrito-articulo {
     display: flex;

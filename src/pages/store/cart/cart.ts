@@ -130,6 +130,7 @@ const crearItemCarrito = (item: CartItem): HTMLDivElement => {
 
 const crearDatosItemsCarrito = (carritoCompras: CartItem[]): HTMLDivElement => {
   let datosItemsCarrito: HTMLDivElement = document.createElement("div");
+  datosItemsCarrito.classList.add("carrito-articulos-lista");
   carritoCompras.forEach((item: CartItem) => datosItemsCarrito.appendChild(crearItemCarrito(item)));
   return datosItemsCarrito;
 };
