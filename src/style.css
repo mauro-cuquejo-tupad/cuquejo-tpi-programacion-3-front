@@ -851,6 +851,39 @@ article img {
     font-variant: small-caps;
     font-size: 2rem;
     font-weight: bold;
+    padding: 1rem;
+}
+
+.table-categorias {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 1rem 0;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+}
+
+.table-categorias th,
+.table-categorias td {
+    padding: 0.8rem;
+    border: 1px solid var(--color-borde);
+    text-align: left;
+}
+
+.table-categorias th {
+    background-color: var(--color-primario);
+    color: white;
+    font-weight: bold;
+}
+
+.table-categorias tr {
+    background-color: var(--color-blanco-focus);
+}
+
+.table-categorias tr:hover {
+    background-color: var(--color-gris-claro);
+    transform: scale(1.05);
+    transition: all 0.3s ease-in-out;
 }
 
 
