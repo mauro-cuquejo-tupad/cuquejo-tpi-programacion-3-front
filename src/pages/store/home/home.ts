@@ -13,6 +13,8 @@ const listaCategorias: HTMLUListElement | null = document.querySelector<HTMLULis
 const contenedorProductos: HTMLElement | null = document.querySelector<HTMLElement>("#contenedor-productos");
 const inputBuscarProductos: HTMLInputElement | null = document.querySelector<HTMLInputElement>("#txt_buscar_productos");
 const selectOrdenar: HTMLSelectElement | null = document.querySelector<HTMLSelectElement>("#select-ordenar");
+const btnToggleCategorias: HTMLButtonElement | null = document.querySelector<HTMLButtonElement>("#btn-toggle-categorias");
+const asideCategorias: HTMLElement | null = document.querySelector<HTMLElement>(".store-layout aside");
 
 let categoriaSeleccionada: string = "";
 
@@ -201,6 +203,10 @@ inputBuscarProductos?.addEventListener("input", () => {
 
 selectOrdenar?.addEventListener("change", () => {
   filtrarYRenderizar();
-})
+});
+
+btnToggleCategorias?.addEventListener("click", () => {
+  asideCategorias?.classList.toggle("hidden");
+});
 
 guardRoutes();

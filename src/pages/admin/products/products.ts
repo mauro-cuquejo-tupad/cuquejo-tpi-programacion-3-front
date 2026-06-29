@@ -4,6 +4,8 @@ import { getProductos } from "../../../utils/fetch";
 import type { Product } from "../../../types/product";
 
 const tbodyProductos = document.querySelector<HTMLTableSectionElement>("#tabla-crud-productos");
+const btnToggleAdmin: HTMLButtonElement | null = document.querySelector<HTMLButtonElement>("#btn-toggle-admin");
+const asideAdmin: HTMLElement | null = document.querySelector<HTMLElement>(".admin-layout aside");
 
 const renderizarTablaProductos = (): void => {
     if (!tbodyProductos) return;
@@ -17,10 +19,9 @@ const renderizarTablaProductos = (): void => {
         const imagen: HTMLImageElement = document.createElement("img");
         imagen.src = prod.imagen;
         imagen.alt = prod.nombre;
-        imagen.style.width = "50px";
-        imagen.style.height = "50px";
-        imagen.style.objectFit = "cover";
-        imagen.style.borderRadius = "4px";
+
+        const tdImagen: HTMLTableCellElement = document.createElement("td");
+        tdImagen.appendChild(imagen);
 
         const nombre: HTMLTableCellElement = document.createElement("td");
         nombre.textContent = prod.nombre;
@@ -40,7 +41,7 @@ const renderizarTablaProductos = (): void => {
         const estado: HTMLTableCellElement = document.createElement("td");
         estado.textContent = prod.disponible ? "Disponible" : "No Disponible";
 
-        fila.appendChild(imagen);
+        fila.appendChild(tdImagen);
         fila.appendChild(nombre);
         fila.appendChild(descripcion);
         fila.appendChild(categoria);
@@ -53,6 +54,10 @@ const renderizarTablaProductos = (): void => {
 
 
 };
+
+btnToggleAdmin?.addEventListener("click", () => {
+    asideAdmin?.classList.toggle("hidden");
+});
 
 agregarLogout();
 guardRoutes();

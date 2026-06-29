@@ -5,6 +5,8 @@ import type { ICategoria } from "../../../types/categoria";
 
 
 const tbodyCategorias = document.querySelector<HTMLTableSectionElement>("#tabla-crud-categorias");
+const btnToggleAdmin: HTMLButtonElement | null = document.querySelector<HTMLButtonElement>("#btn-toggle-admin");
+const asideAdmin: HTMLElement | null = document.querySelector<HTMLElement>(".admin-layout aside");
 
 const renderizarTablaCategorias = (): void => {
     if (!tbodyCategorias) return;
@@ -31,6 +33,10 @@ const renderizarTablaCategorias = (): void => {
     });
 
 };
+
+btnToggleAdmin?.addEventListener("click", () => {
+    asideAdmin?.classList.toggle("hidden");
+});
 
 agregarLogout();
 guardRoutes();

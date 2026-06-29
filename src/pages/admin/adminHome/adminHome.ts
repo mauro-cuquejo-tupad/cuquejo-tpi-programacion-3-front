@@ -7,6 +7,8 @@ import { ADMIN_CATEGORIES, ADMIN_ORDERS, ADMIN_PRODUCTS } from "../../../utils/r
 const botonGestionarCategorias: HTMLButtonElement | null = document.querySelector<HTMLButtonElement>("#gestionar-categorias");
 const botonGestionarProductos: HTMLButtonElement | null = document.querySelector<HTMLButtonElement>("#gestionar-productos");
 const botonGestionarPedidos: HTMLButtonElement | null = document.querySelector<HTMLButtonElement>("#gestionar-pedidos");
+const btnToggleAdmin: HTMLButtonElement | null = document.querySelector<HTMLButtonElement>("#btn-toggle-admin");
+const asideAdmin: HTMLElement | null = document.querySelector<HTMLElement>(".admin-layout aside");
 
 const totalCategorias: HTMLParagraphElement | null = document.querySelector<HTMLParagraphElement>("#total-categorias");
 const totalProductos: HTMLParagraphElement | null = document.querySelector<HTMLParagraphElement>("#total-productos");
@@ -63,6 +65,10 @@ const calcularCompletados = (): void => {
 botonGestionarCategorias?.addEventListener("click", () => navigate(ADMIN_CATEGORIES));
 botonGestionarPedidos?.addEventListener("click", () => navigate(ADMIN_ORDERS));
 botonGestionarProductos?.addEventListener("click", () => navigate(ADMIN_PRODUCTS));
+
+btnToggleAdmin?.addEventListener("click", () => {
+    asideAdmin?.classList.toggle("hidden");
+});
 
 
 agregarLogout();
