@@ -1043,8 +1043,8 @@ article img {
     .store-layout aside {
         flex: 1;
         margin: -2rem -2rem 0 -2rem;
-        position: sticky;
-        top: 13rem;
+        position: fixed;
+        width: stretch;
         min-width: 350px;
         z-index: 1000;
         box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
