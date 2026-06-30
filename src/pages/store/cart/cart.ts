@@ -1,6 +1,7 @@
 import type { CartItem, Product } from "../../../types/product";
 import { guardRoutes } from "../../../utils/auth";
-import { addProductCart, deleteProductCart, getProductCart, removeAllProductsCart, removeProductCart, getProductos } from "../../../utils/localStorage";
+import { addProductCart, deleteProductCart, getProductCart, removeAllProductsCart, removeProductCart } from "../../../utils/localStorage";
+import { getProductos } from "../../../utils/fetch";
 import { navigate } from "../../../utils/navigate";
 import { agregarLogout, crearBoton } from "../../../utils/helpersDom";
 import { HOME_STORE, PRODUCT_DETAIL } from "../../../utils/routes";

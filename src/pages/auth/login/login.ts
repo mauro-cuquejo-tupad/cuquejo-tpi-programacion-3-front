@@ -1,6 +1,7 @@
 import type { IUser } from "../../../types/IUser";
 import { guardRoutes } from "../../../utils/auth";
-import { getUsersByEmail, saveUser } from "../../../utils/localStorage";
+import { saveUser } from "../../../utils/localStorage";
+import { getUsuarioByEmail } from "../../../utils/fetch";
 import { navigate } from "../../../utils/navigate";
 import { HOME_ADMIN, HOME_STORE } from "../../../utils/routes";
 
@@ -18,7 +19,7 @@ form.addEventListener("submit", (e: SubmitEvent) => {
     return;
   }
 
-  const usuarioBuscado: IUser | null = getUsersByEmail(valueEmail);
+  const usuarioBuscado: IUser | null = getUsuarioByEmail(valueEmail);
   if (!usuarioBuscado) {
     alert("Usuario no encontrado");
     return;

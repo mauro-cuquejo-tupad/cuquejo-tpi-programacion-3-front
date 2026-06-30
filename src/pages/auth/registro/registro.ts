@@ -1,6 +1,7 @@
 import type { IUser } from "../../../types/IUser";
 import { navigate } from "../../../utils/navigate";
-import { getUsersByEmail, saveUsers, saveUser } from "../../../utils/localStorage";
+import { saveUser } from "../../../utils/localStorage";
+import { getUsuarioByEmail, crearUsuario } from "../../../utils/fetch";
 import { HOME_STORE } from "../../../utils/routes";
 
 const form = document.getElementById("form") as HTMLFormElement;
@@ -32,7 +33,7 @@ form.addEventListener("submit", (e: SubmitEvent) => {
         return;
     }
 
-    if (getUsersByEmail(valueEmail)) {
+    if (getUsuarioByEmail(valueEmail)) {
         alert("El usuario ya existe. Por favor, inicie sesión.");
         return;
     }
@@ -45,7 +46,7 @@ form.addEventListener("submit", (e: SubmitEvent) => {
     };
 
     // Guardar en la lista global de usuarios
-    saveUsers(user);
+    crearUsuario(user);
 
     // Auto-login
     user.loggedIn = true;

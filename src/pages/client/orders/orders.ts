@@ -4,12 +4,13 @@ import { agregarLogout } from "../../../utils/helpersDom";
 import { actualizarContadorCarrito } from "../../store/cart/cart";
 import type { Pedido } from "../../../types/pedido";
 import type { IUser } from "../../../types/IUser";
-import { getUSer, getPedidos, getPedidosByUsuario } from "../../../utils/localStorage";
+import { getUSer } from "../../../utils/localStorage";
+import { getPedidos, getPedidosByUsuario } from "../../../utils/fetch";
 
 let contenedorPedidos: HTMLElement | null = document.querySelector<HTMLElement>("#contenedor-pedidos");
 let selectPedidos: HTMLElement | null = document.querySelector<HTMLElement>("#estados-pedidos");
 
-const estadosUnicos = ["TODOS", ...new Set(getPedidos().map(p => p.estado))];
+const estadosUnicos: string[] = ["TODOS", ...new Set(getPedidos().map((p: Pedido) => p.estado))];
 
 const formatearEstados = (estado: string): string => {
     return estado.replaceAll("_", " ").toLowerCase().replace(/^[a-z]/, (letra) => letra.toUpperCase());
@@ -19,7 +20,7 @@ const cargarOpcionesPedidos = (): void => {
     if (!selectPedidos) return;
 
     selectPedidos.innerHTML = "";
-    estadosUnicos.forEach(estado => {
+    estadosUnicos.forEach((estado: string) => {
         const option = document.createElement("option");
         option.value = estado;
         option.textContent = formatearEstados(estado);
@@ -39,7 +40,7 @@ const renderizarPedidos = (estadoFiltro: string = "TODOS"): void => {
     const pedidosDeUsuario = getPedidosByUsuario(usuario.email);
     const pedidosFiltrados = estadoFiltro === "TODOS"
         ? pedidosDeUsuario
-        : pedidosDeUsuario.filter(p => p.estado.toUpperCase() === estadoFiltro);
+        : pedidosDeUsuario.filter((p: Pedido) => p.estado.toUpperCase() === estadoFiltro);
 
     if (pedidosFiltrados.length == 0) {
         contenedorPedidos.innerHTML = "";

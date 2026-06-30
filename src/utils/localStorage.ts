@@ -1,16 +1,11 @@
 import type { FiltrosBusqueda } from "../types/filtros";
 import type { IUser } from "../types/IUser";
 import type { CartItem, Product } from "../types/product";
-import type { ICategoria } from "../types/categoria";
-import type { Pedido } from "../types/pedido";
-
 
 const USER_DATA_KEY: string = "userData";
 const STORE_FILTERS_KEY: string = "store_filters";
-const USERS_KEY: string = "users";
 
-
-// datos de usuario actual
+// --- Datos de usuario actual (Sesión) ---
 export const getUSer = () => {
   return localStorage.getItem(USER_DATA_KEY);
 };
@@ -24,8 +19,7 @@ export const removeUser = () => {
   localStorage.removeItem(USER_DATA_KEY);
 };
 
-
-// datos de filtros de busqueda en home store
+// --- Filtros de búsqueda en home store ---
 export const getStoreFilters = (): FiltrosBusqueda | null => {
   const filtersData = localStorage.getItem(STORE_FILTERS_KEY);
   if (!filtersData) return null;
@@ -41,44 +35,21 @@ export const saveStoreFilters = (filters: FiltrosBusqueda) => {
   localStorage.setItem(STORE_FILTERS_KEY, JSON.stringify(filters));
 };
 
-
 export const removeStoreFilters = () => {
   localStorage.removeItem(STORE_FILTERS_KEY);
 };
 
-
-
-//datos de usuarios registrados
-export const getUsers = () => {
-  return localStorage.getItem(USERS_KEY);
+// --- Driver Abstracto Genérico de LocalStorage ---
+export const getJsonData = <T>(key: string): T[] => {
+  const data = localStorage.getItem(key);
+  return data ? JSON.parse(data) : [];
 };
 
-export const getUsersByEmail = (email: string): IUser | null => {
-  const usersData = getUsers();
-  if (usersData) {
-    const usersArray: IUser[] = JSON.parse(usersData);
-    return usersArray.find(user => user.email === email) || null;
-  }
-  return null;
+export const saveJsonData = <T>(key: string, data: T[]) => {
+  localStorage.setItem(key, JSON.stringify(data));
 };
 
-export const saveUsers = (user: IUser) => {
-  try {
-    const usuariosGuardados = getUsers();
-    const usuarios: IUser[] = usuariosGuardados ? JSON.parse(usuariosGuardados) : [];
-    usuarios.push(user);
-    localStorage.setItem(USERS_KEY, JSON.stringify(usuarios));
-  } catch {
-    localStorage.setItem(USERS_KEY, JSON.stringify([user]));
-  }
-};
-
-export const removeUsers = () => {
-  localStorage.removeItem(USERS_KEY);
-};
-
-
-// datos de carrito de compras
+// --- Gestión de Carrito de Compras ---
 const getCartKey = (): string => {
   const userEmail = getUSer();
   if (!userEmail) {
@@ -147,58 +118,10 @@ export const removeProductCart = (product: Product): void => {
     } else {
       localStorage.removeItem(getCartKey());
     }
-
   } catch {
     console.error("error al remover producto");
     localStorage.removeItem(getCartKey());
   }
-};
-
-const CATEGORIAS_KEY = "categorias";
-const PRODUCTOS_KEY = "productos";
-const PEDIDOS_KEY = "pedidos";
-
-// Categorías (Servicio)
-export const getCategorias = (): ICategoria[] => {
-  const data = localStorage.getItem(CATEGORIAS_KEY);
-  return data ? JSON.parse(data) : [];
-};
-
-export const saveCategorias = (categorias: ICategoria[]) => {
-  localStorage.setItem(CATEGORIAS_KEY, JSON.stringify(categorias));
-};
-
-// Productos (Servicio)
-export const getProductos = (): Product[] => {
-  const data = localStorage.getItem(PRODUCTOS_KEY);
-  return data ? JSON.parse(data) : [];
-};
-
-export const saveProductos = (productos: Product[]) => {
-  localStorage.setItem(PRODUCTOS_KEY, JSON.stringify(productos));
-};
-
-// Pedidos (Servicio)
-export const getPedidos = (): Pedido[] => {
-  const data = localStorage.getItem(PEDIDOS_KEY);
-  return data ? JSON.parse(data) : [];
-};
-
-export const savePedidos = (pedidos: Pedido[]) => {
-  localStorage.setItem(PEDIDOS_KEY, JSON.stringify(pedidos));
-};
-
-// Métodos específicos (Servicios filtrados)
-export const getPedidosByUsuario = (email: string): Pedido[] => {
-  return getPedidos().filter(p => p.usuarioDto.mail === email);
-};
-
-export const getPedidosByEstado = (estado: string): Pedido[] => {
-  const estadoUpper = estado.toUpperCase();
-  if (estadoUpper === "TODOS") {
-    return getPedidos();
-  }
-  return getPedidos().filter(p => p.estado.toUpperCase() === estadoUpper);
 };
 
 export const removeAllProductsCart = (product: Product): void => {
@@ -216,7 +139,6 @@ export const removeAllProductsCart = (product: Product): void => {
     } else {
       localStorage.removeItem(getCartKey());
     }
-
   } catch {
     console.error("error al remover producto");
     localStorage.removeItem(getCartKey());

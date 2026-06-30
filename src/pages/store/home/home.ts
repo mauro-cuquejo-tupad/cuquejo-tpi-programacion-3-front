@@ -2,7 +2,8 @@ import type { ICategoria } from "../../../types/categoria";
 import type { FiltrosBusqueda } from "../../../types/filtros";
 import type { Product } from "../../../types/product";
 import { guardRoutes } from "../../../utils/auth";
-import { getStoreFilters, saveStoreFilters, getCategorias, getProductos } from "../../../utils/localStorage";
+import { getStoreFilters, saveStoreFilters } from "../../../utils/localStorage";
+import { getCategorias, getProductos } from "../../../utils/fetch";
 import { actualizarContadorCarrito } from "../cart/cart";
 import { navigate } from "../../../utils/navigate";
 import { PRODUCT_DETAIL } from "../../../utils/routes";
@@ -154,11 +155,11 @@ const filtrarYRenderizar = (): void => {
 
   const criterioOrden = selectOrdenar?.value || "defecto";
   if (criterioOrden === "precio-asc") {
-    resultados.sort((a, b) => a.precio - b.precio);
+    resultados.sort((a: Product, b: Product) => a.precio - b.precio);
   } else if (criterioOrden === "precio-desc") {
-    resultados.sort((a, b) => b.precio - a.precio);
+    resultados.sort((a: Product, b: Product) => b.precio - a.precio);
   } else if (criterioOrden === "alfa-asc") {
-    resultados.sort((a, b) => a.nombre.localeCompare(b.nombre));
+    resultados.sort((a: Product, b: Product) => a.nombre.localeCompare(b.nombre));
   }
 
   cargarProductos(resultados);

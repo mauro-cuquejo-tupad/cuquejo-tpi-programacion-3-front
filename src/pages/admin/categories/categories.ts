@@ -1,6 +1,6 @@
 import { guardRoutes } from "../../../utils/auth";
 import { agregarLogout } from "../../../utils/helpersDom";
-import { getCategorias } from "../../../utils/localStorage";
+import { getCategorias } from "../../../utils/fetch";
 import type { ICategoria } from "../../../types/categoria";
 
 

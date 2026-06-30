@@ -1,6 +1,6 @@
 import type { Pedido } from "../../../types/pedido";
 import { guardRoutes } from "../../../utils/auth";
-import { getPedidos, getPedidosByEstado } from "../../../utils/localStorage";
+import { getPedidos, getPedidosByEstado } from "../../../utils/fetch";
 import { agregarLogout } from "../../../utils/helpersDom";
 
 let contenedorPedidos: HTMLElement | null = document.querySelector<HTMLElement>("#contenedor-pedidos-admin");
@@ -8,7 +8,7 @@ let selectPedidos: HTMLElement | null = document.querySelector<HTMLElement>("#es
 const btnToggleAdmin: HTMLButtonElement | null = document.querySelector<HTMLButtonElement>("#btn-toggle-admin");
 const asideAdmin: HTMLElement | null = document.querySelector<HTMLElement>(".admin-layout aside");
 
-const estadosUnicos = ["TODOS", ...new Set(getPedidos().map(p => p.estado))];
+const estadosUnicos: string[] = ["TODOS", ...new Set(getPedidos().map((p: Pedido) => p.estado))];
 
 const formatearEstados = (estado: string): string => {
     return estado.replaceAll("_", " ").toLowerCase().replace(/^[a-z]/, (letra) => letra.toUpperCase());
@@ -17,7 +17,7 @@ const cargarOpcionesPedidos = (): void => {
     if (!selectPedidos) return;
 
     selectPedidos.innerHTML = "";
-    estadosUnicos.forEach(estado => {
+    estadosUnicos.forEach((estado: string) => {
         const option = document.createElement("option");
         option.value = estado;
         option.textContent = formatearEstados(estado);

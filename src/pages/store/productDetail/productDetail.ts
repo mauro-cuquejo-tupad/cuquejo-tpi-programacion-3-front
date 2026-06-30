@@ -1,6 +1,6 @@
 import type { Product } from "../../../types/product";
 import { guardRoutes } from "../../../utils/auth";
-import { getProductos } from "../../../utils/localStorage";
+import { getProductos } from "../../../utils/fetch";
 import { agregarLogout, crearBoton } from "../../../utils/helpersDom";
 import { navigate } from "../../../utils/navigate";
 import { CART_PAGE, HOME_STORE } from "../../../utils/routes";

@@ -1,6 +1,6 @@
 import { guardRoutes } from "../../../utils/auth";
 import { agregarLogout } from "../../../utils/helpersDom";
-import { getProductos } from "../../../utils/localStorage";
+import { getProductos } from "../../../utils/fetch";
 import type { Product } from "../../../types/product";
 
 const tbodyProductos = document.querySelector<HTMLTableSectionElement>("#tabla-crud-productos");

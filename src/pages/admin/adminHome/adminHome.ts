@@ -1,5 +1,5 @@
 import { guardRoutes } from "../../../utils/auth";
-import { getCategorias, getProductos, getPedidos } from "../../../utils/localStorage";
+import { getCategorias, getProductos, getPedidos } from "../../../utils/fetch";
 import { agregarLogout } from "../../../utils/helpersDom";
 import { navigate } from "../../../utils/navigate";
 import { ADMIN_CATEGORIES, ADMIN_ORDERS, ADMIN_PRODUCTS } from "../../../utils/routes";

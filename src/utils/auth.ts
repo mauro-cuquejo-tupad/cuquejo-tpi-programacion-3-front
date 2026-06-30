@@ -1,15 +1,10 @@
-
 import type { IUser } from "../types/IUser";
 import { fetchUsuarios, fetchCategorias, fetchProductos, fetchPedidos } from "./fetch";
 import { 
     getUSer, 
-    getUsers, 
     removeStoreFilters, 
     removeUser, 
-    saveUsers,
-    saveCategorias,
-    saveProductos,
-    savePedidos
+    saveJsonData
 } from "./localStorage";
 import { navigate } from "./navigate";
 import { VALID_ADMIN_PAGES, VALID_USER_PAGES, HOME_STORE, LOGIN_PAGE, HOME_ADMIN, VALID_PAGES } from "./routes"
@@ -78,10 +73,11 @@ const alertaRedireccion = (pagina: string): void => {
 
 export const inicializarDatos = async () => {
     // 1. Inicializar usuarios si no hay ninguno en localStorage
-    const usuariosExistentes = getUsers();
+    const usuariosExistentes = localStorage.getItem("users");
     if (!usuariosExistentes) {
         try {
             const usuariosFetched = await fetchUsuarios();
+            const usuariosList: IUser[] = [];
             usuariosFetched.forEach((usuario) => {
                 const iusuario: IUser = {
                     email: usuario.mail,
@@ -89,8 +85,9 @@ export const inicializarDatos = async () => {
                     loggedIn: false,
                     role: usuario.rol,
                 };
-                saveUsers(iusuario);
+                usuariosList.push(iusuario);
             });
+            saveJsonData("users", usuariosList);
         } catch (error) {
             console.error("Error al inicializar usuarios:", error);
         }
@@ -101,7 +98,7 @@ export const inicializarDatos = async () => {
     if (!categoriasExistentes) {
         try {
             const categoriasFetched = await fetchCategorias();
-            saveCategorias(categoriasFetched);
+            saveJsonData("categorias", categoriasFetched);
         } catch (error) {
             console.error("Error al inicializar categorías:", error);
         }
@@ -112,7 +109,7 @@ export const inicializarDatos = async () => {
     if (!productosExistentes) {
         try {
             const productosFetched = await fetchProductos();
-            saveProductos(productosFetched);
+            saveJsonData("productos", productosFetched);
         } catch (error) {
             console.error("Error al inicializar productos:", error);
         }
@@ -123,7 +120,7 @@ export const inicializarDatos = async () => {
     if (!pedidosExistentes) {
         try {
             const pedidosFetched = await fetchPedidos();
-            savePedidos(pedidosFetched);
+            saveJsonData("pedidos", pedidosFetched);
         } catch (error) {
             console.error("Error al inicializar pedidos:", error);
         }
