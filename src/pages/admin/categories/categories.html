@@ -41,20 +41,50 @@
         </aside>
 
         <main class="main-admin">
-            <h1>Gestion de Categorias</h1>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; gap: 1rem; width: 100%;">
+                <h1 style="margin: 0;">Gestión de Categorías</h1>
+                <button type="button" id="btn-nueva-categoria" class="btn-checkout-confirmar" style="background-color: var(--color-primario); white-space: nowrap;">+ Nueva Categoría</button>
+            </div>
             <div class="metricas-container">
                 <table class="table-categorias">
                     <thead>
                         <tr>
                             <th>ID</th>
                             <th>Nombre</th>
-                            <th>Descripcion</th>
+                            <th>Descripción</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody id="tabla-crud-categorias"></tbody>
                 </table>
             </div>
         </main>
+
+        <!-- Modal CRUD Categoría -->
+        <div id="categoria-modal" class="modal-checkout-overlay">
+            <div class="modal-checkout-container" style="max-width: 400px;">
+                <div class="modal-checkout-header">
+                    <h2 id="modal-categoria-titulo">Nueva Categoría</h2>
+                    <button type="button" id="btn-cerrar-modal-categoria" class="btn-cerrar-modal">&times;</button>
+                </div>
+                <form id="form-categoria" class="modal-checkout-form">
+                    <input type="hidden" id="categoria-id-hidden">
+                    <div class="form-group-checkout">
+                        <label for="categoria-nombre">Nombre *</label>
+                        <input type="text" id="categoria-nombre" required placeholder="Ej: Bebidas, Hamburguesas">
+                    </div>
+                    <div class="form-group-checkout">
+                        <label for="categoria-descripcion">Descripción *</label>
+                        <textarea id="categoria-descripcion" required placeholder="Ej: Gaseosas, cervezas, tragos..."></textarea>
+                    </div>
+
+                    <div class="modal-checkout-buttons">
+                        <button type="button" id="btn-categoria-cancelar" class="btn-checkout-cancelar">Cancelar</button>
+                        <button type="submit" id="btn-categoria-confirmar" class="btn-checkout-confirmar">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </section>
     <footer>
         <p>&copy; 2026 Food Store - Todos los derechos reservados</p>

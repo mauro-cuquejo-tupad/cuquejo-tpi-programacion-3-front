@@ -56,6 +56,73 @@
 
             </section>
         </main>
+
+        <!-- Modal de Gestión/Detalle de Pedido (Admin) -->
+        <div id="admin-detalle-pedido-modal" class="modal-checkout-overlay">
+            <div class="modal-checkout-container">
+                <div class="modal-checkout-header">
+                    <h2>Gestión de Pedido</h2>
+                    <button type="button" id="btn-cerrar-admin-detalle" class="btn-cerrar-modal">&times;</button>
+                </div>
+                <form id="form-admin-pedido" class="modal-checkout-form">
+                    <input type="hidden" id="admin-detalle-id-hidden">
+                    
+                    <!-- ID y Fecha -->
+                    <div>
+                        <strong style="font-size: 1.1rem; color: var(--color-seccion);" id="admin-detalle-id">Pedido #</strong>
+                        <p style="margin: 0.2rem 0; color: gray;" id="admin-detalle-fecha">Fecha: </p>
+                    </div>
+
+                    <!-- Cliente info -->
+                    <div style="border-top: 1px solid var(--color-borde); padding-top: 1rem; display: flex; flex-direction: column; gap: 0.4rem;">
+                        <div><strong>Cliente (Email):</strong> <span id="admin-detalle-email"></span></div>
+                        <div><strong>Celular / Teléfono:</strong> <span id="admin-detalle-tel"></span></div>
+                        <div><strong>Dirección de Entrega:</strong> <span id="admin-detalle-dir"></span></div>
+                        <div><strong>Forma de Pago:</strong> <span id="admin-detalle-pago"></span></div>
+                        <div><strong>Notas adicionales:</strong> <span id="admin-detalle-notas"></span></div>
+                    </div>
+
+                    <!-- Estado editable -->
+                    <div class="form-group-checkout" style="border-top: 1px solid var(--color-borde); padding-top: 1rem;">
+                        <label for="admin-pedido-estado"><strong>Estado del Pedido *</strong></label>
+                        <select id="admin-pedido-estado" required>
+                            <option value="PENDIENTE">Pendiente</option>
+                            <option value="CONFIRMADO">Confirmado</option>
+                            <option value="EN_PREPARACION">En Preparación</option>
+                            <option value="ENTREGADO">Entregado</option>
+                            <option value="CANCELADO">Cancelado</option>
+                        </select>
+                    </div>
+
+                    <!-- Productos Comprados -->
+                    <div class="checkout-summary">
+                        <h3 style="color: var(--color-seccion); margin-bottom: 0.5rem;">Productos Comprados</h3>
+                        <div id="admin-detalle-productos-lista" style="display: flex; flex-direction: column; gap: 0.5rem; max-height: 200px; overflow-y: auto;">
+                            <!-- Items dynamically loaded -->
+                        </div>
+                        <div style="border-top: 1px solid var(--color-borde); margin-top: 0.8rem; padding-top: 0.5rem; display: flex; flex-direction: column; gap: 0.4rem; font-size: 0.95rem;">
+                            <div style="display: flex; justify-content: space-between;">
+                                <span>Subtotal:</span>
+                                <span id="admin-detalle-subtotal">$0</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <span>Costo de Envío:</span>
+                                <span>$500</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 1.1rem; color: var(--color-primario); margin-top: 0.2rem; border-top: 1px dashed var(--color-borde); padding-top: 0.4rem;">
+                                <span>Total:</span>
+                                <span id="admin-detalle-total">$0</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-checkout-buttons">
+                        <button type="button" id="btn-admin-detalle-cancelar" class="btn-checkout-cancelar">Cancelar</button>
+                        <button type="submit" class="btn-checkout-confirmar">Actualizar Estado</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </section>
     <footer>
         <p>&copy; 2026 Food Store - Todos los derechos reservados</p>

@@ -43,25 +43,84 @@
         <main class="main-admin">
             <h1>Gestion de Productos</h1>
             <div id="tab-productos" class="productos-container">
-                <div class="section-header-admin">
+                <div class="section-header-admin" style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 1rem;">
                     <h2>Gestión de Productos</h2>
+                    <button type="button" id="btn-nuevo-producto" class="btn-checkout-confirmar" style="background-color: var(--color-primario); white-space: nowrap;">+ Nuevo Producto</button>
                 </div>
                 <table class="table-productos">
                     <thead>
                         <tr>
                             <th>Imagen</th>
                             <th>Nombre</th>
-                            <th>Descripcion</th>
+                            <th>Descripción</th>
                             <th>Categoría</th>
                             <th>Precio</th>
                             <th>Stock</th>
                             <th>Estado</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody id="tabla-crud-productos"></tbody>
                 </table>
             </div>
         </main>
+
+        <!-- Modal CRUD Producto -->
+        <div id="producto-modal" class="modal-checkout-overlay">
+            <div class="modal-checkout-container" style="max-width: 450px;">
+                <div class="modal-checkout-header">
+                    <h2 id="modal-producto-titulo">Nuevo Producto</h2>
+                    <button type="button" id="btn-cerrar-modal-producto" class="btn-cerrar-modal">&times;</button>
+                </div>
+                <form id="form-producto" class="modal-checkout-form">
+                    <input type="hidden" id="producto-id-hidden">
+                    
+                    <div class="form-group-checkout">
+                        <label for="producto-nombre">Nombre *</label>
+                        <input type="text" id="producto-nombre" required placeholder="Ej: Hamburguesa Simple">
+                    </div>
+                    
+                    <div class="form-group-checkout">
+                        <label for="producto-descripcion">Descripción *</label>
+                        <textarea id="producto-descripcion" required placeholder="Ej: Medallón de carne con queso y lechuga..."></textarea>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                        <div class="form-group-checkout">
+                            <label for="producto-precio">Precio ($) *</label>
+                            <input type="number" id="producto-precio" required min="0.01" step="0.01" placeholder="Ej: 1200">
+                        </div>
+                        <div class="form-group-checkout">
+                            <label for="producto-stock">Stock *</label>
+                            <input type="number" id="producto-stock" required min="0" step="1" placeholder="Ej: 50">
+                        </div>
+                    </div>
+
+                    <div class="form-group-checkout">
+                        <label for="producto-categoria">Categoría *</label>
+                        <select id="producto-categoria" required>
+                            <option value="" disabled selected>Seleccione una categoría</option>
+                            <!-- Dinámicamente poblado -->
+                        </select>
+                    </div>
+
+                    <div class="form-group-checkout">
+                        <label for="producto-imagen">URL de Imagen *</label>
+                        <input type="text" id="producto-imagen" required placeholder="Ej: https://imagenes.com/hamburguesa.jpg">
+                    </div>
+
+                    <div class="form-group-checkout" style="flex-direction: row; gap: 0.5rem; align-items: center;">
+                        <input type="checkbox" id="producto-disponible" checked style="width: auto;">
+                        <label for="producto-disponible">Disponible para la venta</label>
+                    </div>
+
+                    <div class="modal-checkout-buttons">
+                        <button type="button" id="btn-producto-cancelar" class="btn-checkout-cancelar">Cancelar</button>
+                        <button type="submit" id="btn-producto-confirmar" class="btn-checkout-confirmar">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </section>
     <footer>
         <p>&copy; 2026 Food Store - Todos los derechos reservados</p>
