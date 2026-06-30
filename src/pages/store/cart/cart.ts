@@ -1,10 +1,15 @@
 import type { CartItem, Product } from "../../../types/product";
 import { guardRoutes } from "../../../utils/auth";
-import { addProductCart, deleteProductCart, getProductCart, removeAllProductsCart, removeProductCart } from "../../../utils/localStorage";
-import { getProductos } from "../../../utils/fetch";
+import { addProductCart, deleteProductCart, getProductCart, removeAllProductsCart, removeProductCart, getUSer } from "../../../utils/localStorage";
+import { getProductos, getProductosAdmin, getPedidos, savePedidos, saveProductos } from "../../../utils/fetch";
 import { navigate } from "../../../utils/navigate";
 import { agregarLogout, crearBoton } from "../../../utils/helpersDom";
 import { HOME_STORE, PRODUCT_DETAIL } from "../../../utils/routes";
+import type { Pedido, DetallePedido } from "../../../types/pedido";
+import type { Usuario } from "../../../types/usuario";
+import type { Rol } from "../../../types/Rol";
+import type { Estados } from "../../../types/estados";
+import type { FormaDePago } from "../../../types/formaPago";
 
 
 const contadorCarrito: HTMLAnchorElement | null = document.querySelector<HTMLAnchorElement>("#a-carrito");
@@ -159,23 +164,27 @@ const crearDatosTotalCarrito = (): HTMLDivElement => {
   precioTotal.classList.add("precio-total");
   precioTotal.textContent = 'Total: $' + (totalCarrito + envio).toLocaleString('es-ES');
 
-  const advertenciaCompra: HTMLSpanElement = document.createElement("span");
-  advertenciaCompra.classList.add("advertencia-compra");
-  advertenciaCompra.textContent = `Los pedidos se realizan directamente en el local`;
-
   const botonVaciarCarrito: HTMLButtonElement = crearBoton("btn-vaciar-carrito", "btn-borrar", `Vaciar Carrito`);
   botonVaciarCarrito.addEventListener("click", () => {
     vaciarCarrito();
     actualizarContadorCarrito();
   });
 
+  const botonProcederPago: HTMLButtonElement = crearBoton("btn-proceder-pago", "btn-agregar", `Proceder al Pago`);
+  botonProcederPago.style.marginTop = "1rem";
+  botonProcederPago.addEventListener("click", () => {
+    if (validarStock()) {
+      abrirModalCheckout();
+    }
+  });
+
   datosTotalCarrito.appendChild(tituloTotal);
   datosTotalCarrito.appendChild(subtotal);
   datosTotalCarrito.appendChild(costoEnvio);
   datosTotalCarrito.appendChild(linea);
-  datosTotalCarrito.appendChild(precioTotal)
-  datosTotalCarrito.appendChild(advertenciaCompra);
+  datosTotalCarrito.appendChild(precioTotal);
   datosTotalCarrito.appendChild(botonVaciarCarrito);
+  datosTotalCarrito.appendChild(botonProcederPago);
   return datosTotalCarrito;
 };
 
@@ -298,6 +307,168 @@ export const actualizarImporteTotalCarrito = (): number => {
   }
 };
 
+
+const validarStock = (): boolean => {
+  const cartItems = obtenerCarrito();
+  const dbProducts = getProductosAdmin();
+
+  for (const item of cartItems) {
+    const dbProd = dbProducts.find(p => p.id === item.producto.id);
+    if (!dbProd) {
+      alert(`El producto "${item.producto.nombre}" ya no está disponible en el catálogo.`);
+      return false;
+    }
+    if (item.cantidad > dbProd.stock) {
+      alert(`No hay suficiente stock para "${item.producto.nombre}".\nStock disponible: ${dbProd.stock}.\nTienes en el carrito: ${item.cantidad}.`);
+      return false;
+    }
+  }
+  return true;
+};
+
+const modalCheckout = document.querySelector<HTMLDivElement>("#checkout-modal");
+const formCheckout = document.querySelector<HTMLFormElement>("#form-checkout");
+const btnCerrarCheckout = document.querySelector<HTMLButtonElement>("#btn-cerrar-checkout");
+const btnCancelarCheckout = document.querySelector<HTMLButtonElement>("#btn-checkout-cancelar");
+const checkoutSummaryItems = document.querySelector<HTMLDivElement>("#checkout-summary-items");
+const checkoutSummaryTotal = document.querySelector<HTMLSpanElement>("#checkout-summary-total");
+
+const abrirModalCheckout = (): void => {
+  if (!modalCheckout) return;
+
+  const cartItems = obtenerCarrito();
+  if (checkoutSummaryItems) {
+    checkoutSummaryItems.innerHTML = "";
+    cartItems.forEach(item => {
+      const summaryRow = document.createElement("div");
+      summaryRow.classList.add("checkout-summary-item");
+      summaryRow.innerHTML = `
+        <span>${item.producto.nombre} x${item.cantidad}</span>
+        <span>$${(item.producto.precio * item.cantidad).toLocaleString('es-ES')}</span>
+      `;
+      checkoutSummaryItems.appendChild(summaryRow);
+    });
+  }
+
+  const subtotal = actualizarImporteTotalCarrito();
+  const total = subtotal + 500;
+  if (checkoutSummaryTotal) {
+    checkoutSummaryTotal.textContent = `$${total.toLocaleString('es-ES')}`;
+  }
+
+  // Precompletar el teléfono si está guardado en el usuario
+  const userSessionRaw = getUSer();
+  if (userSessionRaw) {
+    const userSession = JSON.parse(userSessionRaw);
+    const telInput = document.querySelector<HTMLInputElement>("#checkout-tel");
+    if (telInput && userSession.celular) {
+      telInput.value = userSession.celular;
+    }
+  }
+
+  modalCheckout.classList.add("activo");
+};
+
+const cerrarModalCheckout = (): void => {
+  if (!modalCheckout) return;
+  modalCheckout.classList.remove("activo");
+  formCheckout?.reset();
+};
+
+btnCerrarCheckout?.addEventListener("click", cerrarModalCheckout);
+btnCancelarCheckout?.addEventListener("click", cerrarModalCheckout);
+
+formCheckout?.addEventListener("submit", (e: SubmitEvent) => {
+  e.preventDefault();
+
+  if (!validarStock()) {
+    return;
+  }
+
+  const telInput = document.querySelector<HTMLInputElement>("#checkout-tel");
+  const dirInput = document.querySelector<HTMLInputElement>("#checkout-dir");
+  const pagoSelect = document.querySelector<HTMLSelectElement>("#checkout-pago");
+  const notasTextarea = document.querySelector<HTMLTextAreaElement>("#checkout-notas");
+
+  const telefono = telInput?.value.trim() || "";
+  const direccion = dirInput?.value.trim() || "";
+  const formaPago = pagoSelect?.value as FormaDePago;
+  const notas = notasTextarea?.value.trim() || "";
+
+  if (!telefono || !direccion || !formaPago) {
+    alert("Por favor, complete todos los campos obligatorios.");
+    return;
+  }
+
+  const userSessionRaw = getUSer();
+  if (!userSessionRaw) {
+    alert("Inicie sesión para completar la compra.");
+    return;
+  }
+  const userSession = JSON.parse(userSessionRaw);
+
+  const cartItems = obtenerCarrito();
+  const subtotal = actualizarImporteTotalCarrito();
+  const totalPedido = subtotal + 500;
+
+  // 1. Crear el Pedido
+  const nuevoPedidoId = Date.now();
+  const detalles: DetallePedido[] = cartItems.map((item) => ({
+    cantidad: item.cantidad,
+    subtotal: item.producto.precio * item.cantidad,
+    producto: item.producto
+  }));
+
+  const usuarioDto: Usuario = {
+    id: Date.now() + 50,
+    nombre: userSession.email.split("@")[0],
+    apellido: "",
+    mail: userSession.email,
+    rol: "USUARIO" as Rol,
+    password: "",
+    celular: telefono
+  };
+
+  const nuevoPedido: Pedido = {
+    id: nuevoPedidoId,
+    fecha: new Date().toISOString().split('T')[0],
+    estado: "PENDIENTE" as Estados,
+    total: totalPedido,
+    formaPago: formaPago,
+    detalles: detalles,
+    usuarioDto: usuarioDto,
+    telefono: telefono,
+    direccion: direccion,
+    notas: notas
+  };
+
+  // 2. Guardar Pedido en localStorage (mediante fetch.ts)
+  const pedidos = getPedidos();
+  pedidos.push(nuevoPedido);
+  savePedidos(pedidos);
+
+  // 3. Decrementar Stock en localStorage (mediante fetch.ts)
+  const dbProducts = getProductosAdmin();
+  cartItems.forEach(item => {
+    const dbProd = dbProducts.find(p => p.id === item.producto.id);
+    if (dbProd) {
+      dbProd.stock = Math.max(0, dbProd.stock - item.cantidad);
+    }
+  });
+  saveProductos(dbProducts);
+
+  // 4. Vaciar Carrito
+  vaciarCarrito();
+  actualizarContadorCarrito();
+
+  // 5. Cerrar Modal
+  cerrarModalCheckout();
+
+  alert(`¡Pedido #${nuevoPedidoId} confirmado con éxito!\nDirección de envío: ${direccion}\nForma de pago: ${formaPago}`);
+
+  // Redirigir a mis pedidos
+  navigate("../../client/orders/orders.html");
+});
 
 //inicializar
 agregarLogout();

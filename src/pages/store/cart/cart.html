@@ -27,6 +27,58 @@
     <main>
         <div id="carrito">
         </div>
+
+        <!-- Modal de Checkout -->
+        <div id="checkout-modal" class="modal-checkout-overlay">
+            <div class="modal-checkout-container">
+                <div class="modal-checkout-header">
+                    <h2>Confirmar Pedido</h2>
+                    <button type="button" id="btn-cerrar-checkout" class="btn-cerrar-modal">&times;</button>
+                </div>
+                <form id="form-checkout" class="modal-checkout-form">
+                    <div class="form-group-checkout">
+                        <label for="checkout-tel">Celular / Teléfono *</label>
+                        <input type="tel" id="checkout-tel" required placeholder="Ej: 1123456789">
+                    </div>
+                    <div class="form-group-checkout">
+                        <label for="checkout-dir">Dirección de Entrega *</label>
+                        <input type="text" id="checkout-dir" required placeholder="Ej: Av. Siempreviva 742">
+                    </div>
+                    <div class="form-group-checkout">
+                        <label for="checkout-pago">Método de Pago *</label>
+                        <select id="checkout-pago" required>
+                            <option value="" disabled selected>Seleccione un método</option>
+                            <option value="EFECTIVO">Efectivo (en entrega)</option>
+                            <option value="TARJETA">Tarjeta de Crédito / Débito</option>
+                            <option value="TRANSFERENCIA">Transferencia Bancaria</option>
+                        </select>
+                    </div>
+                    <div class="form-group-checkout">
+                        <label for="checkout-notas">Notas / Observaciones (opcional)</label>
+                        <textarea id="checkout-notas" placeholder="Ej: Timbre B, dejar en recepción, sin cebolla, etc."></textarea>
+                    </div>
+
+                    <!-- Resumen del pedido dentro del modal -->
+                    <div class="checkout-summary">
+                        <h3>Resumen del Pedido</h3>
+                        <div id="checkout-summary-items"></div>
+                        <div class="checkout-summary-item">
+                            <span>Costo de Envío:</span>
+                            <span id="checkout-summary-shipping">$500</span>
+                        </div>
+                        <div class="checkout-summary-total">
+                            <span>Total a Pagar:</span>
+                            <span id="checkout-summary-total">$0</span>
+                        </div>
+                    </div>
+
+                    <div class="modal-checkout-buttons">
+                        <button type="button" id="btn-checkout-cancelar" class="btn-checkout-cancelar">Cancelar</button>
+                        <button type="submit" class="btn-checkout-confirmar">Confirmar Compra</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </main>
 
     <footer>

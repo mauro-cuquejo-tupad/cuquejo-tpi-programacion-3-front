@@ -10,11 +10,14 @@ export interface Pedido {
     total: number;
     formaPago: FormaDePago;
     detalles: DetallePedido[];
-    usuarioDto: Usuario
+    usuarioDto: Usuario;
+    telefono?: string;
+    direccion?: string;
+    notas?: string;
   };
 
 export interface DetallePedido {
     cantidad: number;
-        subtotal: number;
-        producto: Product
+    subtotal: number;
+    producto: Product;
 }

@@ -37,7 +37,7 @@ const renderizarPedidos = (estadoFiltro: string = "TODOS"): void => {
     const usuario: IUser = JSON.parse(datosUsuario);
     if (!usuario) return;
 
-    const pedidosDeUsuario = getPedidosByUsuario(usuario.email);
+    const pedidosDeUsuario = getPedidosByUsuario(usuario.email).sort((a: Pedido, b: Pedido) => b.id - a.id);
     const pedidosFiltrados = estadoFiltro === "TODOS"
         ? pedidosDeUsuario
         : pedidosDeUsuario.filter((p: Pedido) => p.estado.toUpperCase() === estadoFiltro);
@@ -97,8 +97,13 @@ const crearItemPedido = (pedido: Pedido): HTMLDivElement => {
     itemPedido.appendChild(spanCantidadDetalles);
     itemPedido.appendChild(importeTotal);
 
+    itemPedido.style.cursor = "pointer";
+    itemPedido.addEventListener("click", () => {
+        abrirModalDetalle(pedido);
+    });
+
     return itemPedido;
-};
+}
 
 const convertirFecha = (fecha: string): String => {
     const fechaDate: Date = new Date(`${fecha}T12:00:00`);
@@ -109,6 +114,90 @@ const convertirFecha = (fecha: string): String => {
         year: "numeric"
     }).format(fechaDate);
 };
+
+const modalDetalle = document.querySelector<HTMLDivElement>("#detalle-pedido-modal");
+const btnCerrarDetalle = document.querySelector<HTMLButtonElement>("#btn-cerrar-detalle");
+const btnDetalleCerrarOk = document.querySelector<HTMLButtonElement>("#btn-detalle-cerrar-ok");
+
+const abrirModalDetalle = (pedido: Pedido): void => {
+    if (!modalDetalle) return;
+
+    const labelId = document.querySelector<HTMLElement>("#detalle-id");
+    if (labelId) labelId.textContent = `Pedido #${pedido.id}`;
+
+    const labelFecha = document.querySelector<HTMLElement>("#detalle-fecha");
+    if (labelFecha) labelFecha.textContent = `Fecha: ${convertirFecha(pedido.fecha)}`;
+
+    const badgeEstado = document.querySelector<HTMLSpanElement>("#detalle-estado-badge");
+    if (badgeEstado) {
+        badgeEstado.textContent = pedido.estado.toUpperCase();
+        badgeEstado.className = "";
+        badgeEstado.style.padding = "0.3rem 0.8rem";
+        badgeEstado.style.borderRadius = "20px";
+        badgeEstado.style.fontWeight = "bold";
+        badgeEstado.style.fontSize = "0.9rem";
+        badgeEstado.style.display = "inline-block";
+
+        const estadoLower = pedido.estado.toLowerCase();
+        if (estadoLower === "pendiente") {
+            badgeEstado.style.backgroundColor = "#ffeeba";
+            badgeEstado.style.color = "#856404";
+        } else if (estadoLower === "en_preparacion" || estadoLower === "confirmado") {
+            badgeEstado.style.backgroundColor = "#cce5ff";
+            badgeEstado.style.color = "#004085";
+        } else if (estadoLower === "entregado" || estadoLower === "terminado") {
+            badgeEstado.style.backgroundColor = "#d4edda";
+            badgeEstado.style.color = "#155724";
+        } else if (estadoLower === "cancelado") {
+            badgeEstado.style.backgroundColor = "#f8d7da";
+            badgeEstado.style.color = "#721c24";
+        }
+    }
+
+    const labelTel = document.querySelector<HTMLSpanElement>("#detalle-tel");
+    if (labelTel) labelTel.textContent = pedido.telefono || pedido.usuarioDto.celular || "No especificado";
+
+    const labelDir = document.querySelector<HTMLSpanElement>("#detalle-dir");
+    if (labelDir) labelDir.textContent = pedido.direccion || "Retiro en local";
+
+    const labelPago = document.querySelector<HTMLSpanElement>("#detalle-pago");
+    if (labelPago) labelPago.textContent = pedido.formaPago || "No especificada";
+
+    const labelNotas = document.querySelector<HTMLSpanElement>("#detalle-notas");
+    if (labelNotas) labelNotas.textContent = pedido.notas || "Sin observaciones";
+
+    const productosLista = document.querySelector<HTMLDivElement>("#detalle-productos-lista");
+    if (productosLista) {
+        productosLista.innerHTML = "";
+        pedido.detalles.forEach(det => {
+            const itemRow = document.createElement("div");
+            itemRow.style.display = "flex";
+            itemRow.style.justifyContent = "space-between";
+            itemRow.style.fontSize = "0.95rem";
+            itemRow.innerHTML = `
+                <span>${det.producto.nombre} x${det.cantidad}</span>
+                <span>$${det.subtotal.toLocaleString('es-ES')}</span>
+            `;
+            productosLista.appendChild(itemRow);
+        });
+    }
+
+    const subtotal = pedido.total - 500;
+    const labelSubtotal = document.querySelector<HTMLSpanElement>("#detalle-subtotal");
+    if (labelSubtotal) labelSubtotal.textContent = `$${subtotal.toLocaleString('es-ES')}`;
+
+    const labelTotal = document.querySelector<HTMLSpanElement>("#detalle-total");
+    if (labelTotal) labelTotal.textContent = `$${pedido.total.toLocaleString('es-ES')}`;
+
+    modalDetalle.classList.add("activo");
+};
+
+const cerrarModalDetalle = (): void => {
+    if (modalDetalle) modalDetalle.classList.remove("activo");
+};
+
+btnCerrarDetalle?.addEventListener("click", cerrarModalDetalle);
+btnDetalleCerrarOk?.addEventListener("click", cerrarModalDetalle);
 
 selectPedidos?.addEventListener("change", (e) => {
     const target = e.target as HTMLSelectElement;
