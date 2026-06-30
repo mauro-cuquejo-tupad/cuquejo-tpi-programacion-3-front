@@ -1,21 +1,39 @@
 import type { IUser } from "../../../types/IUser";
 import { navigate } from "../../../utils/navigate";
-import { getUsersByEmail, saveUsers } from "../../../utils/localStorage";
-import { LOGIN_PAGE } from "../../../utils/routes";
+import { getUsersByEmail, saveUsers, saveUser } from "../../../utils/localStorage";
+import { HOME_STORE } from "../../../utils/routes";
 
 const form = document.getElementById("form") as HTMLFormElement;
 
+const inputNombre = document.getElementById("nombre") as HTMLInputElement;
 const inputEmail = document.getElementById("email") as HTMLInputElement;
 const inputPassword = document.getElementById("password") as HTMLInputElement;
-
 
 form.addEventListener("submit", (e: SubmitEvent) => {
     e.preventDefault();
 
-    const valueEmail = inputEmail.value;
+    const valueNombre = inputNombre.value.trim();
+    const valueEmail = inputEmail.value.trim();
     const valuePassword = inputPassword.value;
-    if (!valueEmail || !valuePassword) {
+
+    if (!valueNombre || !valueEmail || !valuePassword) {
         alert("Por favor, complete todos los campos.");
+        return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(valueEmail)) {
+        alert("Por favor, ingrese un email válido.");
+        return;
+    }
+
+    if (valuePassword.length < 6) {
+        alert("La contraseña debe tener al menos 6 caracteres.");
+        return;
+    }
+
+    if (getUsersByEmail(valueEmail)) {
+        alert("El usuario ya existe. Por favor, inicie sesión.");
         return;
     }
 
@@ -26,11 +44,13 @@ form.addEventListener("submit", (e: SubmitEvent) => {
         role: "USUARIO",
     };
 
-    if (getUsersByEmail(user.email)) {
-        alert("El usuario ya existe. Por favor, inicie sesión.");
-    } else {
-        saveUsers(user);
-        alert("Registro exitoso. Ahora puede iniciar sesión.");
-        navigate(LOGIN_PAGE);
-    }
+    // Guardar en la lista global de usuarios
+    saveUsers(user);
+
+    // Auto-login
+    user.loggedIn = true;
+    saveUser(user);
+
+    alert("Registro exitoso. ¡Bienvenido!");
+    navigate(HOME_STORE);
 });
