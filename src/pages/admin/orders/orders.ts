@@ -1,6 +1,6 @@
 import type { Pedido } from "../../../types/pedido";
 import { guardRoutes } from "../../../utils/auth";
-import { getPedidos } from "../../../utils/fetch";
+import { getPedidos, getPedidosByEstado } from "../../../utils/localStorage";
 import { agregarLogout } from "../../../utils/helpersDom";
 
 let contenedorPedidos: HTMLElement | null = document.querySelector<HTMLElement>("#contenedor-pedidos-admin");
@@ -8,7 +8,7 @@ let selectPedidos: HTMLElement | null = document.querySelector<HTMLElement>("#es
 const btnToggleAdmin: HTMLButtonElement | null = document.querySelector<HTMLButtonElement>("#btn-toggle-admin");
 const asideAdmin: HTMLElement | null = document.querySelector<HTMLElement>(".admin-layout aside");
 
-const estadosUnicos = ["TODOS", ...new Set(getPedidos.map(p => p.estado))];
+const estadosUnicos = ["TODOS", ...new Set(getPedidos().map(p => p.estado))];
 
 const formatearEstados = (estado: string): string => {
     return estado.replaceAll("_", " ").toLowerCase().replace(/^[a-z]/, (letra) => letra.toUpperCase());
@@ -28,9 +28,7 @@ const cargarOpcionesPedidos = (): void => {
 const renderizarPedidos = (estadoFiltro: string = "TODOS"): void => {
     if (!contenedorPedidos) return;
 
-    const pedidosFiltrados = estadoFiltro === "TODOS"
-        ? getPedidos
-        : getPedidos.filter(p => p.estado.toUpperCase() === estadoFiltro);
+    const pedidosFiltrados = getPedidosByEstado(estadoFiltro);
 
     if (pedidosFiltrados.length == 0) {
         contenedorPedidos.innerHTML = "No hay pedidos registrados.</p>";

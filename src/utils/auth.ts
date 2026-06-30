@@ -1,9 +1,18 @@
 
 import type { IUser } from "../types/IUser";
-import { getUsuarios } from "./fetch";
-import { getUSer, getUsersByEmail, removeStoreFilters, removeUser, saveUsers } from "./localStorage";
+import { fetchUsuarios, fetchCategorias, fetchProductos, fetchPedidos } from "./fetch";
+import { 
+    getUSer, 
+    getUsers, 
+    removeStoreFilters, 
+    removeUser, 
+    saveUsers,
+    saveCategorias,
+    saveProductos,
+    savePedidos
+} from "./localStorage";
 import { navigate } from "./navigate";
-import { VALID_ADMIN_PAGES, VALID_USER_PAGES, HOME_STORE, LOGIN_PAGE, HOME_ADMIN, VALID_PAGES, ROOT_PAGE } from "./routes"
+import { VALID_ADMIN_PAGES, VALID_USER_PAGES, HOME_STORE, LOGIN_PAGE, HOME_ADMIN, VALID_PAGES } from "./routes"
 
 export const logout = () => {
     removeStoreFilters();
@@ -67,19 +76,60 @@ const alertaRedireccion = (pagina: string): void => {
         alert("Ingreso no autorizado. Será redirigido al home");
 }
 
-export const inicializarUsuarios = () => {
-    getUsuarios.forEach((usuario) => {
-        const iusuario: IUser = {
-            email: usuario.mail,
-            password: usuario.password,
-            loggedIn: false,
-            role: usuario.rol,
+export const inicializarDatos = async () => {
+    // 1. Inicializar usuarios si no hay ninguno en localStorage
+    const usuariosExistentes = getUsers();
+    if (!usuariosExistentes) {
+        try {
+            const usuariosFetched = await fetchUsuarios();
+            usuariosFetched.forEach((usuario) => {
+                const iusuario: IUser = {
+                    email: usuario.mail,
+                    password: usuario.password,
+                    loggedIn: false,
+                    role: usuario.rol,
+                };
+                saveUsers(iusuario);
+            });
+        } catch (error) {
+            console.error("Error al inicializar usuarios:", error);
         }
-        if (getUsersByEmail(usuario.mail) == null) {
-            saveUsers(iusuario);
+    }
+
+    // 2. Inicializar categorías si no hay ninguna en localStorage
+    const categoriasExistentes = localStorage.getItem("categorias");
+    if (!categoriasExistentes) {
+        try {
+            const categoriasFetched = await fetchCategorias();
+            saveCategorias(categoriasFetched);
+        } catch (error) {
+            console.error("Error al inicializar categorías:", error);
         }
-    })
+    }
+
+    // 3. Inicializar productos si no hay ninguno en localStorage
+    const productosExistentes = localStorage.getItem("productos");
+    if (!productosExistentes) {
+        try {
+            const productosFetched = await fetchProductos();
+            saveProductos(productosFetched);
+        } catch (error) {
+            console.error("Error al inicializar productos:", error);
+        }
+    }
+
+    // 4. Inicializar pedidos si no hay ninguno en localStorage
+    const pedidosExistentes = localStorage.getItem("pedidos");
+    if (!pedidosExistentes) {
+        try {
+            const pedidosFetched = await fetchPedidos();
+            savePedidos(pedidosFetched);
+        } catch (error) {
+            console.error("Error al inicializar pedidos:", error);
+        }
+    }
 };
 
-guardRoutes();
-inicializarUsuarios();
+inicializarDatos().then(() => {
+    guardRoutes();
+});

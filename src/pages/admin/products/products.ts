@@ -1,6 +1,6 @@
 import { guardRoutes } from "../../../utils/auth";
 import { agregarLogout } from "../../../utils/helpersDom";
-import { getProductos } from "../../../utils/fetch";
+import { getProductos } from "../../../utils/localStorage";
 import type { Product } from "../../../types/product";
 
 const tbodyProductos = document.querySelector<HTMLTableSectionElement>("#tabla-crud-productos");
@@ -11,7 +11,7 @@ const renderizarTablaProductos = (): void => {
     if (!tbodyProductos) return;
     tbodyProductos.innerHTML = "";
 
-    getProductos.forEach((prod: Product) => {
+    getProductos().forEach((prod: Product) => {
         if (prod.eliminado) return; // Borrado lógico
 
         const fila: HTMLTableRowElement = document.createElement("tr");

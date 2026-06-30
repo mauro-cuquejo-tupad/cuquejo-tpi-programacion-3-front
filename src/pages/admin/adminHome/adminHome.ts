@@ -1,8 +1,10 @@
 import { guardRoutes } from "../../../utils/auth";
-import { getCategorias, getPedidos, getProductos } from "../../../utils/fetch";
+import { getCategorias, getProductos, getPedidos } from "../../../utils/localStorage";
 import { agregarLogout } from "../../../utils/helpersDom";
 import { navigate } from "../../../utils/navigate";
 import { ADMIN_CATEGORIES, ADMIN_ORDERS, ADMIN_PRODUCTS } from "../../../utils/routes";
+import type { Product } from "../../../types/product";
+import type { Pedido } from "../../../types/pedido";
 
 const botonGestionarCategorias: HTMLButtonElement | null = document.querySelector<HTMLButtonElement>("#gestionar-categorias");
 const botonGestionarProductos: HTMLButtonElement | null = document.querySelector<HTMLButtonElement>("#gestionar-productos");
@@ -20,46 +22,52 @@ const totalPedidosPendientes: HTMLParagraphElement | null = document.querySelect
 const totalEnPreparacion: HTMLParagraphElement | null = document.querySelector<HTMLParagraphElement>("#total-en-preparacion");
 const totalCompletados: HTMLParagraphElement | null = document.querySelector<HTMLParagraphElement>("#total-completados");
 
-
-
 const calcularTotalCategorias = (): void => {
     if (!totalCategorias) return;
-    totalCategorias.textContent = getCategorias != null ? getCategorias.length.toString() : "0";
+    const categorias = getCategorias();
+    totalCategorias.textContent = categorias ? categorias.length.toString() : "0";
 };
 
 const calcularTotalProductos = (): void => {
     if (!totalProductos) return;
-    totalProductos.textContent = getProductos != null ? getProductos.length.toString() : "0";
+    const productos = getProductos();
+    totalProductos.textContent = productos ? productos.length.toString() : "0";
 };
 
 const calcularTotalPedidos = (): void => {
     if (!totalPedidos) return;
-    totalPedidos.textContent = getPedidos != null ? getPedidos.length.toString() : "0";
+    const pedidos = getPedidos();
+    totalPedidos.textContent = pedidos ? pedidos.length.toString() : "0";
 };
 
 const calcularProductosActivos = (): void => {
     if (!totalProductosActivos) return;
-    totalProductosActivos.textContent = getProductos != null ? getProductos.filter(p => p.disponible && !p.eliminado).length.toString() : "0";
+    const productos = getProductos();
+    totalProductosActivos.textContent = productos ? productos.filter((p: Product) => p.disponible && !p.eliminado).length.toString() : "0";
 };
 
 const calcularTotalIngresos = (): void => {
     if (!totalIngresos) return;
-    totalIngresos.textContent = getPedidos != null ? "$" + getPedidos.reduce((acum, p) => acum + p.total, 0).toFixed(2) : "$0";
+    const pedidos = getPedidos();
+    totalIngresos.textContent = pedidos ? "$" + pedidos.reduce((acum: number, p: Pedido) => acum + p.total, 0).toFixed(2) : "$0";
 };
 
 const calcularPedidosPendientes = (): void => {
     if (!totalPedidosPendientes) return;
-    totalPedidosPendientes.textContent = getPedidos != null ? getPedidos.filter(p => p.estado === "PENDIENTE").length.toString() : "0";
+    const pedidos = getPedidos();
+    totalPedidosPendientes.textContent = pedidos ? pedidos.filter((p: Pedido) => p.estado === "PENDIENTE").length.toString() : "0";
 };
 
 const calcularEnPreparacion = (): void => {
     if (!totalEnPreparacion) return;
-    totalEnPreparacion.textContent = getPedidos != null ? getPedidos.filter(p => p.estado === "EN_PREPARACION").length.toString() : "0";
+    const pedidos = getPedidos();
+    totalEnPreparacion.textContent = pedidos ? pedidos.filter((p: Pedido) => p.estado === "EN_PREPARACION").length.toString() : "0";
 };
 
 const calcularCompletados = (): void => {
     if (!totalCompletados) return;
-    totalCompletados.textContent = getPedidos != null ? getPedidos.filter(p => p.estado === "ENTREGADO").length.toString() : "0";
+    const pedidos = getPedidos();
+    totalCompletados.textContent = pedidos ? pedidos.filter((p: Pedido) => p.estado === "ENTREGADO").length.toString() : "0";
 };
 
 botonGestionarCategorias?.addEventListener("click", () => navigate(ADMIN_CATEGORIES));
@@ -69,7 +77,6 @@ botonGestionarProductos?.addEventListener("click", () => navigate(ADMIN_PRODUCTS
 btnToggleAdmin?.addEventListener("click", () => {
     asideAdmin?.classList.toggle("hidden");
 });
-
 
 agregarLogout();
 guardRoutes();

@@ -1,7 +1,6 @@
-import { getProductos } from "../../../utils/fetch";
 import type { CartItem, Product } from "../../../types/product";
 import { guardRoutes } from "../../../utils/auth";
-import { addProductCart, deleteProductCart, getProductCart, removeAllProductsCart, removeProductCart } from "../../../utils/localStorage";
+import { addProductCart, deleteProductCart, getProductCart, removeAllProductsCart, removeProductCart, getProductos } from "../../../utils/localStorage";
 import { navigate } from "../../../utils/navigate";
 import { agregarLogout, crearBoton } from "../../../utils/helpersDom";
 import { HOME_STORE, PRODUCT_DETAIL } from "../../../utils/routes";
@@ -194,7 +193,7 @@ const inicializar = (carritoCompras: CartItem[]): void => {
 }
 
 export const agregarAlCarrito = (idProducto: number, cantidad: number = 1): void => {
-  const producto = getProductos.find((p: Product) => p.id === idProducto);
+  const producto = getProductos().find((p: Product) => p.id === idProducto);
   if (!producto) return;
 
   addProductCart(producto, cantidad);
@@ -202,7 +201,7 @@ export const agregarAlCarrito = (idProducto: number, cantidad: number = 1): void
 };
 
 export const eliminarDelCarrito = (idProducto: number): void => {
-  const producto = getProductos.find((p: Product) => p.id === idProducto);
+  const producto = getProductos().find((p: Product) => p.id === idProducto);
   if (!producto) return;
 
   removeProductCart(producto);
@@ -210,7 +209,7 @@ export const eliminarDelCarrito = (idProducto: number): void => {
 };
 
 export const eliminarProductoDelCarrito = (idProducto: number): void => {
-  const producto = getProductos.find((p: Product) => p.id === idProducto);
+  const producto = getProductos().find((p: Product) => p.id === idProducto);
   if (!producto) return;
 
   removeAllProductsCart(producto);

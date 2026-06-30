@@ -1,6 +1,8 @@
 import type { FiltrosBusqueda } from "../types/filtros";
 import type { IUser } from "../types/IUser";
 import type { CartItem, Product } from "../types/product";
+import type { ICategoria } from "../types/categoria";
+import type { Pedido } from "../types/pedido";
 
 
 const USER_DATA_KEY: string = "userData";
@@ -150,6 +152,53 @@ export const removeProductCart = (product: Product): void => {
     console.error("error al remover producto");
     localStorage.removeItem(getCartKey());
   }
+};
+
+const CATEGORIAS_KEY = "categorias";
+const PRODUCTOS_KEY = "productos";
+const PEDIDOS_KEY = "pedidos";
+
+// Categorías (Servicio)
+export const getCategorias = (): ICategoria[] => {
+  const data = localStorage.getItem(CATEGORIAS_KEY);
+  return data ? JSON.parse(data) : [];
+};
+
+export const saveCategorias = (categorias: ICategoria[]) => {
+  localStorage.setItem(CATEGORIAS_KEY, JSON.stringify(categorias));
+};
+
+// Productos (Servicio)
+export const getProductos = (): Product[] => {
+  const data = localStorage.getItem(PRODUCTOS_KEY);
+  return data ? JSON.parse(data) : [];
+};
+
+export const saveProductos = (productos: Product[]) => {
+  localStorage.setItem(PRODUCTOS_KEY, JSON.stringify(productos));
+};
+
+// Pedidos (Servicio)
+export const getPedidos = (): Pedido[] => {
+  const data = localStorage.getItem(PEDIDOS_KEY);
+  return data ? JSON.parse(data) : [];
+};
+
+export const savePedidos = (pedidos: Pedido[]) => {
+  localStorage.setItem(PEDIDOS_KEY, JSON.stringify(pedidos));
+};
+
+// Métodos específicos (Servicios filtrados)
+export const getPedidosByUsuario = (email: string): Pedido[] => {
+  return getPedidos().filter(p => p.usuarioDto.mail === email);
+};
+
+export const getPedidosByEstado = (estado: string): Pedido[] => {
+  const estadoUpper = estado.toUpperCase();
+  if (estadoUpper === "TODOS") {
+    return getPedidos();
+  }
+  return getPedidos().filter(p => p.estado.toUpperCase() === estadoUpper);
 };
 
 export const removeAllProductsCart = (product: Product): void => {

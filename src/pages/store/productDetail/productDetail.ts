@@ -1,6 +1,6 @@
 import type { Product } from "../../../types/product";
 import { guardRoutes } from "../../../utils/auth";
-import { getProductos } from "../../../utils/fetch";
+import { getProductos } from "../../../utils/localStorage";
 import { agregarLogout, crearBoton } from "../../../utils/helpersDom";
 import { navigate } from "../../../utils/navigate";
 import { CART_PAGE, HOME_STORE } from "../../../utils/routes";
@@ -23,7 +23,7 @@ const cargarProductos = (): void => {
         return;
     }
 
-    getProductos.filter((p: Product) => {
+    getProductos().filter((p: Product) => {
         if (!p.eliminado && p.id === id) contenedorProductos.appendChild(crearArticuloProducto(p, origen));
     });
 };

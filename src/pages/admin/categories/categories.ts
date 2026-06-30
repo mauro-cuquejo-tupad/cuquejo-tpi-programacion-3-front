@@ -1,6 +1,6 @@
 import { guardRoutes } from "../../../utils/auth";
 import { agregarLogout } from "../../../utils/helpersDom";
-import { getCategorias } from "../../../utils/fetch";
+import { getCategorias } from "../../../utils/localStorage";
 import type { ICategoria } from "../../../types/categoria";
 
 
@@ -12,7 +12,7 @@ const renderizarTablaCategorias = (): void => {
     if (!tbodyCategorias) return;
     tbodyCategorias.innerHTML = "";
 
-    getCategorias.forEach((cat: ICategoria) => {
+    getCategorias().forEach((cat: ICategoria) => {
         if (cat.eliminado) return;
         const fila: HTMLTableRowElement = document.createElement("tr");
 

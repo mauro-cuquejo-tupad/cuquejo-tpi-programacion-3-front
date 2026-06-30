@@ -1,9 +1,8 @@
-import { getCategorias, getProductos } from "../../../utils/fetch";
 import type { ICategoria } from "../../../types/categoria";
 import type { FiltrosBusqueda } from "../../../types/filtros";
 import type { Product } from "../../../types/product";
 import { guardRoutes } from "../../../utils/auth";
-import { getStoreFilters, saveStoreFilters } from "../../../utils/localStorage";
+import { getStoreFilters, saveStoreFilters, getCategorias, getProductos } from "../../../utils/localStorage";
 import { actualizarContadorCarrito } from "../cart/cart";
 import { navigate } from "../../../utils/navigate";
 import { PRODUCT_DETAIL } from "../../../utils/routes";
@@ -97,7 +96,7 @@ const cargarCategorias = (): void => {
   const todos: HTMLLIElement = crearCategoria("Todos los productos");
   listaCategorias.appendChild(todos);
 
-  getCategorias.forEach((c: ICategoria) => {
+  getCategorias().forEach((c: ICategoria) => {
     if (!c.eliminado) listaCategorias.appendChild(crearCategoria(c.nombre));
   });
 
@@ -120,7 +119,7 @@ const cargarCategorias = (): void => {
   }
 };
 
-const cargarProductos = (lista: Product[] = getProductos): void => {
+const cargarProductos = (lista: Product[] = getProductos()): void => {
   if (!contenedorProductos) return;
 
   contenedorProductos.innerHTML = "";
@@ -142,7 +141,7 @@ const filtrarYRenderizar = (): void => {
   const texto = (inputBuscarProductos?.value || "").trim().toLocaleLowerCase();
   const cat = (categoriaSeleccionada || "Todos los productos").toLocaleLowerCase();
 
-  const resultados = getProductos.filter((p: Product) => {
+  const resultados = getProductos().filter((p: Product) => {
     if (p.eliminado) return false;
 
     const coincideCategoria = cat === "todos los productos" ||
