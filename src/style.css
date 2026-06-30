@@ -546,6 +546,10 @@ article button {
     text-transform: uppercase;
 }
 
+#a-carrito {
+    position: relative;
+}
+
 .carrito-badge {
     display: inline-flex;
     justify-content: center;
