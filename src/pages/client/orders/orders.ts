@@ -3,6 +3,8 @@ import { guardRoutes } from "../../../utils/auth";
 import { agregarLogout } from "../../../utils/helpersDom";
 import { actualizarContadorCarrito } from "../../store/cart/cart";
 import type { Pedido } from "../../../types/pedido";
+import type { IUser } from "../../../types/IUser";
+import { getUSer } from "../../../utils/localStorage";
 
 let contenedorPedidos: HTMLElement | null = document.querySelector<HTMLElement>("#contenedor-pedidos");
 let selectPedidos: HTMLElement | null = document.querySelector<HTMLElement>("#estados-pedidos");
@@ -28,13 +30,23 @@ const cargarOpcionesPedidos = (): void => {
 const renderizarPedidos = (estadoFiltro: string = "TODOS"): void => {
     if (!contenedorPedidos) return;
 
+    const datosUsuario: string | null = getUSer();
+    if (!datosUsuario) return;
+
+    const usuario: IUser = JSON.parse(datosUsuario);
+    if (!usuario) return;
 
     const pedidosFiltrados = estadoFiltro === "TODOS"
-        ? getPedidos
-        : getPedidos.filter(p => p.estado.toUpperCase() === estadoFiltro);
+        ? getPedidos.filter(p => usuario.email === p.usuarioDto.mail)
+        : getPedidos.filter(p => p.estado.toUpperCase() === estadoFiltro
+            && usuario.email === p.usuarioDto.mail); //filtro temporal, ya que cuando arregle el fetch voy a poder filtrar por usuario.
 
     if (pedidosFiltrados.length == 0) {
-        contenedorPedidos.innerHTML = "No hay pedidos registrados.</p>";
+        contenedorPedidos.innerHTML = "";
+        const mensaje: HTMLHeadingElement = document.createElement("h2");
+        mensaje.classList.add("no-resultados");
+        mensaje.textContent = "No hay pedidos registrados.";
+        contenedorPedidos.appendChild(mensaje);
         return;
     };
 
