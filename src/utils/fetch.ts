@@ -112,7 +112,7 @@ export const saveCategorias = (categorias: ICategoria[]): void => {
 // --- Productos ---
 export const getProductos = (): Product[] => {
   const list = getJsonData<Product>(PRODUCTOS_KEY);
-  return list.filter(p => p.disponible && !p.eliminado);
+  return list.filter(p => !p.eliminado);
 };
 
 export const getProductosAdmin = (): Product[] => {
