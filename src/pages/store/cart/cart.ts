@@ -4,7 +4,7 @@ import { addProductCart, deleteProductCart, getProductCart, removeAllProductsCar
 import { getProductos, getProductosAdmin, getPedidos, savePedidos, saveProductos } from "../../../utils/fetch";
 import { navigate } from "../../../utils/navigate";
 import { agregarLogout, crearBoton } from "../../../utils/helpersDom";
-import { HOME_STORE, PRODUCT_DETAIL } from "../../../utils/routes";
+import { CART_PAGE, HOME_STORE, ORDER_PAGE, PRODUCT_DETAIL } from "../../../utils/routes";
 import type { Pedido, DetallePedido } from "../../../types/pedido";
 import type { Usuario } from "../../../types/usuario";
 import type { Rol } from "../../../types/Rol";
@@ -468,15 +468,16 @@ formCheckout?.addEventListener("submit", (e: SubmitEvent) => {
 
   alert(`¡Pedido #${nuevoPedidoId} confirmado con éxito!\nDirección de envío: ${direccion}\nForma de pago: ${formaPago}`);
 
-  // Redirigir a mis pedidos
-  navigate("../../client/orders/orders.html");
+  // Redirigir a mis pedidos  
+  navigate(ORDER_PAGE);
+
 });
 
 //inicializar
 agregarLogout();
 
 contadorCarrito?.addEventListener("click", () => {
-  navigate("/src/pages/store/cart/cart.html");
+  navigate(CART_PAGE);
 });
 
 renderizarCarrito();
