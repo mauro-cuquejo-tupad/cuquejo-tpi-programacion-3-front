@@ -39,7 +39,7 @@
       "id": 2,
       "nombre": "Juan",
       "apellido": "Pérez",
-      "mail": "cliente@mail.com",
+      "mail": "cliente@food.com",
       "celular": "1198765432",
       "rol": "USUARIO"
     }
@@ -98,7 +98,7 @@
       "id": 2,
       "nombre": "Juan",
       "apellido": "Pérez",
-      "mail": "cliente@mail.com",
+      "mail": "cliente@food.com",
       "celular": "1198765432",
       "rol": "USUARIO"
     }
@@ -143,7 +143,7 @@
       "id": 2,
       "nombre": "Juan",
       "apellido": "Pérez",
-      "mail": "cliente@mail.com",
+      "mail": "cliente@food.com",
       "celular": "1198765432",
       "rol": "USUARIO"
     }
