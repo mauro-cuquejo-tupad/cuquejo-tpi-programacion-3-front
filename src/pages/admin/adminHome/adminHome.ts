@@ -43,7 +43,8 @@ const calcularTotalPedidos = (): void => {
 const calcularProductosActivos = (): void => {
     if (!totalProductosActivos) return;
     const productos = getProductos();
-    totalProductosActivos.textContent = productos ? productos.filter((p: Product) => p.disponible && !p.eliminado).length.toString() : "0";
+
+    totalProductosActivos.textContent = productos ? productos.filter((p: Product) => p.disponible && !p.eliminado && p.stock > 0).length.toString() : "0";
 };
 
 const calcularTotalIngresos = (): void => {
