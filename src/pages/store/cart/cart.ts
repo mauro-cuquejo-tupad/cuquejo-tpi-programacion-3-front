@@ -95,8 +95,7 @@ const crearItemCarrito = (item: CartItem): HTMLDivElement => {
   const botonAgregar: HTMLButtonElement = crearBoton("btn-agregar-" + item.producto.id, "btn-accion", `+`);
 
   const actualizarBotones = (): void => {
-    botonAgregar.disabled = item.cantidad >= item.producto.stock || item.producto.disponible === false;
-    console.log(item.cantidad >= item.producto.stock);
+    botonAgregar.disabled = item.cantidad >= item.producto.stock || item.producto.disponible === false;    
 
     botonAgregar.classList.toggle(
       "boton-deshabilitado",
