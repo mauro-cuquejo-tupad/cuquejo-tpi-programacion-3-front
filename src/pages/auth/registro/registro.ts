@@ -7,6 +7,7 @@ import { HOME_STORE } from "../../../utils/routes";
 const form = document.getElementById("form") as HTMLFormElement;
 
 const inputNombre = document.getElementById("nombre") as HTMLInputElement;
+const inputApellido = document.getElementById("apellido") as HTMLInputElement;
 const inputEmail = document.getElementById("email") as HTMLInputElement;
 const inputPassword = document.getElementById("password") as HTMLInputElement;
 
@@ -14,10 +15,11 @@ form.addEventListener("submit", (e: SubmitEvent) => {
     e.preventDefault();
 
     const valueNombre = inputNombre.value.trim();
+    const valueApellido = inputApellido.value.trim();
     const valueEmail = inputEmail.value.trim();
     const valuePassword = inputPassword.value;
 
-    if (!valueNombre || !valueEmail || !valuePassword) {
+    if (!valueNombre || !valueApellido || !valueEmail || !valuePassword) {
         alert("Por favor, complete todos los campos.");
         return;
     }
@@ -38,12 +40,14 @@ form.addEventListener("submit", (e: SubmitEvent) => {
         return;
     }
 
+
     const user: IUser = {
         email: valueEmail,
         password: valuePassword,
         loggedIn: false,
         role: "USUARIO",
-        nombre: valueNombre
+        nombre: valueNombre,
+        apellido: valueApellido
     };
 
     // Guardar en la lista global de usuarios
