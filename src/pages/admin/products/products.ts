@@ -8,7 +8,6 @@ const tbodyProductos = document.querySelector<HTMLTableSectionElement>("#tabla-c
 const btnToggleAdmin: HTMLButtonElement | null = document.querySelector<HTMLButtonElement>("#btn-toggle-admin");
 const asideAdmin: HTMLElement | null = document.querySelector<HTMLElement>(".admin-layout aside");
 
-// Modal Elements
 const modalProducto = document.querySelector<HTMLDivElement>("#producto-modal");
 const formProducto = document.querySelector<HTMLFormElement>("#form-producto");
 const btnNuevoProducto = document.querySelector<HTMLButtonElement>("#btn-nuevo-producto");
@@ -28,7 +27,6 @@ const checkboxDisponible = document.querySelector<HTMLInputElement>("#producto-d
 const popularCategorias = (): void => {
     if (!selectCategoria) return;
 
-    // Guardar opción seleccionada antes de limpiar si existe
     const selectedVal = selectCategoria.value;
 
     selectCategoria.innerHTML = `<option value="" disabled selected>Seleccione una categoría</option>`;
@@ -120,7 +118,6 @@ const renderizarTablaProductos = (): void => {
         const estado: HTMLTableCellElement = document.createElement("td");
         estado.textContent = prod.disponible ? "Disponible" : "No Disponible";
 
-        // Acciones
         const acciones: HTMLTableCellElement = document.createElement("td");
         acciones.style.display = "flex";
         acciones.style.gap = "0.5rem";
@@ -195,7 +192,6 @@ formProducto?.addEventListener("submit", (e: SubmitEvent) => {
     const productos = getProductosAdmin();
 
     if (idStr) {
-        // Modo Edición
         const idNum = Number(idStr);
         const prod = productos.find(p => p.id === idNum);
         if (prod) {
@@ -208,7 +204,6 @@ formProducto?.addEventListener("submit", (e: SubmitEvent) => {
             prod.disponible = disponibleVal;
         }
     } else {
-        // Modo Creación
         const nuevoProd: Product = {
             id: Date.now(),
             nombre: nombreVal,

@@ -34,7 +34,6 @@ export const logout = () => {
     navigate(LOGIN_PAGE);
 };
 
-// para evitar que se ejecute multiple veces por asincronía
 let guardDeRutasEnEjecucion = false;
 
 export const guardRoutes = () => {
@@ -89,7 +88,6 @@ const alertaRedireccion = (pagina: string): void => {
 }
 
 export const inicializarDatos = async () => {
-    // 1. Inicializar usuarios si no hay ninguno en localStorage
     const usuariosExistentes = localStorage.getItem("users");
     if (!usuariosExistentes) {
         try {
@@ -112,7 +110,6 @@ export const inicializarDatos = async () => {
         }
     }
 
-    // 2. Inicializar categorías si no hay ninguna en localStorage
     const categoriasExistentes = localStorage.getItem("categorias");
     if (!categoriasExistentes) {
         try {
@@ -123,7 +120,6 @@ export const inicializarDatos = async () => {
         }
     }
 
-    // 3. Inicializar productos si no hay ninguno en localStorage
     const productosExistentes = localStorage.getItem("productos");
     if (!productosExistentes) {
         try {
@@ -134,7 +130,6 @@ export const inicializarDatos = async () => {
         }
     }
 
-    // 4. Inicializar pedidos si no hay ninguno en localStorage
     const pedidosExistentes = localStorage.getItem("pedidos");
     if (!pedidosExistentes) {
         try {

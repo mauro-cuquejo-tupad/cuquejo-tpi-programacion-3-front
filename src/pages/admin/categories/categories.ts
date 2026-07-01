@@ -7,7 +7,6 @@ const tbodyCategorias = document.querySelector<HTMLTableSectionElement>("#tabla-
 const btnToggleAdmin: HTMLButtonElement | null = document.querySelector<HTMLButtonElement>("#btn-toggle-admin");
 const asideAdmin: HTMLElement | null = document.querySelector<HTMLElement>(".admin-layout aside");
 
-// Modal Elements
 const modalCategoria = document.querySelector<HTMLDivElement>("#categoria-modal");
 const formCategoria = document.querySelector<HTMLFormElement>("#form-categoria");
 const btnNuevaCategoria = document.querySelector<HTMLButtonElement>("#btn-nueva-categoria");
@@ -71,7 +70,6 @@ const renderizarTablaCategorias = (): void => {
         const descripcion: HTMLTableCellElement = document.createElement("td");
         descripcion.textContent = cat.descripcion;
 
-        // Acciones
         const acciones: HTMLTableCellElement = document.createElement("td");
         acciones.style.display = "flex";
         acciones.style.gap = "0.5rem";
@@ -121,7 +119,6 @@ formCategoria?.addEventListener("submit", (e: SubmitEvent) => {
     const categorias = getCategoriasAll();
 
     if (idStr) {
-        // Modo Edición
         const idNum = Number(idStr);
         const cat = categorias.find(c => c.id === idNum);
         if (cat) {
@@ -129,7 +126,6 @@ formCategoria?.addEventListener("submit", (e: SubmitEvent) => {
             cat.descripcion = descripcionVal;
         }
     } else {
-        // Modo Creación
         const nuevaCat: ICategoria = {
             id: Date.now(),
             nombre: nombreVal,

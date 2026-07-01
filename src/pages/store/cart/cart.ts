@@ -342,10 +342,12 @@ const abrirModalCheckout = (): void => {
     cartItems.forEach(item => {
       const summaryRow = document.createElement("div");
       summaryRow.classList.add("checkout-summary-item");
-      summaryRow.innerHTML = `
-        <span>${item.producto.nombre} x${item.cantidad}</span>
-        <span>$${(item.producto.precio * item.cantidad).toLocaleString('es-ES')}</span>
-      `;
+      const spanNombre = document.createElement("span");
+      spanNombre.textContent = `${item.producto.nombre} x${item.cantidad}`;
+      const spanPrecio = document.createElement("span");
+      spanPrecio.textContent = `$${(item.producto.precio * item.cantidad).toLocaleString('es-ES')}`;
+      summaryRow.appendChild(spanNombre);
+      summaryRow.appendChild(spanPrecio);
       checkoutSummaryItems.appendChild(summaryRow);
     });
   }
@@ -356,7 +358,6 @@ const abrirModalCheckout = (): void => {
     checkoutSummaryTotal.textContent = `$${total.toLocaleString('es-ES')}`;
   }
 
-  // Precompletar el teléfono si está guardado en el usuario
   const userSession = getSessionUser();
   if (userSession) {
     const telInput = document.querySelector<HTMLInputElement>("#checkout-tel");
@@ -409,7 +410,6 @@ formCheckout?.addEventListener("submit", (e: SubmitEvent) => {
   const subtotal = actualizarImporteTotalCarrito();
   const totalPedido = subtotal + 500;
 
-  // 1. Crear el Pedido
   const nuevoPedidoId = Date.now();
   const detalles: DetallePedido[] = cartItems.map((item) => ({
     cantidad: item.cantidad,
@@ -427,7 +427,6 @@ formCheckout?.addEventListener("submit", (e: SubmitEvent) => {
     celular: telefono
   };
 
-  // Guardar el número de celular ingresado en la sesión del usuario para futuras compras
   userSession.celular = telefono;
   saveSessionUser(userSession);
 
@@ -444,12 +443,10 @@ formCheckout?.addEventListener("submit", (e: SubmitEvent) => {
     notas: notas
   };
 
-  // 2. Guardar Pedido en localStorage (mediante fetch.ts)
   const pedidos = getPedidos();
   pedidos.push(nuevoPedido);
   savePedidos(pedidos);
 
-  // 3. Decrementar Stock en localStorage (mediante fetch.ts)
   const dbProducts = getProductosAdmin();
   cartItems.forEach(item => {
     const dbProd = dbProducts.find(p => p.id === item.producto.id);
@@ -459,16 +456,13 @@ formCheckout?.addEventListener("submit", (e: SubmitEvent) => {
   });
   saveProductos(dbProducts);
 
-  // 4. Vaciar Carrito
   vaciarCarrito();
   actualizarContadorCarrito();
 
-  // 5. Cerrar Modal
   cerrarModalCheckout();
 
   alert(`¡Pedido #${nuevoPedidoId} confirmado con éxito!\nDirección de envío: ${direccion}\nForma de pago: ${formaPago}`);
 
-  // Redirigir a mis pedidos  
   navigate(ORDER_PAGE);
 
 });

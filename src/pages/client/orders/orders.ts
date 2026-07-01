@@ -128,27 +128,7 @@ const abrirModalDetalle = (pedido: Pedido): void => {
     const badgeEstado = document.querySelector<HTMLSpanElement>("#detalle-estado-badge");
     if (badgeEstado) {
         badgeEstado.textContent = pedido.estado.toUpperCase();
-        badgeEstado.className = "";
-        badgeEstado.style.padding = "0.3rem 0.8rem";
-        badgeEstado.style.borderRadius = "20px";
-        badgeEstado.style.fontWeight = "bold";
-        badgeEstado.style.fontSize = "0.9rem";
-        badgeEstado.style.display = "inline-block";
-
-        const estadoLower = pedido.estado.toLowerCase();
-        if (estadoLower === "pendiente") {
-            badgeEstado.style.backgroundColor = "#ffeeba";
-            badgeEstado.style.color = "#856404";
-        } else if (estadoLower === "en_preparacion" || estadoLower === "confirmado") {
-            badgeEstado.style.backgroundColor = "#cce5ff";
-            badgeEstado.style.color = "#004085";
-        } else if (estadoLower === "entregado" || estadoLower === "terminado") {
-            badgeEstado.style.backgroundColor = "#d4edda";
-            badgeEstado.style.color = "#155724";
-        } else if (estadoLower === "cancelado") {
-            badgeEstado.style.backgroundColor = "#f8d7da";
-            badgeEstado.style.color = "#721c24";
-        }
+        badgeEstado.className = "estado-badge " + pedido.estado.toLowerCase();
     }
 
     const labelTel = document.querySelector<HTMLSpanElement>("#detalle-tel");
@@ -171,10 +151,15 @@ const abrirModalDetalle = (pedido: Pedido): void => {
             itemRow.style.display = "flex";
             itemRow.style.justifyContent = "space-between";
             itemRow.style.fontSize = "0.95rem";
-            itemRow.innerHTML = `
-                <span>${det.producto.nombre} x${det.cantidad}</span>
-                <span>$${det.subtotal.toLocaleString('es-ES')}</span>
-            `;
+
+            const spanNombre = document.createElement("span");
+            spanNombre.textContent = `${det.producto.nombre} x${det.cantidad}`;
+
+            const spanPrecio = document.createElement("span");
+            spanPrecio.textContent = `$${det.subtotal.toLocaleString('es-ES')}`;
+
+            itemRow.appendChild(spanNombre);
+            itemRow.appendChild(spanPrecio);
             productosLista.appendChild(itemRow);
         });
     }

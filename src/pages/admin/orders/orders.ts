@@ -9,7 +9,6 @@ let selectPedidos: HTMLSelectElement | null = document.querySelector<HTMLSelectE
 const btnToggleAdmin: HTMLButtonElement | null = document.querySelector<HTMLButtonElement>("#btn-toggle-admin");
 const asideAdmin: HTMLElement | null = document.querySelector<HTMLElement>(".admin-layout aside");
 
-// Modal Elements
 const modalAdminDetalle = document.querySelector<HTMLDivElement>("#admin-detalle-pedido-modal");
 const formAdminPedido = document.querySelector<HTMLFormElement>("#form-admin-pedido");
 const btnCerrarAdminDetalle = document.querySelector<HTMLButtonElement>("#btn-cerrar-admin-detalle");
@@ -83,10 +82,15 @@ const abrirModalAdminDetalle = (pedido: Pedido): void => {
             itemRow.style.display = "flex";
             itemRow.style.justifyContent = "space-between";
             itemRow.style.fontSize = "0.95rem";
-            itemRow.innerHTML = `
-                <span>${det.producto.nombre} x${det.cantidad}</span>
-                <span>$${det.subtotal.toLocaleString('es-ES')}</span>
-            `;
+
+            const spanNombre = document.createElement("span");
+            spanNombre.textContent = `${det.producto.nombre} x${det.cantidad}`;
+
+            const spanPrecio = document.createElement("span");
+            spanPrecio.textContent = `$${det.subtotal.toLocaleString('es-ES')}`;
+
+            itemRow.appendChild(spanNombre);
+            itemRow.appendChild(spanPrecio);
             productosLista.appendChild(itemRow);
         });
     }
@@ -186,7 +190,6 @@ formAdminPedido?.addEventListener("submit", (e: SubmitEvent) => {
         savePedidos(pedidos);
         cerrarModalAdminDetalle();
         
-        // Mantener filtro actual
         const filtroActual = selectPedidos?.value || "TODOS";
         renderizarPedidos(filtroActual);
     }

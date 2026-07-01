@@ -14,6 +14,14 @@
     --color-seccion: #b93f25;
     --color-agregado: #28a745;
     --color-agregado-focus: #136b27;
+    --color-pendiente-fondo: #ffeeba;
+    --color-pendiente-texto: #856404;
+    --color-confirmado-fondo: #cce5ff;
+    --color-confirmado-texto: #004085;
+    --color-entregado-fondo: #d4edda;
+    --color-entregado-texto: #155724;
+    --color-cancelado-fondo: #f8d7da;
+    --color-cancelado-texto: #721c24;
 }
 
 * {
@@ -1440,4 +1448,34 @@ article img {
         flex-direction: column;
         gap: 1rem;
     }
+}
+
+.estado-badge {
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    display: inline-block;
+}
+
+.estado-badge.pendiente {
+    background-color: var(--color-pendiente-fondo);
+    color: var(--color-pendiente-texto);
+}
+
+.estado-badge.confirmado,
+.estado-badge.en_preparacion {
+    background-color: var(--color-confirmado-fondo);
+    color: var(--color-confirmado-texto);
+}
+
+.estado-badge.entregado,
+.estado-badge.terminado {
+    background-color: var(--color-entregado-fondo);
+    color: var(--color-entregado-texto);
+}
+
+.estado-badge.cancelado {
+    background-color: var(--color-cancelado-fondo);
+    color: var(--color-cancelado-texto);
 }
