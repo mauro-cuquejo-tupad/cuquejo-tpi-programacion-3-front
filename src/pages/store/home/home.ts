@@ -63,7 +63,9 @@ const crearCategoria = (nombre: string): HTMLLIElement => {
 const crearArticuloProducto = (producto: Product): HTMLElement => {
   const articulo: HTMLElement = document.createElement("article");
 
-  articulo.className = producto.disponible ? "producto-articulo" : "producto-articulo-no-disponible";
+  const stockDisponible: number = producto.stock;
+
+  articulo.className = producto.disponible && stockDisponible > 0 ? "producto-articulo" : "producto-articulo-no-disponible";
   articulo.id = `articulo-${producto.id}`;
 
   const titulo: HTMLHeadElement = document.createElement("h3");
@@ -81,8 +83,8 @@ const crearArticuloProducto = (producto: Product): HTMLElement => {
   precio.textContent = '$' + producto.precio;
 
   const disponible: HTMLParagraphElement = document.createElement("p");
-  disponible.classList.add(producto.disponible ? "disponible" : "no-disponible");
-  disponible.textContent = producto.disponible ? "Disponible" : "No Disponible";
+  disponible.classList.add(producto.disponible && stockDisponible > 0 ? "disponible" : "no-disponible");
+  disponible.textContent = producto.disponible && stockDisponible > 0 ? "Disponible" : "No Disponible";
 
   articulo.appendChild(titulo);
   articulo.appendChild(imagen);
@@ -151,7 +153,6 @@ const filtrarYRenderizar = (): void => {
   const cat = (categoriaSeleccionada || "Todos los productos").toLocaleLowerCase();
 
   const resultados = getProductos().filter((p: Product) => {
-    if (p.eliminado) return false;
 
     const coincideCategoria = cat === "todos los productos" ||
       p.categoria?.nombre.toLocaleLowerCase().includes(cat);
