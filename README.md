@@ -37,15 +37,18 @@
   - Cantidad de Pedidos Pendientes.
   - Cantidad de Pedidos En Preparación.
   - Cantidad de Pedidos Completados.
-- ✅ **Gestión de Categorías**: Tabla con listado completo de categorías activas (ID, Nombre y Descripción).
-- ✅ **Gestión de Productos**: Tabla detallada que muestra Imagen, Nombre, Descripción, Categoría, Precio, Stock y disponibilidad del catálogo.
-- ✅ **Gestión de Pedidos**: Sección centralizada con filtros por estado de pedido y visualización detallada del cliente, artículos e importes.
+- ✅ **Gestión y CRUD de Categorías**: Tabla con listado completo, botón de creación, edición y eliminación (borrado lógico: `eliminado: true`) mediante modales dinámicos.
+- ✅ **Gestión y CRUD de Productos**: Tabla con imágenes, categorización dinámica basada en categorías activas, creación y edición con validaciones de precio (> 0) y stock (>= 0), y eliminación lógica.
+- ✅ **Gestión de Pedidos y Estados**: Filtros de pedidos en tiempo real con modal detallado de artículos y datos de envío, y selector editable para actualizar el estado del pedido (`PENDIENTE`, `CONFIRMADO`, `EN_PREPARACION`, `ENTREGADO`, `CANCELADO`).
+- ✅ **Formulario de Checkout y Datos de Envío**: Formulario modal en el carrito de compras para ingresar celular, dirección de entrega, método de pago y notas opcionales, con auto-guardado en sesión.
+- ✅ **Detalle de Historial del Cliente**: Tarjetas de pedidos en el historial del cliente interactivas que abren un desglose pormenorizado de artículos, costos (envío de $500 y subtotal) y badges de estado unificados por CSS.
 
 **Archivos:**
 - [src/pages/admin/adminHome/adminHome.html](src/pages/admin/adminHome/adminHome.html) & [adminHome.ts](src/pages/admin/adminHome/adminHome.ts) — Dashboard administrativo
-- [src/pages/admin/categories/categories.html](src/pages/admin/categories/categories.html) & [categories.ts](src/pages/admin/categories/categories.ts) — Vista de categorías
-- [src/pages/admin/products/products.html](src/pages/admin/products/products.html) & [products.ts](src/pages/admin/products/products.ts) — Vista de productos
-- [src/pages/admin/orders/orders.html](src/pages/admin/orders/orders.html) & [orders.ts](src/pages/admin/orders/orders.ts) — Vista de pedidos
+- [src/pages/admin/categories/categories.html](src/pages/admin/categories/categories.html) & [categories.ts](src/pages/admin/categories/categories.ts) — CRUD de categorías
+- [src/pages/admin/products/products.html](src/pages/admin/products/products.html) & [products.ts](src/pages/admin/products/products.ts) — CRUD de productos
+- [src/pages/admin/orders/orders.html](src/pages/admin/orders/orders.html) & [orders.ts](src/pages/admin/orders/orders.ts) — Gestión de pedidos
+- [src/pages/client/orders/orders.html](src/pages/client/orders/orders.html) & [orders.ts](src/pages/client/orders/orders.ts) — Historial detallado de pedidos
 
 ---
 
