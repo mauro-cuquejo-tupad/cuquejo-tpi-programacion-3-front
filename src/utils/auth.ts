@@ -100,7 +100,8 @@ export const inicializarDatos = async () => {
                     loggedIn: false,
                     role: usuario.rol,
                     celular: usuario.celular,
-                    nombre: usuario.nombre
+                    nombre: usuario.nombre,
+                    apellido: usuario.apellido
                 };
                 usuariosList.push(iusuario);
             });

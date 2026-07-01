@@ -7,4 +7,5 @@ export interface IUser {
   role: Rol;
   celular?: string;
   nombre?: string;
+  apellido?: string;
 }

@@ -419,7 +419,7 @@ formCheckout?.addEventListener("submit", (e: SubmitEvent) => {
   const usuarioDto: Usuario = {
     id: Date.now() + 50,
     nombre: userSession.nombre || userSession.email.split("@")[0],
-    apellido: "",
+    apellido: userSession.apellido || "",
     mail: userSession.email,
     rol: "USUARIO" as Rol,
     password: "",
