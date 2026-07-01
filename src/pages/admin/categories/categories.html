@@ -41,9 +41,9 @@
         </aside>
 
         <main class="main-admin">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; gap: 1rem; width: 100%;">
-                <h1 style="margin: 0;">Gestión de Categorías</h1>
-                <button type="button" id="btn-nueva-categoria" class="btn-checkout-confirmar" style="background-color: var(--color-primario); white-space: nowrap;">+ Nueva Categoría</button>
+            <div class="encabezado-seccion-admin">
+                <h1 class="encabezado-seccion-admin-h1">Gestión de Categorías</h1>
+                <button type="button" id="btn-nueva-categoria" class="btn-checkout-confirmar btn-cabecera-admin">+ Nueva Categoría</button>
             </div>
             <div class="metricas-container">
                 <table class="table-categorias">
@@ -62,7 +62,7 @@
 
         <!-- Modal CRUD Categoría -->
         <div id="categoria-modal" class="modal-checkout-overlay">
-            <div class="modal-checkout-container" style="max-width: 400px;">
+            <div class="modal-checkout-container modal-ancho-chico">
                 <div class="modal-checkout-header">
                     <h2 id="modal-categoria-titulo">Nueva Categoría</h2>
                     <button type="button" id="btn-cerrar-modal-categoria" class="btn-cerrar-modal">&times;</button>

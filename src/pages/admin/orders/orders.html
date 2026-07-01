@@ -68,13 +68,11 @@
                     <input type="hidden" id="admin-detalle-id-hidden">
 
                     <div>
-                        <strong style="font-size: 1.1rem; color: var(--color-seccion);" id="admin-detalle-id">Pedido
-                            #</strong>
-                        <p style="margin: 0.2rem 0; color: gray;" id="admin-detalle-fecha">Fecha: </p>
+                        <strong class="detalle-titulo" id="admin-detalle-id">Pedido #</strong>
+                        <p class="detalle-subtitulo" id="admin-detalle-fecha">Fecha: </p>
                     </div>
 
-                    <div
-                        style="border-top: 1px solid var(--color-borde); padding-top: 1rem; display: flex; flex-direction: column; gap: 0.4rem;">
+                    <div class="detalle-info-seccion">
                         <div><strong>Cliente (Email):</strong> <span id="admin-detalle-email"></span></div>
                         <div><strong>Celular / Teléfono:</strong> <span id="admin-detalle-tel"></span></div>
                         <div><strong>Dirección de Entrega:</strong> <span id="admin-detalle-dir"></span></div>
@@ -82,8 +80,7 @@
                         <div><strong>Notas adicionales:</strong> <span id="admin-detalle-notas"></span></div>
                     </div>
 
-                    <div class="form-group-checkout"
-                        style="border-top: 1px solid var(--color-borde); padding-top: 1rem;">
+                    <div class="form-group-checkout grupo-formulario-divisor">
                         <label for="admin-pedido-estado"><strong>Estado del Pedido *</strong></label>
                         <select id="admin-pedido-estado" required>
                             <option value="PENDIENTE">Pendiente</option>
@@ -95,22 +92,19 @@
                     </div>
 
                     <div class="checkout-summary">
-                        <h3 style="color: var(--color-seccion); margin-bottom: 0.5rem;">Productos Comprados</h3>
-                        <div id="admin-detalle-productos-lista"
-                            style="display: flex; flex-direction: column; gap: 0.5rem; max-height: 200px; overflow-y: auto;">
+                        <h3 class="detalle-titulo">Productos Comprados</h3>
+                        <div id="admin-detalle-productos-lista" class="resumen-productos-lista">
                         </div>
-                        <div
-                            style="border-top: 1px solid var(--color-borde); margin-top: 0.8rem; padding-top: 0.5rem; display: flex; flex-direction: column; gap: 0.4rem; font-size: 0.95rem;">
-                            <div style="display: flex; justify-content: space-between;">
+                        <div class="resumen-costos-contenedor">
+                            <div class="resumen-costos-fila">
                                 <span>Subtotal:</span>
                                 <span id="admin-detalle-subtotal">$0</span>
                             </div>
-                            <div style="display: flex; justify-content: space-between;">
+                            <div class="resumen-costos-fila">
                                 <span>Costo de Envío:</span>
                                 <span>$500</span>
                             </div>
-                            <div
-                                style="display: flex; justify-content: space-between; font-weight: bold; font-size: 1.1rem; color: var(--color-primario); margin-top: 0.2rem; border-top: 1px dashed var(--color-borde); padding-top: 0.4rem;">
+                            <div class="resumen-costos-fila resumen-total">
                                 <span>Total:</span>
                                 <span id="admin-detalle-total">$0</span>
                             </div>

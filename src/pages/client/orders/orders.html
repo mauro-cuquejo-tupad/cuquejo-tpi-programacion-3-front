@@ -50,18 +50,15 @@
                 </div>
                 <div class="modal-checkout-form">
                     <div>
-                        <strong style="font-size: 1.1rem; color: var(--color-seccion);" id="detalle-id">Pedido
-                            #</strong>
-                        <p style="margin: 0.2rem 0; color: gray;" id="detalle-fecha">Fecha: </p>
+                        <strong class="detalle-titulo" id="detalle-id">Pedido #</strong>
+                        <p class="detalle-subtitulo" id="detalle-fecha">Fecha: </p>
                     </div>
 
-                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <div class="detalle-estado-contenedor">
                         <strong>Estado:</strong>
-                        <span id="detalle-estado-badge"
-                            style="padding: 0.3rem 0.8rem; border-radius: 20px; font-weight: bold; font-size: 0.9rem;"></span>
+                        <span id="detalle-estado-badge" class="estado-badge"></span>
                     </div>
-                    <div
-                        style="border-top: 1px solid var(--color-borde); padding-top: 1rem; display: flex; flex-direction: column; gap: 0.4rem;">
+                    <div class="detalle-info-seccion">
                         <div><strong>Celular:</strong> <span id="detalle-tel"></span></div>
                         <div><strong>Dirección de Entrega:</strong> <span id="detalle-dir"></span></div>
                         <div><strong>Forma de Pago:</strong> <span id="detalle-pago"></span></div>
@@ -69,22 +66,19 @@
                     </div>
 
                     <div class="checkout-summary">
-                        <h3 style="color: var(--color-seccion); margin-bottom: 0.5rem;">Productos Comprados</h3>
-                        <div id="detalle-productos-lista"
-                            style="display: flex; flex-direction: column; gap: 0.5rem; max-height: 200px; overflow-y: auto;">
+                        <h3 class="detalle-titulo">Productos Comprados</h3>
+                        <div id="detalle-productos-lista" class="resumen-productos-lista">
                         </div>
-                        <div
-                            style="border-top: 1px solid var(--color-borde); margin-top: 0.8rem; padding-top: 0.5rem; display: flex; flex-direction: column; gap: 0.4rem; font-size: 0.95rem;">
-                            <div style="display: flex; justify-content: space-between;">
+                        <div class="resumen-costos-contenedor">
+                            <div class="resumen-costos-fila">
                                 <span>Subtotal:</span>
                                 <span id="detalle-subtotal">$0</span>
                             </div>
-                            <div style="display: flex; justify-content: space-between;">
+                            <div class="resumen-costos-fila">
                                 <span>Costo de Envío:</span>
                                 <span>$500</span>
                             </div>
-                            <div
-                                style="display: flex; justify-content: space-between; font-weight: bold; font-size: 1.1rem; color: var(--color-primario); margin-top: 0.2rem; border-top: 1px dashed var(--color-borde); padding-top: 0.4rem;">
+                            <div class="resumen-costos-fila resumen-total">
                                 <span>Total:</span>
                                 <span id="detalle-total">$0</span>
                             </div>
@@ -92,8 +86,7 @@
                     </div>
 
                     <div class="modal-checkout-buttons">
-                        <button type="button" id="btn-detalle-cerrar-ok" class="btn-checkout-confirmar"
-                            style="background-color: var(--color-primario); color: white;">Cerrar</button>
+                        <button type="button" id="btn-detalle-cerrar-ok" class="btn-checkout-confirmar">Cerrar</button>
                     </div>
                 </div>
             </div>
