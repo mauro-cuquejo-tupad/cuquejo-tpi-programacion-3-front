@@ -1,6 +1,6 @@
 import type { CartItem, Product } from "../../../types/product";
-import { guardRoutes } from "../../../utils/auth";
-import { addProductCart, deleteProductCart, getProductCart, removeAllProductsCart, removeProductCart, getUSer } from "../../../utils/localStorage";
+import { guardRoutes, getSessionUser, saveSessionUser } from "../../../utils/auth";
+import { addProductCart, deleteProductCart, getProductCart, removeAllProductsCart, removeProductCart } from "../../../utils/cartService";
 import { getProductos, getProductosAdmin, getPedidos, savePedidos, saveProductos } from "../../../utils/fetch";
 import { navigate } from "../../../utils/navigate";
 import { agregarLogout, crearBoton } from "../../../utils/helpersDom";
@@ -357,9 +357,8 @@ const abrirModalCheckout = (): void => {
   }
 
   // Precompletar el teléfono si está guardado en el usuario
-  const userSessionRaw = getUSer();
-  if (userSessionRaw) {
-    const userSession = JSON.parse(userSessionRaw);
+  const userSession = getSessionUser();
+  if (userSession) {
     const telInput = document.querySelector<HTMLInputElement>("#checkout-tel");
     if (telInput && userSession.celular) {
       telInput.value = userSession.celular;
@@ -400,12 +399,11 @@ formCheckout?.addEventListener("submit", (e: SubmitEvent) => {
     return;
   }
 
-  const userSessionRaw = getUSer();
-  if (!userSessionRaw) {
+  const userSession = getSessionUser();
+  if (!userSession) {
     alert("Inicie sesión para completar la compra.");
     return;
   }
-  const userSession = JSON.parse(userSessionRaw);
 
   const cartItems = obtenerCarrito();
   const subtotal = actualizarImporteTotalCarrito();
@@ -421,13 +419,17 @@ formCheckout?.addEventListener("submit", (e: SubmitEvent) => {
 
   const usuarioDto: Usuario = {
     id: Date.now() + 50,
-    nombre: userSession.email.split("@")[0],
+    nombre: userSession.nombre || userSession.email.split("@")[0],
     apellido: "",
     mail: userSession.email,
     rol: "USUARIO" as Rol,
     password: "",
     celular: telefono
   };
+
+  // Guardar el número de celular ingresado en la sesión del usuario para futuras compras
+  userSession.celular = telefono;
+  saveSessionUser(userSession);
 
   const nuevoPedido: Pedido = {
     id: nuevoPedidoId,

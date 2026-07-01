@@ -1,6 +1,6 @@
 import type { IUser } from "../../../types/IUser";
 import { navigate } from "../../../utils/navigate";
-import { saveUser } from "../../../utils/localStorage";
+import { saveSessionUser } from "../../../utils/auth";
 import { getUsuarioByEmail, crearUsuario } from "../../../utils/fetch";
 import { HOME_STORE } from "../../../utils/routes";
 
@@ -43,6 +43,7 @@ form.addEventListener("submit", (e: SubmitEvent) => {
         password: valuePassword,
         loggedIn: false,
         role: "USUARIO",
+        nombre: valueNombre
     };
 
     // Guardar en la lista global de usuarios
@@ -50,7 +51,7 @@ form.addEventListener("submit", (e: SubmitEvent) => {
 
     // Auto-login
     user.loggedIn = true;
-    saveUser(user);
+    saveSessionUser(user);
 
     alert("Registro exitoso. ¡Bienvenido!");
     navigate(HOME_STORE);

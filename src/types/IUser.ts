@@ -5,4 +5,6 @@ export interface IUser {
   password: string;
   loggedIn: boolean;
   role: Rol;
+  celular?: string;
+  nombre?: string;
 }

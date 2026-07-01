@@ -1,10 +1,10 @@
 
-import { guardRoutes } from "../../../utils/auth";
+import { guardRoutes, getSessionUser } from "../../../utils/auth";
 import { agregarLogout } from "../../../utils/helpersDom";
 import { actualizarContadorCarrito } from "../../store/cart/cart";
 import type { Pedido } from "../../../types/pedido";
-import type { IUser } from "../../../types/IUser";
-import { getUSer } from "../../../utils/localStorage";
+
+
 import { getPedidos, getPedidosByUsuario } from "../../../utils/fetch";
 
 let contenedorPedidos: HTMLElement | null = document.querySelector<HTMLElement>("#contenedor-pedidos");
@@ -31,10 +31,7 @@ const cargarOpcionesPedidos = (): void => {
 const renderizarPedidos = (estadoFiltro: string = "TODOS"): void => {
     if (!contenedorPedidos) return;
 
-    const datosUsuario: string | null = getUSer();
-    if (!datosUsuario) return;
-
-    const usuario: IUser = JSON.parse(datosUsuario);
+    const usuario = getSessionUser();
     if (!usuario) return;
 
     const pedidosDeUsuario = getPedidosByUsuario(usuario.email).sort((a: Pedido, b: Pedido) => b.id - a.id);

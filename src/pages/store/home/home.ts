@@ -2,7 +2,7 @@ import type { ICategoria } from "../../../types/categoria";
 import type { FiltrosBusqueda } from "../../../types/filtros";
 import type { Product } from "../../../types/product";
 import { guardRoutes } from "../../../utils/auth";
-import { getStoreFilters, saveStoreFilters } from "../../../utils/localStorage";
+import { getData, saveData } from "../../../utils/localStorage";
 import { getCategorias, getProductos } from "../../../utils/fetch";
 import { actualizarContadorCarrito } from "../cart/cart";
 import { navigate } from "../../../utils/navigate";
@@ -17,6 +17,14 @@ const btnToggleCategorias: HTMLButtonElement | null = document.querySelector<HTM
 const asideCategorias: HTMLElement | null = document.querySelector<HTMLElement>(".store-layout aside");
 
 let categoriaSeleccionada: string = "";
+
+const getStoreFilters = (): FiltrosBusqueda | null => {
+  return getData<FiltrosBusqueda>("store_filters");
+};
+
+const saveStoreFilters = (filters: FiltrosBusqueda) => {
+  saveData("store_filters", filters);
+};
 
 
 //persistencia de filtros

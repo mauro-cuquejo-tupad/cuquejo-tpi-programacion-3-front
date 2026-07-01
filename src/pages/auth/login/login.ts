@@ -1,6 +1,5 @@
 import type { IUser } from "../../../types/IUser";
-import { guardRoutes } from "../../../utils/auth";
-import { saveUser } from "../../../utils/localStorage";
+import { guardRoutes, saveSessionUser } from "../../../utils/auth";
 import { getUsuarioByEmail } from "../../../utils/fetch";
 import { navigate } from "../../../utils/navigate";
 import { HOME_ADMIN, HOME_STORE } from "../../../utils/routes";
@@ -29,7 +28,7 @@ form.addEventListener("submit", (e: SubmitEvent) => {
   } else {
     alert("Login exitoso");
     usuarioBuscado.loggedIn = true;
-    saveUser(usuarioBuscado);
+    saveSessionUser(usuarioBuscado);
 
     if (usuarioBuscado.role === "ADMIN") {
       navigate(HOME_ADMIN);

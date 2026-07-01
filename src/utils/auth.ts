@@ -1,17 +1,36 @@
 import type { IUser } from "../types/IUser";
 import { fetchUsuarios, fetchCategorias, fetchProductos, fetchPedidos } from "./fetch";
 import { 
-    getUSer, 
-    removeStoreFilters, 
-    removeUser, 
+    getData,
+    saveData,
+    removeData,
     saveJsonData
 } from "./localStorage";
 import { navigate } from "./navigate";
 import { VALID_ADMIN_PAGES, VALID_USER_PAGES, HOME_STORE, LOGIN_PAGE, HOME_ADMIN, VALID_PAGES } from "./routes"
 
+const USER_DATA_KEY = "userData";
+const STORE_FILTERS_KEY = "store_filters";
+
+export const getSessionUser = (): IUser | null => {
+    return getData<IUser>(USER_DATA_KEY);
+};
+
+export const saveSessionUser = (user: IUser): void => {
+    saveData<IUser>(USER_DATA_KEY, user);
+};
+
+export const removeSessionUser = (): void => {
+    removeData(USER_DATA_KEY);
+};
+
+export const removeStoreFilters = (): void => {
+    removeData(STORE_FILTERS_KEY);
+};
+
 export const logout = () => {
     removeStoreFilters();
-    removeUser();
+    removeSessionUser();
     navigate(LOGIN_PAGE);
 };
 
@@ -22,7 +41,7 @@ export const guardRoutes = () => {
     if (guardDeRutasEnEjecucion) return;
     guardDeRutasEnEjecucion = true;
 
-    const usuario: string | null = getUSer();
+    const usuario = getSessionUser();
     const pagina: string = window.location.pathname;
 
     if (!usuario) {
@@ -33,14 +52,12 @@ export const guardRoutes = () => {
     }
 
     try {
-        let usuarioParseado: IUser = JSON.parse(usuario);
-
-        if (!usuarioParseado.loggedIn) {
+        if (!usuario.loggedIn) {
             navigate(LOGIN_PAGE);
             return;
         }
 
-        if (usuarioParseado.role === "USUARIO") {
+        if (usuario.role === "USUARIO") {
             if (!VALID_USER_PAGES.has(pagina)) {
                 alertaRedireccion(pagina);
                 navigate(HOME_STORE);
@@ -48,7 +65,7 @@ export const guardRoutes = () => {
             }
         }
 
-        if (usuarioParseado.role === "ADMIN") {
+        if (usuario.role === "ADMIN") {
             if (!VALID_ADMIN_PAGES.has(pagina)) {
                 alertaRedireccion(pagina);
                 navigate(HOME_ADMIN);
@@ -58,7 +75,7 @@ export const guardRoutes = () => {
     } catch (error) {
         if (error instanceof Error) {
             console.log("Error:", error.message);
-            removeUser();
+            removeSessionUser();
             navigate(LOGIN_PAGE);
         }
         return;
@@ -84,6 +101,8 @@ export const inicializarDatos = async () => {
                     password: usuario.password,
                     loggedIn: false,
                     role: usuario.rol,
+                    celular: usuario.celular,
+                    nombre: usuario.nombre
                 };
                 usuariosList.push(iusuario);
             });
