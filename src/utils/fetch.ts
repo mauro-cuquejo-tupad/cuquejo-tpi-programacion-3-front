@@ -14,7 +14,7 @@ const PRODUCTOS_KEY = "productos";
 const PEDIDOS_KEY = "pedidos";
 
 // ==========================================
-// 1. HTTP Fetchers (Carga inicial desde JSON)
+// 1. Carga inicial desde JSON
 // ==========================================
 
 export const fetchUsuarios = async (): Promise<Usuario[]> => {
@@ -76,7 +76,7 @@ export const fetchPedidos = async (): Promise<Pedido[]> => {
 };
 
 // ==========================================
-// 2. API / Backend Services (Lógica de Negocio)
+// 2. API / Servicios Backend
 // ==========================================
 
 // --- Usuarios ---
