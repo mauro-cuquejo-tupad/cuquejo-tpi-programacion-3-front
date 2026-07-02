@@ -178,3 +178,10 @@ pnpm dev
 ```
 
 4. Abrir la URL en el navegador (`http://localhost:5173`)
+
+
+### Link al video de Youtube
+[Video](https://youtu.be/iOQCM7DvxXs)
+
+### Link al PDF
+[PDF](Cuquejo_Mauro_TPI_Prog3.pdf)
